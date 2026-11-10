@@ -1,0 +1,32 @@
+# Python / uv
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+
+# dbt
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+logs/
+
+# Secrets and local config (never commit)
+.env
+*.json.key
+service-account*.json
+credentials*.json
+
+# Data (small synthetic CSVs may be committed; raw downloads and exports may not)
+data/raw/*
+!data/raw/.gitkeep
+
+# Tableau (commit exported images and the packaged workbook only)
+tableau/exports/*.hyper
+*.tde
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

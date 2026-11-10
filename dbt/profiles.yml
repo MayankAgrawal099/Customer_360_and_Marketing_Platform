@@ -1,0 +1,13 @@
+# No secrets here: dbt signs in with the Google login saved by
+#   gcloud auth application-default login
+customer_360:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: "{{ env_var('GCP_PROJECT', 'da02-customer360') }}"
+      dataset: analytics        # default dataset; models use their own schemas (see macros/generate_schema_name.sql)
+      location: US              # must match the GA4 public dataset
+      threads: 4
+      job_execution_timeout_seconds: 300

@@ -1,0 +1,17 @@
+[project]
+name = "customer-360-and-marketing-platform"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "db-dtypes>=1.9.0",
+    "dbt-bigquery>=1.12.2",
+    "faker>=40.44.0",
+    "google-cloud-bigquery>=3.47.0",
+    "pandas>=3.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "pyyaml>=6.0.3",
+]
