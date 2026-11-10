@@ -393,6 +393,7 @@ dependencies = [
 dev = [
     { name = "pytest" },
     { name = "pyyaml" },
+    { name = "sqlglot" },
 ]
 
 [package.metadata]
@@ -408,6 +409,7 @@ requires-dist = [
 dev = [
     { name = "pytest", specifier = ">=9.2.0" },
     { name = "pyyaml", specifier = ">=6.0.3" },
+    { name = "sqlglot", specifier = ">=30.30.0" },
 ]
 
 [[package]]
