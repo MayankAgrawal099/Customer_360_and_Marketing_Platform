@@ -41,7 +41,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out-dir", type=Path, default=DEFAULT_OUT)
     ap.add_argument("--max-gb", type=float, default=20.0)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--only", help="comma-separated names to run, e.g. daily_traffic")
     args = ap.parse_args(argv)
+    only = [x.strip() for x in args.only.split(",")] if args.only else None
 
     from google.cloud import bigquery
 
@@ -54,6 +56,8 @@ def main(argv: list[str] | None = None) -> int:
     args.out_dir.mkdir(parents=True, exist_ok=True)
     failures = 0
     for name, sql in load_extract_queries():
+        if only and name.removesuffix(".csv") not in only:
+            continue
         try:
             dry = client.query(sql, job_config=bigquery.QueryJobConfig(dry_run=True, use_query_cache=False))
             gb = dry.total_bytes_processed / 1024 ** 3

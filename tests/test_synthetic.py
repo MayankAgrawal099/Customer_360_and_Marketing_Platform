@@ -204,9 +204,41 @@ def test_channel_groups():
     assert channel_group("google", "cpc") == "Paid Search"
     assert channel_group("google", "organic") == "Organic Search"
     assert channel_group("(direct)", "(none)") == "Direct"
-    assert channel_group(None, None) == "Direct"
     assert channel_group("x", "<Other>") == "Other"
+    assert channel_group("(data deleted)", "(data deleted)") == "Other"
     assert channel_group("facebook", "cpm") == "Display"
+    assert channel_group("googleads.g.doubleclick.net", "referral") == "Display"
+    assert channel_group("Partners", "affiliate") == "Affiliate"
+    assert channel_group("Newsletter_January_2021", "email") == "Email"
+    assert channel_group("l.facebook.com", "referral") == "Organic Social"
+    assert channel_group("shop.googlemerchandisestore.com", "referral") == "Referral"
+
+
+def test_nan_from_csv_is_treated_as_missing():
+    nan = float("nan")
+    assert channel_group(nan, nan) == "Unassigned"
+    assert channel_group(nan, "organic") == "Organic Search"
+    assert channel_group("google", nan) == "Other"
+
+
+def test_ad_spend_handles_empty_csv_cells_and_keeps_one_cost_per_campaign(data, tmp_path):
+    """Empty cells arrive as NaN after a CSV round trip; a campaign must keep one base cost per click."""
+    users, purchases, traffic = data
+    path = tmp_path / "t.csv"
+    traffic.assign(campaign=None).to_csv(path, index=False)          # campaign column all empty
+    back = pd.read_csv(path, parse_dates=["date"])
+    spend = g.generate(users, purchases, back)["ad_spend"]
+    assert len(spend) > 0
+    cpc = spend["spend_usd"] / spend["clicks"]
+    for _, grp in (spend.assign(cpc=cpc)).groupby(["channel", "source", "medium"]):
+        # Daily noise is about 10%. A fresh cost drawn on every row would spread far wider (about 38%).
+        assert grp["cpc"].std() / grp["cpc"].mean() < 0.2
+
+
+def test_sessions_without_source_are_unassigned_not_guessed():
+    assert channel_group(None, None) == "Unassigned"
+    assert channel_group("", "") == "Unassigned"
+    assert channel_group(None, "organic") == "Organic Search"
 
 
 def test_cli_end_to_end(data, tmp_path, capsys):

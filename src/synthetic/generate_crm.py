@@ -239,7 +239,7 @@ def build_ad_spend(traffic: pd.DataFrame, cfg: Config, rng) -> pd.DataFrame:
     """Daily spend for paid channels, sized from the real sessions each paid campaign received."""
     t = traffic.copy()
     for col in ("source", "medium", "campaign"):
-        t[col] = t[col].where(t[col].notna(), None)
+        t[col] = pd.Series([None if pd.isna(v) else v for v in t[col]], index=t.index, dtype=object)
     t["channel"] = [channel_group(s, m) for s, m in zip(t["source"], t["medium"])]
     t = t[t["channel"].isin(PAID_CHANNELS)].sort_values(["date", "source", "medium", "campaign"])
 

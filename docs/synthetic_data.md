@@ -28,7 +28,7 @@ The seed is 42 (`src/synthetic/config.py`). The same extract gives byte-identica
 | `crm_customers` | GA4 buyers (minus guest checkouts) and a few non-buyers who register; country, and timing from real first and last visits |
 | `crm_orders` (web) | One row per real GA4 purchase: same time, same revenue, same item count; `ga_transaction_id` is the GA4 transaction ID |
 | `crm_orders` (app) | Extra purchases GA4 never sees (the mobile app). They have no GA4 match |
-| `ad_spend` | Real daily sessions of each paid campaign (source, medium, campaign) |
+| `ad_spend` | Real daily sessions of each paid campaign, using the session-level source, medium and campaign (Paid Search, Display, Affiliate, Email) |
 | `segment_identifies` | Links a real GA4 `user_pseudo_id` (anonymousId) to a customer (userId) |
 | `segment_tracks` | `Signed Up` and `Order Completed` events, sent from the server with userId only |
 | `ground_truth/ground_truth_identity_links` | The true device-to-customer links, for measuring accuracy |
@@ -59,8 +59,8 @@ The seed is 42 (`src/synthetic/config.py`). The same extract gives byte-identica
 | Orders refunded in full | 3% | Revenue and CLV should use completed orders |
 | Marketing opt-in | 55% | Customer attribute |
 | Clicks per session | 1.00 to 1.15 | Some paid clicks never become a session |
-| Paid cost per click | Paid Search 0.55 to 1.25 USD, Display 0.15 to 0.45, Paid Social 0.30 to 0.80 | Sets spend; one value per campaign plus 10% daily noise |
-| Click-through rate | Paid Search 2 to 5%, Display 0.3 to 0.8%, Paid Social 0.8 to 2% | Sets impressions |
+| Paid cost per click | Paid Search 0.55 to 1.25 USD, Display 0.15 to 0.45, Paid Social 0.30 to 0.80, Affiliate (commission) 0.10 to 0.30, Email (platform cost) 0.02 to 0.08 | Sets spend; one value per campaign plus 10% daily noise |
+| Click-through rate | Paid Search 2 to 5%, Display 0.3 to 0.8%, Paid Social 0.8 to 2%, Affiliate 1 to 3%, Email 2 to 6% | Sets impressions |
 
 Order value and time for web orders are real. App order values are drawn from the real web order values (x 0.7 to 1.3).
 
@@ -69,6 +69,6 @@ Order value and time for web orders are real. App order values are drawn from th
 1. **Ground truth is for scoring only.** Models and dbt staging must never read `ground_truth/`. It is used in tests to measure identity-resolution precision and recall.
 2. **Best possible accuracy is below 100%.** Guest buyers, the 15% uncaptured identify events, and uncaptured second devices cannot be matched by any method. The accuracy report must say so.
 3. **Ad spend is an assumption.** It is sized from real paid sessions with assumed costs per click, so ROI and CPA show the method, not a real advertiser's results.
-4. **GA4 traffic source is user-level in this sample.** `traffic_source` is the source that first acquired the user, not the source of each session, so channel numbers built on it describe acquisition.
+4. **Channels come from session-level parameters.** GA4's `traffic_source` field is user-level (first acquisition), so sessions use the `source`, `medium` and `campaign` event parameters instead. About 1 in 4 sessions has none of them; these are "Unassigned" and are never guessed. Campaign names in the sample are obfuscated (`<Other>`), so budget comparisons are mostly at channel level. Only `google / cpc` is real paid media; Affiliate, Email and Display are small.
 5. Segment is mimicked, not used as a live service. The events follow Segment's `identify` and `track` format.
 6. Customer names, emails and phone numbers are fake and cannot belong to real people.
