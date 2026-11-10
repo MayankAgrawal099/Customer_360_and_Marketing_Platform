@@ -386,6 +386,7 @@ dependencies = [
     { name = "dbt-bigquery" },
     { name = "faker" },
     { name = "google-cloud-bigquery" },
+    { name = "numpy" },
     { name = "pandas" },
 ]
 
@@ -402,6 +403,7 @@ requires-dist = [
     { name = "dbt-bigquery", specifier = ">=1.12.2" },
     { name = "faker", specifier = ">=40.44.0" },
     { name = "google-cloud-bigquery", specifier = ">=3.47.0" },
+    { name = "numpy", specifier = ">=2.5.4" },
     { name = "pandas", specifier = ">=3.1.1" },
 ]
 
