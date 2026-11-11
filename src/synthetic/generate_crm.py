@@ -59,8 +59,9 @@ def _clean_country(value, fake) -> str:
 
 
 def read_extract(extract_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    users = pd.read_csv(extract_dir / "users.csv")
-    purchases = pd.read_csv(extract_dir / "purchases.csv")
+    # IDs must stay text: as numbers, "1234567.8901230" would lose its trailing zero and no longer match GA4.
+    users = pd.read_csv(extract_dir / "users.csv", dtype={"user_pseudo_id": str})
+    purchases = pd.read_csv(extract_dir / "purchases.csv", dtype={"user_pseudo_id": str, "transaction_id": str})
     traffic = pd.read_csv(extract_dir / "daily_traffic.csv")
     for col in ("first_seen_ts", "last_seen_ts"):
         users[col] = pd.to_datetime(users[col], utc=True)

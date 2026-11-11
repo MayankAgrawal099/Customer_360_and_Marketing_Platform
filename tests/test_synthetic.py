@@ -275,3 +275,20 @@ def test_extract_sql_is_read_only_public_data_and_valid(path):
     assert set(re.findall(r"`([^`]+)`", code)) == {"bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*"}
     sqlglot = pytest.importorskip("sqlglot")
     sqlglot.parse_one(sql, read="bigquery")
+
+
+def test_ids_keep_trailing_zeros_after_csv_round_trip(data, tmp_path):
+    """GA4 ids such as '1234567.8901230' must not be read as numbers, or joins to GA4 silently fail."""
+    users, purchases, traffic = data
+    users = users.copy()
+    purchases = purchases.copy()
+    users.loc[users.index[:50], "user_pseudo_id"] = [f"{5000000 + i}.{1234500 + i * 10}0" for i in range(50)]
+    purchases["user_pseudo_id"] = purchases["user_pseudo_id"].astype(str)
+    purchases["transaction_id"] = ["0012%d" % i for i in range(len(purchases))]
+    users.to_csv(tmp_path / "users.csv", index=False)
+    purchases.to_csv(tmp_path / "purchases.csv", index=False)
+    traffic.to_csv(tmp_path / "daily_traffic.csv", index=False)
+    u, p, _ = g.read_extract(tmp_path)
+    assert u["user_pseudo_id"].tolist() == users["user_pseudo_id"].tolist()
+    assert p["transaction_id"].tolist() == purchases["transaction_id"].tolist()
+    assert all(isinstance(v, str) for v in u["user_pseudo_id"])

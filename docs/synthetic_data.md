@@ -72,3 +72,16 @@ Order value and time for web orders are real. App order values are drawn from th
 4. **Channels come from session-level parameters.** GA4's `traffic_source` field is user-level (first acquisition), so sessions use the `source`, `medium` and `campaign` event parameters instead. About 1 in 4 sessions has none of them; these are "Unassigned" and are never guessed. Campaign names in the sample are obfuscated (`<Other>`), so budget comparisons are mostly at channel level. Only `google / cpc` is real paid media; Affiliate, Email and Display are small.
 5. Segment is mimicked, not used as a live service. The events follow Segment's `identify` and `track` format.
 6. Customer names, emails and phone numbers are fake and cannot belong to real people.
+
+## Loading into BigQuery (dataset `raw`)
+
+`uv run python -m src.load_to_bigquery` replaces every table in `<project>.raw` (location US):
+
+| Table | Source | Notes |
+|---|---|---|
+| `ga4_events` | public GA4 sample, 2020-11-01 to 2021-01-31 | Full copy with the original nested schema, clustered by `event_name`, `user_pseudo_id`. Not partitioned: sandbox partitions older than 60 days would be deleted at once. |
+| `crm_customers`, `crm_orders`, `ad_spend` | `data/synthetic/*.csv` | Explicit schemas; a header mismatch stops the load before anything is written. |
+| `segment_identifies`, `segment_tracks` | `data/synthetic/*.jsonl` | Nested `traits`, `properties` and `context` records. |
+| `ground_truth_identity_links` | `data/synthetic/ground_truth/` | Scoring only; no model or dbt staging model may read it. |
+
+After loading, the script checks row counts and control totals against the local files, and that every shared key exists on the other side (devices, transaction IDs, customer IDs, ad-spend dates). BigQuery sandbox tables expire after 60 days; re-running the script rebuilds everything.

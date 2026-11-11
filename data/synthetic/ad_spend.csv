@@ -1,301 +1,301 @@
 date,channel,source,medium,campaign,impressions,clicks,spend_usd
-2020-11-01,Affiliate,Partners,affiliate,Data Share Promo,123,3,0.5
-2020-11-01,Paid Search,google,cpc,<Other>,1659,63,54.36
-2020-11-02,Email,Facebook,email,,54,2,0.07
-2020-11-02,Affiliate,Partners,affiliate,Data Share Promo,246,6,1.12
-2020-11-02,Paid Search,google,cpc,<Other>,3841,105,90.03
-2020-11-03,Affiliate,Partners,affiliate,Data Share Promo,222,7,1.22
-2020-11-03,Paid Search,google,cpc,<Other>,3298,123,100.74
-2020-11-03,Display,googleads.g.doubleclick.net,referral,(referral),152,1,0.31
-2020-11-04,Affiliate,Partners,affiliate,Data Share Promo,553,13,2.1
-2020-11-04,Paid Search,google,cpc,<Other>,2670,94,63.38
-2020-11-05,Affiliate,Partners,affiliate,Data Share Promo,472,13,1.95
-2020-11-05,Paid Search,google,cpc,<Other>,3200,107,92.53
-2020-11-05,Email,google,email,,20,1,0.07
-2020-11-05,Display,googleads.g.doubleclick.net,referral,(referral),157,1,0.29
-2020-11-06,Affiliate,Partners,affiliate,Data Share Promo,723,21,3.02
-2020-11-06,Paid Search,google,cpc,<Other>,3125,100,74.08
-2020-11-06,Display,googleads.g.doubleclick.net,referral,(referral),159,1,0.32
-2020-11-07,Affiliate,Partners,affiliate,Data Share Promo,397,11,1.93
-2020-11-07,Paid Search,google,cpc,<Other>,2464,80,57.25
-2020-11-07,Display,googleads.g.doubleclick.net,referral,(referral),144,1,0.31
-2020-11-08,Affiliate,Partners,affiliate,Data Share Promo,218,6,1.02
-2020-11-08,Paid Search,google,cpc,<Other>,2035,63,45.45
-2020-11-08,Display,googleads.g.doubleclick.net,referral,(referral),137,1,0.28
-2020-11-09,Affiliate,Partners,affiliate,Data Share Promo,740,21,3.35
-2020-11-09,Paid Search,google,cpc,<Other>,2031,76,63.63
-2020-11-09,Display,googleads.g.doubleclick.net,referral,(referral),115,1,0.28
-2020-11-10,Affiliate,Partners,affiliate,Data Share Promo,511,16,2.63
-2020-11-10,Paid Search,google,cpc,<Other>,3287,116,97.34
-2020-11-11,Affiliate,Partners,affiliate,Data Share Promo,743,19,2.77
-2020-11-11,Affiliate,Partners,affiliate,,47,1,0.23
-2020-11-11,Paid Search,google,cpc,<Other>,4286,131,110.06
-2020-11-11,Display,googleads.g.doubleclick.net,referral,(referral),425,3,1.01
-2020-11-12,Affiliate,Partners,affiliate,Data Share Promo,579,16,2.22
-2020-11-12,Affiliate,Partners,affiliate,,140,3,0.55
-2020-11-12,Paid Search,google,cpc,<Other>,2600,93,85.64
-2020-11-13,Affiliate,Partners,affiliate,Data Share Promo,356,11,2.0
-2020-11-13,Paid Search,google,cpc,<Other>,2752,101,87.88
-2020-11-14,Affiliate,Partners,affiliate,Data Share Promo,454,12,2.02
-2020-11-14,Paid Search,google,cpc,<Other>,1740,64,45.07
-2020-11-14,Display,googleads.g.doubleclick.net,referral,(referral),152,1,0.39
-2020-11-15,Affiliate,Partners,affiliate,Data Share Promo,305,11,1.78
-2020-11-15,Paid Search,google,cpc,<Other>,1807,63,52.44
-2020-11-16,Affiliate,Partners,affiliate,Data Share Promo,293,9,1.53
-2020-11-16,Affiliate,Partners,affiliate,,35,1,0.2
-2020-11-16,Paid Search,google,cpc,<Other>,2734,93,76.81
-2020-11-16,Display,googleads.g.doubleclick.net,referral,(referral),307,2,0.69
-2020-11-17,Affiliate,Partners,affiliate,Data Share Promo,466,12,2.26
-2020-11-17,Affiliate,Partners,affiliate,,41,1,0.19
-2020-11-17,Paid Search,google,cpc,<Other>,2816,87,72.35
-2020-11-17,Display,googleads.g.doubleclick.net,referral,(referral),146,1,0.34
-2020-11-18,Affiliate,Partners,affiliate,Data Share Promo,647,22,3.51
-2020-11-18,Paid Search,google,cpc,<Other>,2997,105,80.31
-2020-11-18,Display,googleads.g.doubleclick.net,referral,(referral),135,1,0.34
-2020-11-19,Affiliate,Partners,affiliate,Data Share Promo,706,19,2.98
-2020-11-19,Paid Search,google,cpc,<Other>,2900,97,77.5
-2020-11-19,Display,googleads.g.doubleclick.net,referral,(referral),275,2,0.72
-2020-11-20,Affiliate,Partners,affiliate,(referral),64,1,0.23
-2020-11-20,Affiliate,Partners,affiliate,Data Share Promo,599,16,2.68
-2020-11-20,Affiliate,Partners,affiliate,,41,1,0.17
-2020-11-20,Paid Search,google,cpc,<Other>,2831,109,84.31
-2020-11-20,Display,googleads.g.doubleclick.net,referral,(referral),567,4,1.11
-2020-11-21,Affiliate,Partners,affiliate,Data Share Promo,416,10,2.02
-2020-11-21,Affiliate,Partners,affiliate,,45,1,0.18
-2020-11-21,Paid Search,google,cpc,<Other>,2747,92,79.92
-2020-11-21,Display,googleads.g.doubleclick.net,referral,(referral),323,2,0.67
-2020-11-22,Affiliate,Partners,affiliate,Data Share Promo,281,8,1.17
-2020-11-22,Paid Search,google,cpc,<Other>,1955,69,62.87
-2020-11-22,Display,googleads.g.doubleclick.net,referral,(referral),301,2,0.57
-2020-11-23,Affiliate,Partners,affiliate,Data Share Promo,267,7,1.22
-2020-11-23,Paid Search,google,cpc,<Other>,2574,87,72.78
-2020-11-24,Affiliate,Partners,affiliate,Data Share Promo,446,13,2.16
-2020-11-24,Paid Search,google,cpc,<Other>,3820,118,96.89
-2020-11-24,Display,googleads.g.doubleclick.net,referral,(referral),280,2,0.83
-2020-11-25,Affiliate,Partners,affiliate,Data Share Promo,317,8,1.51
-2020-11-25,Paid Search,google,cpc,<Other>,3427,119,93.45
-2020-11-26,Affiliate,Partners,affiliate,Data Share Promo,300,8,1.29
-2020-11-26,Paid Search,google,cpc,<Other>,2799,98,82.63
-2020-11-27,Email,Newsletter_November_2020,email,BlackFriday_V1,29,1,0.03
-2020-11-27,Email,Newsletter_November_2020,email,BlackFriday_V2,43,2,0.09
-2020-11-27,Affiliate,Partners,affiliate,Data Share Promo,226,7,1.25
-2020-11-27,Paid Search,google,cpc,<Other>,3520,125,95.68
-2020-11-27,Display,googleads.g.doubleclick.net,referral,(referral),306,2,0.61
-2020-11-28,Email,Newsletter_November_2020,email,BlackFriday_V1,160,5,0.2
-2020-11-28,Affiliate,Partners,affiliate,Data Share Promo,393,10,1.62
-2020-11-28,Paid Search,google,cpc,<Other>,2112,84,71.31
-2020-11-29,Email,Newsletter_November_2020,email,BlackFriday_V2,85,3,0.13
-2020-11-29,Affiliate,Partners,affiliate,Data Share Promo,277,9,1.55
-2020-11-29,Paid Search,google,cpc,<Other>,2370,81,61.56
-2020-11-30,Email,Newsletter_November_2020,email,BlackFriday_V2,235,10,0.52
-2020-11-30,Affiliate,Partners,affiliate,Data Share Promo,371,9,1.59
-2020-11-30,Paid Search,google,cpc,<Other>,3043,131,111.34
-2020-12-01,Email,Newsletter_November_2020,email,BlackFriday_V1,28,1,0.05
-2020-12-01,Email,Newsletter_November_2020,email,BlackFriday_V2,105,5,0.25
-2020-12-01,Affiliate,Partners,affiliate,Data Share Promo,132,4,0.74
-2020-12-01,Paid Search,google,cpc,<Other>,4329,137,118.55
-2020-12-01,Display,googleads.g.doubleclick.net,referral,(referral),141,1,0.31
-2020-12-02,Email,Newsletter_November_2020,email,BlackFriday_V2,41,2,0.1
-2020-12-02,Affiliate,Partners,affiliate,Data Share Promo,499,12,2.19
-2020-12-02,Paid Search,google,cpc,<Other>,3361,123,96.12
-2020-12-02,Email,google,email,,21,1,0.07
-2020-12-02,Display,googleads.g.doubleclick.net,referral,(referral),340,2,0.53
-2020-12-03,Affiliate,Partners,affiliate,Data Share Promo,343,8,1.35
-2020-12-03,Paid Search,google,cpc,<Other>,3775,142,122.34
-2020-12-03,Display,googleads.g.doubleclick.net,referral,(referral),140,1,0.3
-2020-12-04,Affiliate,Partners,affiliate,Data Share Promo,394,10,1.7
-2020-12-04,Paid Search,google,cpc,<Other>,3785,144,110.58
-2020-12-04,Display,googleads.g.doubleclick.net,referral,(referral),275,2,0.55
-2020-12-05,Affiliate,Partners,affiliate,Data Share Promo,299,9,1.44
-2020-12-05,Paid Search,google,cpc,<Other>,3080,115,86.8
-2020-12-05,Display,googleads.g.doubleclick.net,referral,(referral),170,1,0.37
-2020-12-06,Email,Newsletter_November_2020,email,BlackFriday_V2,24,1,0.04
-2020-12-06,Affiliate,Partners,affiliate,Data Share Promo,303,8,1.45
-2020-12-06,Paid Search,google,cpc,<Other>,2466,88,70.52
-2020-12-07,Affiliate,Partners,affiliate,Data Share Promo,863,22,3.81
-2020-12-07,Paid Search,google,cpc,<Other>,3646,137,115.98
-2020-12-07,Display,googleads.g.doubleclick.net,referral,(referral),155,1,0.31
-2020-12-08,Email,Newsletter_November_2020,email,BlackFriday_V2,20,1,0.05
-2020-12-08,Affiliate,Partners,affiliate,Data Share Promo,346,8,1.24
-2020-12-08,Paid Search,google,cpc,<Other>,4967,160,133.76
-2020-12-09,Affiliate,Partners,affiliate,Data Share Promo,244,7,1.06
-2020-12-09,Paid Search,google,cpc,<Other>,4002,140,103.1
-2020-12-10,Email,Newsletter_December_2020,email,Holiday_V1,65,2,0.14
-2020-12-10,Email,Newsletter_December_2020,email,Holiday_V2,74,4,0.17
-2020-12-10,Email,Newsletter_November_2020,email,BlackFriday_V2,21,1,0.04
-2020-12-10,Affiliate,Partners,affiliate,Data Share Promo,384,12,2.08
-2020-12-10,Paid Search,google,cpc,<Other>,5037,170,159.5
-2020-12-11,Email,Newsletter_December_2020,email,Holiday_V1,166,6,0.36
-2020-12-11,Email,Newsletter_December_2020,email,Holiday_V2,335,20,0.64
-2020-12-11,Affiliate,Partners,affiliate,Data Share Promo,223,7,0.95
-2020-12-11,Paid Search,google,cpc,<Other>,4621,158,125.65
-2020-12-11,Display,googleads.g.doubleclick.net,referral,(referral),154,1,0.33
-2020-12-12,Email,Newsletter_December_2020,email,Holiday_V1,108,4,0.25
-2020-12-12,Email,Newsletter_December_2020,email,Holiday_V2,34,2,0.09
-2020-12-12,Affiliate,Partners,affiliate,Data Share Promo,426,8,1.49
-2020-12-12,Paid Search,google,cpc,<Other>,2583,98,76.18
-2020-12-13,Email,Newsletter_December_2020,email,Holiday_V2,20,1,0.04
-2020-12-13,Affiliate,Partners,affiliate,Data Share Promo,219,5,0.79
-2020-12-13,Paid Search,google,cpc,<Other>,3281,107,97.12
-2020-12-14,Email,Newsletter_December_2020,email,Holiday_V2,140,8,0.35
-2020-12-14,Affiliate,Partners,affiliate,Data Share Promo,371,9,1.63
-2020-12-14,Paid Search,google,cpc,<Other>,4240,127,93.13
-2020-12-14,Display,googleads.g.doubleclick.net,referral,(referral),147,1,0.35
-2020-12-15,Email,Newsletter_December_2020,email,Holiday_V1,30,1,0.07
-2020-12-15,Email,Newsletter_December_2020,email,Holiday_V2,57,3,0.13
-2020-12-15,Affiliate,Partners,affiliate,Data Share Promo,498,15,2.58
-2020-12-15,Paid Search,google,cpc,<Other>,5199,178,125.52
-2020-12-15,Paid Search,google,cpc,,22,1,0.56
-2020-12-15,Display,googleads.g.doubleclick.net,referral,(referral),152,1,0.3
-2020-12-16,Email,Newsletter_December_2020,email,Holiday_V1,53,2,0.15
-2020-12-16,Affiliate,Partners,affiliate,Data Share Promo,355,8,1.28
-2020-12-16,Paid Search,google,cpc,<Other>,5175,147,112.91
-2020-12-17,Affiliate,Partners,affiliate,Data Share Promo,373,9,1.51
-2020-12-17,Paid Search,google,cpc,<Other>,5036,153,118.21
-2020-12-17,Display,secureframe.doubleclick.net,referral,(referral),120,1,0.42
-2020-12-18,Email,Newsletter_December_2020,email,Holiday_V1,37,1,0.07
-2020-12-18,Email,Newsletter_December_2020,email,Holiday_V2,16,1,0.05
-2020-12-18,Affiliate,Partners,affiliate,Data Share Promo,103,3,0.54
-2020-12-18,Paid Search,google,cpc,<Other>,3459,109,96.36
-2020-12-19,Email,Newsletter_December_2020,email,Holiday_V1,26,1,0.08
-2020-12-19,Email,Newsletter_December_2020,email,Holiday_V2,13,1,0.05
-2020-12-19,Affiliate,Partners,affiliate,Data Share Promo,309,8,1.5
-2020-12-19,Display,doubleclick.net,referral,(referral),196,1,0.43
-2020-12-19,Paid Search,google,cpc,<Other>,3005,92,77.96
-2020-12-20,Affiliate,Partners,affiliate,Data Share Promo,102,3,0.58
-2020-12-20,Paid Search,google,cpc,<Other>,1842,75,57.67
-2020-12-20,Display,googleads.g.doubleclick.net,referral,(referral),814,5,1.62
-2020-12-21,Affiliate,Partners,affiliate,Data Share Promo,302,8,1.51
-2020-12-21,Paid Search,google,cpc,(referral),34,1,1.11
-2020-12-21,Paid Search,google,cpc,<Other>,2601,94,69.93
-2020-12-21,Display,googleads.g.doubleclick.net,referral,(referral),159,1,0.31
-2020-12-22,Affiliate,Partners,affiliate,Data Share Promo,208,6,1.14
-2020-12-22,Paid Search,google,cpc,<Other>,2752,102,85.82
-2020-12-22,Paid Search,google,cpc,,23,1,0.7
-2020-12-23,Affiliate,Partners,affiliate,Data Share Promo,111,3,0.49
-2020-12-23,Paid Search,google,cpc,<Other>,2923,91,69.35
-2020-12-23,Display,googleads.g.doubleclick.net,referral,(referral),307,2,0.59
-2020-12-24,Affiliate,Partners,affiliate,Data Share Promo,176,5,0.86
-2020-12-24,Paid Search,google,cpc,<Other>,2259,83,67.75
-2020-12-24,Display,googleads.g.doubleclick.net,referral,(referral),416,3,0.94
-2020-12-25,Affiliate,Partners,affiliate,Data Share Promo,88,2,0.3
-2020-12-25,Paid Search,google,cpc,<Other>,1855,72,57.68
-2020-12-25,Paid Search,google,cpc,,19,1,0.51
-2020-12-25,Display,googleads.g.doubleclick.net,referral,(referral),137,1,0.3
-2020-12-26,Affiliate,Partners,affiliate,Data Share Promo,305,9,1.48
-2020-12-26,Paid Search,google,cpc,<Other>,1403,58,39.05
-2020-12-27,Affiliate,Partners,affiliate,Data Share Promo,39,1,0.18
-2020-12-27,Paid Search,google,cpc,<Other>,1767,53,39.61
-2020-12-28,Affiliate,Partners,affiliate,Data Share Promo,295,8,1.54
-2020-12-28,Paid Search,google,cpc,<Other>,2284,87,66.73
-2020-12-28,Display,googleads.g.doubleclick.net,referral,(referral),327,2,0.52
-2020-12-29,Affiliate,Partners,affiliate,Data Share Promo,382,11,1.83
-2020-12-29,Paid Search,google,cpc,<Other>,2114,83,75.24
-2020-12-29,Display,googleads.g.doubleclick.net,referral,(referral),467,3,0.94
-2020-12-30,Affiliate,Partners,affiliate,Data Share Promo,403,11,1.76
-2020-12-30,Paid Search,google,cpc,<Other>,2147,70,52.25
-2020-12-31,Affiliate,Partners,affiliate,Data Share Promo,39,1,0.16
-2020-12-31,Paid Search,google,cpc,<Other>,2144,62,64.7
-2020-12-31,Display,googleads.g.doubleclick.net,referral,(referral),160,1,0.33
-2021-01-01,Affiliate,Partners,affiliate,Data Share Promo,81,2,0.34
-2021-01-01,Paid Search,google,cpc,<Other>,1396,54,42.6
-2021-01-01,Display,googleads.g.doubleclick.net,referral,(referral),147,1,0.37
-2021-01-02,Affiliate,Partners,affiliate,Data Share Promo,96,3,0.57
-2021-01-02,Paid Search,google,cpc,<Other>,2066,74,61.01
-2021-01-02,Display,googleads.g.doubleclick.net,referral,(referral),362,2,0.57
-2021-01-03,Affiliate,Partners,affiliate,Data Share Promo,71,2,0.39
-2021-01-03,Paid Search,google,cpc,<Other>,1927,59,50.75
-2021-01-03,Display,googleads.g.doubleclick.net,referral,(referral),151,1,0.29
-2021-01-04,Affiliate,Partners,affiliate,Data Share Promo,308,7,1.12
-2021-01-04,Paid Search,google,cpc,<Other>,2673,94,78.79
-2021-01-04,Display,googleads.g.doubleclick.net,referral,(referral),303,2,0.7
-2021-01-05,Affiliate,Partners,affiliate,Data Share Promo,205,5,0.87
-2021-01-05,Paid Search,google,cpc,<Other>,2654,102,70.36
-2021-01-05,Display,googleads.g.doubleclick.net,referral,(referral),146,1,0.34
-2021-01-06,Affiliate,Partners,affiliate,Data Share Promo,119,3,0.51
-2021-01-06,Paid Search,google,cpc,<Other>,3475,122,96.71
-2021-01-06,Display,googleads.g.doubleclick.net,referral,(referral),441,3,1.0
-2021-01-07,Affiliate,Partners,affiliate,Data Share Promo,378,10,1.57
-2021-01-07,Paid Search,google,cpc,<Other>,3016,113,113.37
-2021-01-07,Display,googleads.g.doubleclick.net,referral,(referral),654,5,1.37
-2021-01-08,Affiliate,Partners,affiliate,Data Share Promo,301,11,1.78
-2021-01-08,Paid Search,google,cpc,<Other>,2450,90,68.15
-2021-01-08,Display,googleads.g.doubleclick.net,referral,(referral),341,2,0.73
-2021-01-09,Affiliate,Partners,affiliate,Data Share Promo,223,6,0.89
-2021-01-09,Paid Search,google,cpc,<Other>,1948,64,53.72
-2021-01-10,Affiliate,Partners,affiliate,Data Share Promo,100,3,0.53
-2021-01-10,Paid Search,google,cpc,<Other>,2458,88,69.38
-2021-01-10,Paid Search,google,cpc,,21,1,0.65
-2021-01-10,Display,googleads.g.doubleclick.net,referral,(referral),497,3,0.91
-2021-01-11,Affiliate,Partners,affiliate,Data Share Promo,119,4,0.7
-2021-01-11,Paid Search,google,cpc,<Other>,2391,89,72.84
-2021-01-11,Display,googleads.g.doubleclick.net,referral,(referral),138,1,0.28
-2021-01-12,Affiliate,Partners,affiliate,Data Share Promo,467,14,2.12
-2021-01-12,Paid Search,google,cpc,<Other>,3866,119,106.05
-2021-01-12,Display,googleads.g.doubleclick.net,referral,(referral),141,1,0.38
-2021-01-13,Affiliate,Partners,affiliate,Data Share Promo,502,13,2.41
-2021-01-13,Paid Search,google,cpc,<Other>,3755,130,97.68
-2021-01-13,Display,googleads.g.doubleclick.net,referral,(referral),138,1,0.33
-2021-01-14,Affiliate,Partners,affiliate,Data Share Promo,316,8,1.53
-2021-01-14,Paid Search,google,cpc,<Other>,3564,118,103.71
-2021-01-14,Display,googleads.g.doubleclick.net,referral,(referral),150,1,0.27
-2021-01-15,Affiliate,Partners,affiliate,Data Share Promo,257,8,1.5
-2021-01-15,Paid Search,google,cpc,<Other>,2666,89,68.16
-2021-01-15,Display,googleads.g.doubleclick.net,referral,(referral),344,3,0.99
-2021-01-16,Affiliate,Partners,affiliate,Data Share Promo,314,9,1.81
-2021-01-16,Paid Search,google,cpc,<Other>,1865,70,63.92
-2021-01-16,Display,googleads.g.doubleclick.net,referral,(referral),130,1,0.28
-2021-01-17,Affiliate,Partners,affiliate,Data Share Promo,107,3,0.45
-2021-01-17,Paid Search,google,cpc,<Other>,2123,79,67.24
-2021-01-17,Display,googleads.g.doubleclick.net,referral,(referral),530,3,0.94
-2021-01-18,Affiliate,Partners,affiliate,Data Share Promo,407,11,1.98
-2021-01-18,Paid Search,google,cpc,<Other>,2316,90,80.04
-2021-01-18,Display,googleads.g.doubleclick.net,referral,(referral),296,2,0.64
-2021-01-19,Affiliate,Partners,affiliate,Data Share Promo,141,4,0.73
-2021-01-19,Paid Search,google,cpc,<Other>,3380,110,97.7
-2021-01-19,Display,googleads.g.doubleclick.net,referral,(referral),445,3,0.9
-2021-01-20,Affiliate,Partners,affiliate,Data Share Promo,280,8,1.26
-2021-01-20,Paid Search,google,cpc,<Other>,2732,113,102.16
-2021-01-21,Affiliate,Partners,affiliate,Data Share Promo,1087,27,4.75
-2021-01-21,Paid Search,google,cpc,<Other>,2078,63,50.3
-2021-01-21,Display,googleads.g.doubleclick.net,referral,(referral),326,2,0.71
-2021-01-22,Affiliate,Partners,affiliate,Data Share Promo,1757,53,9.99
-2021-01-22,Paid Search,google,cpc,<Other>,171,6,4.62
-2021-01-22,Display,googleads.g.doubleclick.net,referral,(referral),250,2,0.52
-2021-01-23,Affiliate,Partners,affiliate,Data Share Promo,2636,88,14.75
-2021-01-23,Paid Search,google,cpc,<Other>,33,1,0.76
-2021-01-23,Display,googleads.g.doubleclick.net,referral,(referral),1054,7,2.1
-2021-01-24,Affiliate,Partners,affiliate,Data Share Promo,1270,34,4.79
-2021-01-24,Paid Search,google,cpc,<Other>,31,1,0.89
-2021-01-24,Display,googleads.g.doubleclick.net,referral,(referral),332,2,0.59
-2021-01-25,Affiliate,Partners,affiliate,Data Share Promo,4337,103,14.67
-2021-01-25,Paid Search,google,cpc,<Other>,59,2,1.84
-2021-01-25,Display,googleads.g.doubleclick.net,referral,(referral),303,2,0.68
-2021-01-26,Affiliate,Partners,affiliate,Data Share Promo,4560,112,18.31
-2021-01-26,Paid Search,google,cpc,<Other>,79,3,2.43
-2021-01-26,Display,googleads.g.doubleclick.net,referral,(referral),113,1,0.33
-2021-01-27,Email,Newsletter_January_2021,email,NewYear_V1,447,13,1.01
-2021-01-27,Email,Newsletter_January_2021,email,NewYear_V2,207,6,0.35
-2021-01-27,Affiliate,Partners,affiliate,Data Share Promo,2145,69,12.12
-2021-01-27,Paid Search,google,cpc,<Other>,61,2,1.34
-2021-01-27,Display,googleads.g.doubleclick.net,referral,(referral),784,5,1.49
-2021-01-28,Email,Newsletter_January_2021,email,NewYear_V1,1453,41,3.24
-2021-01-28,Email,Newsletter_January_2021,email,NewYear_V2,814,29,1.92
-2021-01-28,Affiliate,Partners,affiliate,Data Share Promo,2050,68,13.48
-2021-01-28,Paid Search,google,cpc,<Other>,62,2,1.75
-2021-01-28,Display,googleads.g.doubleclick.net,referral,(referral),137,1,0.31
-2021-01-29,Email,Newsletter_January_2021,email,NewYear_V1,468,14,1.2
-2021-01-29,Email,Newsletter_January_2021,email,NewYear_V2,151,5,0.4
-2021-01-29,Email,Newsletter_November_2020,email,BlackFriday_V1,32,1,0.04
-2021-01-29,Affiliate,Partners,affiliate,Data Share Promo,3205,79,12.85
-2021-01-29,Display,doubleclick.net,referral,(referral),273,1,0.46
-2021-01-29,Paid Search,google,cpc,<Other>,114,4,2.84
-2021-01-29,Display,googleads.g.doubleclick.net,referral,(referral),1007,7,2.09
-2021-01-30,Email,Newsletter_January_2021,email,NewYear_V1,62,2,0.17
-2021-01-30,Email,Newsletter_January_2021,email,NewYear_V2,55,2,0.14
-2021-01-30,Affiliate,Partners,affiliate,Data Share Promo,1037,29,4.98
-2021-01-30,Paid Search,google,cpc,<Other>,29,1,0.85
-2021-01-30,Display,googleads.g.doubleclick.net,referral,(referral),431,3,0.93
-2021-01-31,Email,Newsletter_January_2021,email,NewYear_V1,158,5,0.36
-2021-01-31,Affiliate,Partners,affiliate,Data Share Promo,534,14,2.35
-2021-01-31,Paid Search,google,cpc,<Other>,109,4,4.33
+2020-11-01,Affiliate,Partners,affiliate,Data Share Promo,234,3,0.66
+2020-11-01,Paid Search,google,cpc,<Other>,1284,62,58.98
+2020-11-02,Email,Facebook,email,,63,2,0.15
+2020-11-02,Affiliate,Partners,affiliate,Data Share Promo,539,7,1.72
+2020-11-02,Paid Search,google,cpc,<Other>,2879,110,128.82
+2020-11-03,Affiliate,Partners,affiliate,Data Share Promo,503,6,1.29
+2020-11-03,Paid Search,google,cpc,<Other>,2702,120,123.46
+2020-11-03,Display,googleads.g.doubleclick.net,referral,(referral),247,1,0.31
+2020-11-04,Affiliate,Partners,affiliate,Data Share Promo,961,15,2.94
+2020-11-04,Paid Search,google,cpc,<Other>,2207,101,107.52
+2020-11-05,Affiliate,Partners,affiliate,Data Share Promo,949,14,3.46
+2020-11-05,Paid Search,google,cpc,<Other>,2498,106,125.67
+2020-11-05,Email,google,email,,26,1,0.07
+2020-11-05,Display,googleads.g.doubleclick.net,referral,(referral),212,1,0.29
+2020-11-06,Affiliate,Partners,affiliate,Data Share Promo,1344,20,5.49
+2020-11-06,Paid Search,google,cpc,<Other>,2309,102,97.9
+2020-11-06,Display,googleads.g.doubleclick.net,referral,(referral),244,1,0.33
+2020-11-07,Affiliate,Partners,affiliate,Data Share Promo,687,11,2.75
+2020-11-07,Paid Search,google,cpc,<Other>,1932,75,70.22
+2020-11-07,Display,googleads.g.doubleclick.net,referral,(referral),251,1,0.29
+2020-11-08,Affiliate,Partners,affiliate,Data Share Promo,544,6,1.17
+2020-11-08,Paid Search,google,cpc,<Other>,1381,62,62.83
+2020-11-08,Display,googleads.g.doubleclick.net,referral,(referral),245,1,0.26
+2020-11-09,Affiliate,Partners,affiliate,Data Share Promo,1756,23,4.3
+2020-11-09,Paid Search,google,cpc,<Other>,1887,75,76.08
+2020-11-09,Display,googleads.g.doubleclick.net,referral,(referral),243,1,0.45
+2020-11-10,Affiliate,Partners,affiliate,Data Share Promo,1084,16,3.27
+2020-11-10,Paid Search,google,cpc,<Other>,2808,107,98.51
+2020-11-11,Affiliate,Partners,affiliate,Data Share Promo,1433,20,4.51
+2020-11-11,Affiliate,Partners,affiliate,,81,1,0.16
+2020-11-11,Paid Search,google,cpc,<Other>,3627,135,127.82
+2020-11-11,Display,googleads.g.doubleclick.net,referral,(referral),743,3,0.92
+2020-11-12,Affiliate,Partners,affiliate,Data Share Promo,1577,17,3.86
+2020-11-12,Affiliate,Partners,affiliate,,273,3,0.52
+2020-11-12,Paid Search,google,cpc,<Other>,2425,94,80.2
+2020-11-13,Affiliate,Partners,affiliate,Data Share Promo,822,12,2.39
+2020-11-13,Paid Search,google,cpc,<Other>,2060,95,87.57
+2020-11-14,Affiliate,Partners,affiliate,Data Share Promo,920,13,2.49
+2020-11-14,Paid Search,google,cpc,<Other>,1387,60,60.69
+2020-11-14,Display,googleads.g.doubleclick.net,referral,(referral),263,1,0.3
+2020-11-15,Affiliate,Partners,affiliate,Data Share Promo,834,11,2.26
+2020-11-15,Paid Search,google,cpc,<Other>,1476,63,58.66
+2020-11-16,Affiliate,Partners,affiliate,Data Share Promo,869,10,1.99
+2020-11-16,Affiliate,Partners,affiliate,,96,1,0.18
+2020-11-16,Paid Search,google,cpc,<Other>,2243,97,82.47
+2020-11-16,Display,googleads.g.doubleclick.net,referral,(referral),448,2,0.63
+2020-11-17,Affiliate,Partners,affiliate,Data Share Promo,868,12,2.3
+2020-11-17,Affiliate,Partners,affiliate,,85,1,0.16
+2020-11-17,Paid Search,google,cpc,<Other>,2455,92,87.09
+2020-11-17,Display,googleads.g.doubleclick.net,referral,(referral),225,1,0.3
+2020-11-18,Affiliate,Partners,affiliate,Data Share Promo,1728,20,4.09
+2020-11-18,Paid Search,google,cpc,<Other>,2275,107,119.43
+2020-11-18,Display,googleads.g.doubleclick.net,referral,(referral),223,1,0.27
+2020-11-19,Affiliate,Partners,affiliate,Data Share Promo,1283,20,4.43
+2020-11-19,Paid Search,google,cpc,<Other>,2188,93,85.08
+2020-11-19,Display,googleads.g.doubleclick.net,referral,(referral),501,2,0.57
+2020-11-20,Affiliate,Partners,affiliate,(referral),41,1,0.22
+2020-11-20,Affiliate,Partners,affiliate,Data Share Promo,1042,15,2.94
+2020-11-20,Affiliate,Partners,affiliate,,90,1,0.17
+2020-11-20,Paid Search,google,cpc,<Other>,2447,106,110.91
+2020-11-20,Display,googleads.g.doubleclick.net,referral,(referral),1042,4,1.12
+2020-11-21,Affiliate,Partners,affiliate,Data Share Promo,652,10,1.85
+2020-11-21,Affiliate,Partners,affiliate,,79,1,0.16
+2020-11-21,Paid Search,google,cpc,<Other>,1992,88,94.07
+2020-11-21,Display,googleads.g.doubleclick.net,referral,(referral),421,2,0.71
+2020-11-22,Affiliate,Partners,affiliate,Data Share Promo,545,8,1.39
+2020-11-22,Paid Search,google,cpc,<Other>,1429,67,67.67
+2020-11-22,Display,googleads.g.doubleclick.net,referral,(referral),457,2,0.54
+2020-11-23,Affiliate,Partners,affiliate,Data Share Promo,525,7,1.61
+2020-11-23,Paid Search,google,cpc,<Other>,1954,88,78.6
+2020-11-24,Affiliate,Partners,affiliate,Data Share Promo,999,15,3.29
+2020-11-24,Paid Search,google,cpc,<Other>,2856,116,101.93
+2020-11-24,Display,googleads.g.doubleclick.net,referral,(referral),486,2,0.55
+2020-11-25,Affiliate,Partners,affiliate,Data Share Promo,785,9,1.95
+2020-11-25,Paid Search,google,cpc,<Other>,2698,115,110.28
+2020-11-26,Affiliate,Partners,affiliate,Data Share Promo,548,8,1.71
+2020-11-26,Paid Search,google,cpc,<Other>,2241,89,87.46
+2020-11-27,Email,Newsletter_November_2020,email,BlackFriday_V1,50,1,0.04
+2020-11-27,Email,Newsletter_November_2020,email,BlackFriday_V2,32,2,0.04
+2020-11-27,Affiliate,Partners,affiliate,Data Share Promo,528,8,1.59
+2020-11-27,Paid Search,google,cpc,<Other>,2775,124,111.86
+2020-11-27,Display,googleads.g.doubleclick.net,referral,(referral),555,2,0.69
+2020-11-28,Email,Newsletter_November_2020,email,BlackFriday_V1,244,5,0.19
+2020-11-28,Affiliate,Partners,affiliate,Data Share Promo,827,11,2.48
+2020-11-28,Paid Search,google,cpc,<Other>,1826,78,74.71
+2020-11-29,Email,Newsletter_November_2020,email,BlackFriday_V2,56,3,0.07
+2020-11-29,Affiliate,Partners,affiliate,Data Share Promo,545,8,1.73
+2020-11-29,Paid Search,google,cpc,<Other>,2051,83,77.52
+2020-11-30,Email,Newsletter_November_2020,email,BlackFriday_V2,150,10,0.24
+2020-11-30,Affiliate,Partners,affiliate,Data Share Promo,687,8,1.54
+2020-11-30,Paid Search,google,cpc,<Other>,3476,134,133.89
+2020-12-01,Email,Newsletter_November_2020,email,BlackFriday_V1,46,1,0.04
+2020-12-01,Email,Newsletter_November_2020,email,BlackFriday_V2,106,6,0.12
+2020-12-01,Affiliate,Partners,affiliate,Data Share Promo,327,4,0.8
+2020-12-01,Paid Search,google,cpc,<Other>,3287,130,115.73
+2020-12-01,Display,googleads.g.doubleclick.net,referral,(referral),262,1,0.26
+2020-12-02,Email,Newsletter_November_2020,email,BlackFriday_V2,41,2,0.05
+2020-12-02,Affiliate,Partners,affiliate,Data Share Promo,914,13,2.3
+2020-12-02,Paid Search,google,cpc,<Other>,2543,124,138.69
+2020-12-02,Email,google,email,,26,1,0.05
+2020-12-02,Display,googleads.g.doubleclick.net,referral,(referral),688,2,0.57
+2020-12-03,Affiliate,Partners,affiliate,Data Share Promo,720,8,1.75
+2020-12-03,Paid Search,google,cpc,<Other>,3363,139,144.13
+2020-12-03,Display,googleads.g.doubleclick.net,referral,(referral),238,1,0.3
+2020-12-04,Affiliate,Partners,affiliate,Data Share Promo,842,11,2.51
+2020-12-04,Paid Search,google,cpc,<Other>,3443,141,145.75
+2020-12-04,Display,googleads.g.doubleclick.net,referral,(referral),437,2,0.6
+2020-12-05,Affiliate,Partners,affiliate,Data Share Promo,473,8,1.6
+2020-12-05,Paid Search,google,cpc,<Other>,2686,122,113.36
+2020-12-05,Display,googleads.g.doubleclick.net,referral,(referral),277,1,0.29
+2020-12-06,Email,Newsletter_November_2020,email,BlackFriday_V2,21,1,0.02
+2020-12-06,Affiliate,Partners,affiliate,Data Share Promo,628,8,1.86
+2020-12-06,Paid Search,google,cpc,<Other>,2149,93,87.4
+2020-12-07,Affiliate,Partners,affiliate,Data Share Promo,1802,22,4.94
+2020-12-07,Paid Search,google,cpc,<Other>,4045,145,127.09
+2020-12-07,Display,googleads.g.doubleclick.net,referral,(referral),240,1,0.33
+2020-12-08,Email,Newsletter_November_2020,email,BlackFriday_V2,17,1,0.02
+2020-12-08,Affiliate,Partners,affiliate,Data Share Promo,610,8,1.65
+2020-12-08,Paid Search,google,cpc,<Other>,3469,161,160.16
+2020-12-09,Affiliate,Partners,affiliate,Data Share Promo,449,6,1.08
+2020-12-09,Paid Search,google,cpc,<Other>,3183,128,113.86
+2020-12-10,Email,Newsletter_December_2020,email,Holiday_V1,42,2,0.12
+2020-12-10,Email,Newsletter_December_2020,email,Holiday_V2,109,5,0.15
+2020-12-10,Email,Newsletter_November_2020,email,BlackFriday_V2,19,1,0.02
+2020-12-10,Affiliate,Partners,affiliate,Data Share Promo,871,12,2.6
+2020-12-10,Paid Search,google,cpc,<Other>,3935,158,168.69
+2020-12-11,Email,Newsletter_December_2020,email,Holiday_V1,141,7,0.44
+2020-12-11,Email,Newsletter_December_2020,email,Holiday_V2,379,20,0.67
+2020-12-11,Affiliate,Partners,affiliate,Data Share Promo,541,6,1.29
+2020-12-11,Paid Search,google,cpc,<Other>,3697,175,188.49
+2020-12-11,Display,googleads.g.doubleclick.net,referral,(referral),230,1,0.32
+2020-12-12,Email,Newsletter_December_2020,email,Holiday_V1,117,5,0.34
+2020-12-12,Email,Newsletter_December_2020,email,Holiday_V2,36,2,0.08
+2020-12-12,Affiliate,Partners,affiliate,Data Share Promo,354,7,1.54
+2020-12-12,Paid Search,google,cpc,<Other>,2482,99,107.5
+2020-12-13,Email,Newsletter_December_2020,email,Holiday_V2,22,1,0.03
+2020-12-13,Affiliate,Partners,affiliate,Data Share Promo,372,5,1.34
+2020-12-13,Paid Search,google,cpc,<Other>,2351,106,89.33
+2020-12-14,Email,Newsletter_December_2020,email,Holiday_V2,137,7,0.24
+2020-12-14,Affiliate,Partners,affiliate,Data Share Promo,881,10,2.4
+2020-12-14,Paid Search,google,cpc,<Other>,3561,134,118.92
+2020-12-14,Display,googleads.g.doubleclick.net,referral,(referral),200,1,0.29
+2020-12-15,Email,Newsletter_December_2020,email,Holiday_V1,18,1,0.07
+2020-12-15,Email,Newsletter_December_2020,email,Holiday_V2,68,3,0.1
+2020-12-15,Affiliate,Partners,affiliate,Data Share Promo,1191,16,3.5
+2020-12-15,Paid Search,google,cpc,<Other>,3747,179,172.95
+2020-12-15,Paid Search,google,cpc,,27,1,1.15
+2020-12-15,Display,googleads.g.doubleclick.net,referral,(referral),248,1,0.27
+2020-12-16,Email,Newsletter_December_2020,email,Holiday_V1,42,2,0.12
+2020-12-16,Affiliate,Partners,affiliate,Data Share Promo,520,7,1.29
+2020-12-16,Paid Search,google,cpc,<Other>,3070,148,139.25
+2020-12-17,Affiliate,Partners,affiliate,Data Share Promo,640,8,1.72
+2020-12-17,Paid Search,google,cpc,<Other>,3980,149,150.65
+2020-12-17,Display,secureframe.doubleclick.net,referral,(referral),231,1,0.14
+2020-12-18,Email,Newsletter_December_2020,email,Holiday_V1,19,1,0.06
+2020-12-18,Email,Newsletter_December_2020,email,Holiday_V2,19,1,0.03
+2020-12-18,Affiliate,Partners,affiliate,Data Share Promo,200,3,0.6
+2020-12-18,Paid Search,google,cpc,<Other>,2372,108,102.78
+2020-12-19,Email,Newsletter_December_2020,email,Holiday_V1,18,1,0.05
+2020-12-19,Email,Newsletter_December_2020,email,Holiday_V2,23,1,0.04
+2020-12-19,Affiliate,Partners,affiliate,Data Share Promo,598,7,1.34
+2020-12-19,Display,doubleclick.net,referral,(referral),222,1,0.41
+2020-12-19,Paid Search,google,cpc,<Other>,2581,89,77.94
+2020-12-20,Affiliate,Partners,affiliate,Data Share Promo,220,3,0.62
+2020-12-20,Paid Search,google,cpc,<Other>,1592,75,78.21
+2020-12-20,Display,googleads.g.doubleclick.net,referral,(referral),1493,6,2.07
+2020-12-21,Affiliate,Partners,affiliate,Data Share Promo,533,7,1.37
+2020-12-21,Paid Search,google,cpc,(referral),31,1,1.0
+2020-12-21,Paid Search,google,cpc,<Other>,2607,96,87.0
+2020-12-21,Display,googleads.g.doubleclick.net,referral,(referral),249,1,0.24
+2020-12-22,Affiliate,Partners,affiliate,Data Share Promo,480,7,1.36
+2020-12-22,Paid Search,google,cpc,<Other>,2645,108,94.19
+2020-12-22,Paid Search,google,cpc,,32,1,1.2
+2020-12-23,Affiliate,Partners,affiliate,Data Share Promo,229,3,0.63
+2020-12-23,Paid Search,google,cpc,<Other>,2260,85,93.86
+2020-12-23,Display,googleads.g.doubleclick.net,referral,(referral),469,2,0.6
+2020-12-24,Affiliate,Partners,affiliate,Data Share Promo,392,6,1.03
+2020-12-24,Paid Search,google,cpc,<Other>,1744,83,83.23
+2020-12-24,Display,googleads.g.doubleclick.net,referral,(referral),956,3,0.78
+2020-12-25,Affiliate,Partners,affiliate,Data Share Promo,160,2,0.41
+2020-12-25,Paid Search,google,cpc,<Other>,1617,68,54.91
+2020-12-25,Paid Search,google,cpc,,32,1,1.09
+2020-12-25,Display,googleads.g.doubleclick.net,referral,(referral),228,1,0.29
+2020-12-26,Affiliate,Partners,affiliate,Data Share Promo,518,8,1.48
+2020-12-26,Paid Search,google,cpc,<Other>,1128,56,59.23
+2020-12-27,Affiliate,Partners,affiliate,Data Share Promo,73,1,0.21
+2020-12-27,Paid Search,google,cpc,<Other>,1359,59,52.95
+2020-12-28,Affiliate,Partners,affiliate,Data Share Promo,596,8,1.66
+2020-12-28,Paid Search,google,cpc,<Other>,2054,86,84.49
+2020-12-28,Display,googleads.g.doubleclick.net,referral,(referral),498,2,0.58
+2020-12-29,Affiliate,Partners,affiliate,Data Share Promo,759,11,2.43
+2020-12-29,Paid Search,google,cpc,<Other>,2369,85,93.93
+2020-12-29,Display,googleads.g.doubleclick.net,referral,(referral),659,3,1.19
+2020-12-30,Affiliate,Partners,affiliate,Data Share Promo,850,12,2.6
+2020-12-30,Paid Search,google,cpc,<Other>,1788,76,64.46
+2020-12-31,Affiliate,Partners,affiliate,Data Share Promo,66,1,0.2
+2020-12-31,Paid Search,google,cpc,<Other>,1600,69,62.39
+2020-12-31,Display,googleads.g.doubleclick.net,referral,(referral),218,1,0.33
+2021-01-01,Affiliate,Partners,affiliate,Data Share Promo,140,2,0.42
+2021-01-01,Paid Search,google,cpc,<Other>,1365,53,50.88
+2021-01-01,Display,googleads.g.doubleclick.net,referral,(referral),240,1,0.27
+2021-01-02,Affiliate,Partners,affiliate,Data Share Promo,184,3,0.77
+2021-01-02,Paid Search,google,cpc,<Other>,1718,73,74.78
+2021-01-02,Display,googleads.g.doubleclick.net,referral,(referral),496,2,0.64
+2021-01-03,Affiliate,Partners,affiliate,Data Share Promo,175,2,0.46
+2021-01-03,Paid Search,google,cpc,<Other>,1263,63,53.37
+2021-01-03,Display,googleads.g.doubleclick.net,referral,(referral),243,1,0.31
+2021-01-04,Affiliate,Partners,affiliate,Data Share Promo,493,7,1.38
+2021-01-04,Paid Search,google,cpc,<Other>,2084,93,88.63
+2021-01-04,Display,googleads.g.doubleclick.net,referral,(referral),530,2,0.64
+2021-01-05,Affiliate,Partners,affiliate,Data Share Promo,333,5,0.96
+2021-01-05,Paid Search,google,cpc,<Other>,2316,96,87.48
+2021-01-05,Display,googleads.g.doubleclick.net,referral,(referral),223,1,0.3
+2021-01-06,Affiliate,Partners,affiliate,Data Share Promo,224,3,0.71
+2021-01-06,Paid Search,google,cpc,<Other>,2434,111,102.01
+2021-01-06,Display,googleads.g.doubleclick.net,referral,(referral),679,3,1.16
+2021-01-07,Affiliate,Partners,affiliate,Data Share Promo,950,11,2.4
+2021-01-07,Paid Search,google,cpc,<Other>,2738,114,117.75
+2021-01-07,Display,googleads.g.doubleclick.net,referral,(referral),1061,4,1.36
+2021-01-08,Affiliate,Partners,affiliate,Data Share Promo,933,11,2.35
+2021-01-08,Paid Search,google,cpc,<Other>,2205,99,101.39
+2021-01-08,Display,googleads.g.doubleclick.net,referral,(referral),538,2,0.5
+2021-01-09,Affiliate,Partners,affiliate,Data Share Promo,369,6,1.23
+2021-01-09,Paid Search,google,cpc,<Other>,1603,64,68.44
+2021-01-10,Affiliate,Partners,affiliate,Data Share Promo,204,3,0.63
+2021-01-10,Paid Search,google,cpc,<Other>,1870,86,86.34
+2021-01-10,Paid Search,google,cpc,,31,1,1.01
+2021-01-10,Display,googleads.g.doubleclick.net,referral,(referral),739,3,0.9
+2021-01-11,Affiliate,Partners,affiliate,Data Share Promo,261,4,0.85
+2021-01-11,Paid Search,google,cpc,<Other>,1964,87,92.88
+2021-01-11,Display,googleads.g.doubleclick.net,referral,(referral),248,1,0.32
+2021-01-12,Affiliate,Partners,affiliate,Data Share Promo,851,13,2.61
+2021-01-12,Paid Search,google,cpc,<Other>,2444,116,121.58
+2021-01-12,Display,googleads.g.doubleclick.net,referral,(referral),257,1,0.31
+2021-01-13,Affiliate,Partners,affiliate,Data Share Promo,1236,14,2.93
+2021-01-13,Paid Search,google,cpc,<Other>,3220,136,119.64
+2021-01-13,Display,googleads.g.doubleclick.net,referral,(referral),260,1,0.28
+2021-01-14,Affiliate,Partners,affiliate,Data Share Promo,539,7,1.53
+2021-01-14,Paid Search,google,cpc,<Other>,3102,110,113.42
+2021-01-14,Display,googleads.g.doubleclick.net,referral,(referral),223,1,0.26
+2021-01-15,Affiliate,Partners,affiliate,Data Share Promo,631,8,1.86
+2021-01-15,Paid Search,google,cpc,<Other>,2509,90,93.91
+2021-01-15,Display,googleads.g.doubleclick.net,referral,(referral),647,3,0.89
+2021-01-16,Affiliate,Partners,affiliate,Data Share Promo,547,8,2.0
+2021-01-16,Paid Search,google,cpc,<Other>,1530,63,58.46
+2021-01-16,Display,googleads.g.doubleclick.net,referral,(referral),244,1,0.29
+2021-01-17,Affiliate,Partners,affiliate,Data Share Promo,210,3,0.6
+2021-01-17,Paid Search,google,cpc,<Other>,1619,75,66.19
+2021-01-17,Display,googleads.g.doubleclick.net,referral,(referral),745,3,0.83
+2021-01-18,Affiliate,Partners,affiliate,Data Share Promo,825,11,2.44
+2021-01-18,Paid Search,google,cpc,<Other>,2832,96,79.06
+2021-01-18,Display,googleads.g.doubleclick.net,referral,(referral),415,2,0.62
+2021-01-19,Affiliate,Partners,affiliate,Data Share Promo,392,5,0.86
+2021-01-19,Paid Search,google,cpc,<Other>,2495,100,90.83
+2021-01-19,Display,googleads.g.doubleclick.net,referral,(referral),782,3,0.89
+2021-01-20,Affiliate,Partners,affiliate,Data Share Promo,516,7,1.39
+2021-01-20,Paid Search,google,cpc,<Other>,2150,110,126.3
+2021-01-21,Affiliate,Partners,affiliate,Data Share Promo,2208,28,6.27
+2021-01-21,Paid Search,google,cpc,<Other>,1464,67,63.03
+2021-01-21,Display,googleads.g.doubleclick.net,referral,(referral),491,2,0.65
+2021-01-22,Affiliate,Partners,affiliate,Data Share Promo,4357,55,13.25
+2021-01-22,Paid Search,google,cpc,<Other>,148,6,5.91
+2021-01-22,Display,googleads.g.doubleclick.net,referral,(referral),541,2,0.58
+2021-01-23,Affiliate,Partners,affiliate,Data Share Promo,6742,86,19.04
+2021-01-23,Paid Search,google,cpc,<Other>,24,1,0.85
+2021-01-23,Display,googleads.g.doubleclick.net,referral,(referral),1648,7,1.95
+2021-01-24,Affiliate,Partners,affiliate,Data Share Promo,2243,33,7.44
+2021-01-24,Paid Search,google,cpc,<Other>,24,1,0.97
+2021-01-24,Display,googleads.g.doubleclick.net,referral,(referral),477,2,0.61
+2021-01-25,Affiliate,Partners,affiliate,Data Share Promo,7205,96,20.98
+2021-01-25,Paid Search,google,cpc,<Other>,46,2,1.9
+2021-01-25,Display,googleads.g.doubleclick.net,referral,(referral),463,2,0.54
+2021-01-26,Affiliate,Partners,affiliate,Data Share Promo,8495,112,23.3
+2021-01-26,Paid Search,google,cpc,<Other>,68,3,3.88
+2021-01-26,Display,googleads.g.doubleclick.net,referral,(referral),265,1,0.27
+2021-01-27,Email,Newsletter_January_2021,email,NewYear_V1,333,11,0.67
+2021-01-27,Email,Newsletter_January_2021,email,NewYear_V2,84,5,0.21
+2021-01-27,Affiliate,Partners,affiliate,Data Share Promo,5887,76,14.81
+2021-01-27,Paid Search,google,cpc,<Other>,45,2,1.81
+2021-01-27,Display,googleads.g.doubleclick.net,referral,(referral),1121,5,1.45
+2021-01-28,Email,Newsletter_January_2021,email,NewYear_V1,1020,40,2.55
+2021-01-28,Email,Newsletter_January_2021,email,NewYear_V2,563,30,1.1
+2021-01-28,Affiliate,Partners,affiliate,Data Share Promo,5039,69,14.6
+2021-01-28,Paid Search,google,cpc,<Other>,48,2,2.17
+2021-01-28,Display,googleads.g.doubleclick.net,referral,(referral),236,1,0.35
+2021-01-29,Email,Newsletter_January_2021,email,NewYear_V1,325,13,0.79
+2021-01-29,Email,Newsletter_January_2021,email,NewYear_V2,81,5,0.17
+2021-01-29,Email,Newsletter_November_2020,email,BlackFriday_V1,49,1,0.04
+2021-01-29,Affiliate,Partners,affiliate,Data Share Promo,5469,76,12.98
+2021-01-29,Display,doubleclick.net,referral,(referral),227,1,0.37
+2021-01-29,Paid Search,google,cpc,<Other>,102,4,3.53
+2021-01-29,Display,googleads.g.doubleclick.net,referral,(referral),1647,6,1.95
+2021-01-30,Email,Newsletter_January_2021,email,NewYear_V1,68,2,0.14
+2021-01-30,Email,Newsletter_January_2021,email,NewYear_V2,40,2,0.08
+2021-01-30,Affiliate,Partners,affiliate,Data Share Promo,1939,30,7.05
+2021-01-30,Paid Search,google,cpc,<Other>,24,1,0.83
+2021-01-30,Display,googleads.g.doubleclick.net,referral,(referral),658,3,0.87
+2021-01-31,Email,Newsletter_January_2021,email,NewYear_V1,127,5,0.33
+2021-01-31,Affiliate,Partners,affiliate,Data Share Promo,1168,16,3.1
+2021-01-31,Paid Search,google,cpc,<Other>,97,4,4.28
