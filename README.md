@@ -4,6 +4,8 @@ Combines website, CRM and ad-spend data into one customer view and shows which m
 
 > Work in progress. This README is rewritten with full results and setup steps when the project is finished.
 
+Data dictionary: [docs/data_dictionary.md](docs/data_dictionary.md)
+
 ## About the data
 
 - **Website sessions and purchases:** the GA4 obfuscated sample e-commerce dataset (`bigquery-public-data.ga4_obfuscated_sample_ecommerce`), real data from the Google Merchandise Store.
