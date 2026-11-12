@@ -1,0 +1,397 @@
+version: 2
+
+models:
+- name: stg_ga4__events
+  description: One row per GA4 event, with the parameters the project needs pulled out of event_params. A table (not a view)
+    because every later model starts here. REAL data.
+  columns:
+  - name: event_date
+    description: Event day.
+    data_tests:
+    - not_null
+  - name: event_ts
+    description: Event time (UTC).
+    data_tests:
+    - not_null
+  - name: event_name
+    description: GA4 event type, for example page_view, session_start, purchase.
+    data_tests:
+    - not_null
+  - name: user_pseudo_id
+    description: Anonymous GA4 device id. Always handled as text.
+    data_tests:
+    - not_null
+  - name: ga_session_id
+    description: Session id from the ga_session_id event parameter. Unique only together with user_pseudo_id.
+    data_tests:
+    - not_null
+  - name: ga_session_number
+    description: 1 for the device's first session, 2 for its second, and so on.
+  - name: page_location
+    description: Full page URL.
+  - name: page_referrer
+    description: URL of the previous page.
+  - name: session_source
+    description: Session-level traffic source from the source event parameter. Empty on about 2 in 3 events.
+  - name: session_medium
+    description: Session-level medium from the medium event parameter.
+  - name: session_campaign
+    description: Session-level campaign from the campaign event parameter. Often obfuscated as <Other>.
+  - name: session_term
+    description: Paid keyword from the term event parameter.
+  - name: has_gclid
+    description: True when the event carries a Google Ads click id (gclid).
+  - name: engagement_time_msec
+    description: Engaged time in milliseconds, where GA4 recorded it.
+  - name: is_engaged_session
+    description: True when GA4 marked the session as engaged.
+  - name: transaction_id
+    description: Order id on purchase events. Can be (not set).
+  - name: purchase_revenue_usd
+    description: Order revenue in USD on purchase events.
+  - name: item_quantity
+    description: Units in the order on purchase events.
+  - name: country
+    description: Visitor country.
+  - name: device_category
+    description: desktop, mobile or tablet.
+  - name: operating_system
+    description: Operating system.
+  - name: browser
+    description: Web browser.
+  - name: platform
+    description: Platform of the data stream.
+  - name: first_touch_source
+    description: 'USER-level source: how the device was first acquired. Not the session''s source.'
+  - name: first_touch_medium
+    description: USER-level medium of first acquisition.
+  - name: first_touch_campaign
+    description: USER-level campaign of first acquisition.
+  - name: user_first_touch_ts
+    description: When the device was first seen.
+  - name: session_key
+    description: user_pseudo_id and ga_session_id joined with a dot. Identifies a session.
+    data_tests:
+    - not_null
+- name: stg_ga4__purchases
+  description: 'One row per valid GA4 purchase transaction: real transaction id, revenue above zero, earliest event kept when
+    a transaction repeats.'
+  columns:
+  - name: transaction_id
+    description: GA4 transaction id. Primary key.
+    data_tests:
+    - unique
+    - not_null
+  - name: user_pseudo_id
+    description: Device that placed the order.
+    data_tests:
+    - not_null
+  - name: session_key
+    description: Session in which the purchase happened.
+    data_tests:
+    - not_null
+  - name: ga_session_id
+    description: GA4 session id of the purchase.
+  - name: event_ts
+    description: Purchase time (UTC).
+    data_tests:
+    - not_null
+  - name: event_date
+    description: Purchase day.
+  - name: revenue_usd
+    description: Order revenue in USD.
+    data_tests:
+    - not_null
+  - name: item_quantity
+    description: Units in the order.
+  - name: country
+    description: Visitor country at purchase.
+  - name: device_category
+    description: Device category at purchase.
+- name: stg_crm__customers
+  description: One row per synthetic CRM customer.
+  columns:
+  - name: customer_id
+    description: Primary key.
+    data_tests:
+    - unique
+    - not_null
+  - name: first_name
+    description: Fake first name.
+    data_tests:
+    - not_null
+  - name: last_name
+    description: Fake last name.
+    data_tests:
+    - not_null
+  - name: full_name
+    description: First and last name.
+  - name: email
+    description: Fake email, lower case.
+    data_tests:
+    - not_null
+  - name: email_sha256
+    description: SHA-256 of the email, as Segment would hash it.
+    data_tests:
+    - unique
+    - not_null
+  - name: phone
+    description: Fake phone number.
+  - name: country
+    description: Country.
+    data_tests:
+    - not_null
+  - name: created_at
+    description: Account creation time. Can be before the GA4 window.
+    data_tests:
+    - not_null
+  - name: created_date
+    description: Account creation day.
+  - name: marketing_opt_in
+    description: Agreed to marketing email.
+    data_tests:
+    - not_null
+- name: stg_crm__orders
+  description: One row per synthetic CRM order. Web orders reuse real GA4 purchases; app orders are invented.
+  columns:
+  - name: order_id
+    description: Primary key.
+    data_tests:
+    - unique
+    - not_null
+  - name: customer_id
+    description: Customer who placed the order.
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('stg_crm__customers')
+          field: customer_id
+  - name: order_ts
+    description: Order time (UTC).
+    data_tests:
+    - not_null
+  - name: order_date
+    description: Order day.
+  - name: order_channel
+    description: web (a real GA4 purchase) or app (invented).
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - web
+          - app
+  - name: ga_transaction_id
+    description: GA4 transaction id. Set on 92% of web orders, empty on app orders.
+    data_tests:
+    - relationships:
+        arguments:
+          to: ref('stg_ga4__purchases')
+          field: transaction_id
+        config:
+          where: ga_transaction_id is not null
+  - name: order_value_usd
+    description: Order value in USD.
+    data_tests:
+    - not_null
+  - name: item_count
+    description: Units in the order.
+  - name: status
+    description: completed or refunded.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - completed
+          - refunded
+  - name: refund_usd
+    description: 'Refunded amount: the full order value when refunded, otherwise 0.'
+    data_tests:
+    - not_null
+  - name: is_refunded
+    description: True when status is refunded.
+  - name: net_revenue_usd
+    description: Order value minus refund. Use this for revenue and lifetime value.
+    data_tests:
+    - not_null
+- name: stg_ad_spend
+  description: One row per paid campaign per day. Synthetic spend sized from real GA4 sessions; see docs/synthetic_data.md.
+  columns:
+  - name: ad_spend_id
+    description: Date and campaign key. Primary key.
+    data_tests:
+    - unique
+    - not_null
+  - name: campaign_key
+    description: Channel, source, medium and campaign joined with |.
+    data_tests:
+    - not_null
+  - name: date
+    description: Day.
+    data_tests:
+    - not_null
+  - name: channel
+    description: Paid channel group.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - Paid Search
+          - Display
+          - Paid Social
+          - Affiliate
+          - Email
+  - name: source
+    description: Traffic source as seen in GA4. '(not set)' when GA4 had none.
+    data_tests:
+    - not_null
+  - name: medium
+    description: Traffic medium as seen in GA4. '(not set)' when GA4 had none.
+    data_tests:
+    - not_null
+  - name: campaign
+    description: Campaign name as seen in GA4, often obfuscated. '(not set)' when the session had no campaign parameter.
+    data_tests:
+    - not_null
+  - name: impressions
+    description: Ad impressions (assumed click-through rate).
+    data_tests:
+    - not_null
+  - name: clicks
+    description: Ad clicks.
+    data_tests:
+    - not_null
+  - name: spend_usd
+    description: Spend in USD (assumed cost per click).
+    data_tests:
+    - not_null
+  - name: cost_per_click
+    description: Spend divided by clicks.
+  - name: click_through_rate
+    description: Clicks divided by impressions.
+- name: stg_segment__identifies
+  description: 'One row per Segment identify event: links a device to a customer.'
+  columns:
+  - name: message_id
+    description: Event id. Primary key.
+    data_tests:
+    - unique
+    - not_null
+  - name: event_ts
+    description: When the identify happened.
+    data_tests:
+    - not_null
+  - name: user_pseudo_id
+    description: GA4 device (Segment anonymousId).
+    data_tests:
+    - not_null
+  - name: customer_id
+    description: Customer (Segment userId).
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('stg_crm__customers')
+          field: customer_id
+  - name: email
+    description: Customer email in the event.
+  - name: email_sha256
+    description: Hashed email in the event.
+  - name: first_name
+    description: First name trait.
+  - name: last_name
+    description: Last name trait.
+  - name: country
+    description: Country trait.
+  - name: customer_created_at
+    description: Customer creation time trait.
+- name: stg_segment__tracks
+  description: One row per Segment server-side track event. Carries the customer, never a device.
+  columns:
+  - name: message_id
+    description: Event id. Primary key.
+    data_tests:
+    - unique
+    - not_null
+  - name: event_ts
+    description: Event time.
+    data_tests:
+    - not_null
+  - name: customer_id
+    description: Customer (Segment userId).
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('stg_crm__customers')
+          field: customer_id
+  - name: event_name
+    description: Signed Up or Order Completed.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - Signed Up
+          - Order Completed
+  - name: order_id
+    description: CRM order, on Order Completed events.
+  - name: revenue_usd
+    description: Order value, on Order Completed events.
+  - name: currency
+    description: Always USD.
+  - name: order_channel
+    description: web or app, on Order Completed events.
+  - name: order_status
+    description: completed or refunded, on Order Completed events.
+  - name: email_opt_in
+    description: Marketing consent, on Signed Up events.
+- name: stg_identity__links
+  description: One row per GA4 device linked to a customer by the identity-resolution rules.
+  columns:
+  - name: user_pseudo_id
+    description: Linked GA4 device. Primary key.
+    data_tests:
+    - unique
+    - not_null
+  - name: customer_id
+    description: Customer the device belongs to.
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('stg_crm__customers')
+          field: customer_id
+  - name: link_rule
+    description: Strongest supporting rule.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - identify_verified
+          - order_match
+          - identify_unverified
+          - email_hash
+  - name: evidence_rules
+    description: All supporting rules, strongest first.
+    data_tests:
+    - not_null
+  - name: confidence
+    description: high or medium.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - high
+          - medium
+  - name: evidence_count
+    description: Number of evidence rows.
+  - name: first_evidence_ts
+    description: Earliest evidence time.
+  - name: had_conflict
+    description: Another customer also claimed this device and lost.

@@ -290,4 +290,23 @@ Evidence that was not used, so every decision can be audited.
 
 ## dbt layers
 
-Added here as the models are built: staging models (`stg_*`), then marts for sessions, orders and customer profile, followed by RFM, lifetime value, segments, attribution and campaign ROI.
+### Staging (dataset `staging`)
+
+Cleaned copies of the raw tables, one model per table. Column names and descriptions are in `dbt/models/staging/_staging.yml` (run `dbt docs generate` to browse them). Main changes from raw:
+
+| Model | Grain | What changes from the raw table |
+|---|---|---|
+| `staging.stg_ga4__events` | one GA4 event | `event_params` flattened into columns: `ga_session_id`, `ga_session_number`, `page_location`, `page_referrer`, `session_source`, `session_medium`, `session_campaign`, `session_term`, `has_gclid`, `engagement_time_msec`, `is_engaged_session`. Purchase fields lifted out of `ecommerce`. Adds `session_key` (`user_pseudo_id` + `.` + `ga_session_id`). The user-level source is renamed `first_touch_*` so it is not mistaken for the session's source. A table, clustered by `event_name`, `user_pseudo_id`. |
+| `staging.stg_ga4__purchases` | one valid purchase | Only real transaction ids, revenue above zero, earliest event per transaction. Same rule as the extract the CRM orders were built from. |
+| `staging.stg_crm__customers` | one customer | Adds `full_name`, `created_date`; email lower-cased. |
+| `staging.stg_crm__orders` | one order | Adds `order_date`, `is_refunded`, `net_revenue_usd` (order value minus refund). |
+| `staging.stg_ad_spend` | one paid campaign per day | Empty `source`, `medium` or `campaign` become `(not set)` (13 of 300 rows have no campaign, because those GA4 sessions carried none). Adds `ad_spend_id`, `campaign_key`, `cost_per_click`, `click_through_rate`. |
+| `staging.stg_segment__identifies` | one identify event | `traits.*` flattened; `anonymousId` renamed `user_pseudo_id`, `userId` renamed `customer_id`. |
+| `staging.stg_segment__tracks` | one track event | `properties.*` flattened; `userId` renamed `customer_id`; `event` renamed `event_name`. |
+| `staging.stg_identity__links` | one linked device | Copy of `identity.identity_links`. |
+
+`raw.ground_truth_identity_links` has no staging model: it is for scoring only.
+
+### Later layers
+
+Added here as they are built: the sessions, orders and customer-profile marts, then RFM, lifetime value, segments, attribution and campaign ROI.

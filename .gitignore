@@ -30,3 +30,6 @@ tableau/exports/*.hyper
 .idea/
 .DS_Store
 Thumbs.db
+
+#dbt local user file
+dbt/.user.yml

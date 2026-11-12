@@ -1,0 +1,29 @@
+version: 2
+
+# Raw layer, loaded by `uv run python -m src.load_to_bigquery` and `uv run python -m src.identity.run`.
+# raw.ground_truth_identity_links is deliberately NOT declared here: it is for scoring only,
+# so no model can read it (tests/test_dbt_staging.py enforces this).
+sources:
+  - name: raw
+    description: GA4 sample (real), synthetic CRM and ad spend, and Segment-style events.
+    schema: raw
+    tables:
+      - name: ga4_events
+        description: Copy of the public GA4 obfuscated e-commerce sample, 2020-11-01 to 2021-01-31. REAL data.
+      - name: crm_customers
+        description: Synthetic CRM customers.
+      - name: crm_orders
+        description: Synthetic CRM orders. Web orders reuse real GA4 purchases.
+      - name: ad_spend
+        description: Synthetic daily ad spend per paid campaign, sized from real GA4 sessions.
+      - name: segment_identifies
+        description: Segment-style identify events (device linked to a customer).
+      - name: segment_tracks
+        description: Segment-style server-side track events.
+
+  - name: identity
+    description: Output of the identity-resolution step (src/identity/run.py).
+    schema: identity
+    tables:
+      - name: identity_links
+        description: One row per GA4 device linked to a customer.
