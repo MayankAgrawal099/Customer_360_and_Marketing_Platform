@@ -1,0 +1,13 @@
+source,user_pseudo_id,customer_id,reason,detail
+order,86949711.6238778520,C001100,duplicate_transaction_later_device,order O0000616: transaction 140428 also fired on this device after 70837463.6029197962
+order,59199504.6442886361,C001748,duplicate_transaction_later_device,order O0001154: transaction 898666 also fired on this device after 6272530.1263809832
+order,7630384.3246315291,C003499,duplicate_transaction_later_device,order O0002742: transaction 221950 also fired on this device after 23468969.8705339890
+order,1298332.8805790276,C000755,duplicate_transaction_later_device,order O0000360: transaction 972372 also fired on this device after 37308413.7975307957
+order,4819495.8466668365,C001813,duplicate_transaction_later_device,order O0001223: transaction 748583 also fired on this device after 1989999900.3723615330
+order,2885429.0157235569,C003380,duplicate_transaction_later_device,order O0002623: transaction 43463 also fired on this device after 8083450.3844124226
+order,6488580233.2228683836,C000723,duplicate_transaction_later_device,order O0000336: transaction 372598 also fired on this device after 6652977.1027873844
+order,18844012.8867221379,C000936,duplicate_transaction_later_device,order O0000496: transaction 333223 also fired on this device after 6672635860.5383572535
+order,8882998.2908489159,C001482,duplicate_transaction_later_device,order O0000928: transaction 263943 also fired on this device after 6556724.6722841168
+order,64698662.8088634426,C000621,duplicate_transaction_later_device,order O0000246: transaction 310742 also fired on this device after 5633735326.3489844334
+order,1655781.0131717336,C003645,duplicate_transaction_later_device,order O0002907: transaction 952677 also fired on this device after 8944117.0831290845
+order,6049306.9124313007,C000714,duplicate_transaction_later_device,order O0000326: transaction 240060 also fired on this device after 7028601.6018983018

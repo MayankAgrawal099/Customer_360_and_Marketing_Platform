@@ -257,6 +257,37 @@ The true answer to "which devices belong to which customer". Identity resolution
 | `purchases.csv` | one valid purchase | `transaction_id`, `user_pseudo_id`, `event_ts`, `revenue_usd`, `item_quantity`. Excludes `(not set)` ids and zero revenue, and keeps one row per transaction. |
 | `daily_traffic.csv` | one day and source/medium/campaign | `date`, `source`, `medium`, `campaign`, `sessions` (session-level values) |
 
+## Identity tables (dataset `identity`)
+
+Written by `src/identity/run.py` from the rules in [identity_resolution.md](identity_resolution.md). Derived from the raw tables, so they are neither REAL nor SYNTHETIC source data; they are a model output.
+
+### identity.identity_links
+
+One row per GA4 device that could be linked to a customer. A device appears at most once.
+
+| Column | Type | Description |
+|---|---|---|
+| `user_pseudo_id` | STRING | The GA4 device. Primary key. |
+| `customer_id` | STRING | The customer the device was linked to. |
+| `link_rule` | STRING | Strongest rule that supports the link: `identify_verified`, `order_match`, `identify_unverified` or `email_hash`. |
+| `evidence_rules` | STRING | All rules that support the link, strongest first, comma separated. |
+| `confidence` | STRING | `high` (`identify_verified` or `order_match`) or `medium`. |
+| `evidence_count` | INT64 | Number of evidence rows behind the link. |
+| `first_evidence_ts` | TIMESTAMP | Time of the earliest evidence. |
+| `had_conflict` | BOOLEAN | Another customer also claimed this device and lost. |
+
+### identity.identity_rejected
+
+Evidence that was not used, so every decision can be audited.
+
+| Column | Type | Description |
+|---|---|---|
+| `source` | STRING | `identify`, `order` or `resolution`. |
+| `user_pseudo_id` | STRING | Device concerned, if known. |
+| `customer_id` | STRING | Customer concerned, if known. |
+| `reason` | STRING | `hash_conflict`, `unknown_customer`, `no_device_id`, `transaction_not_in_ga4`, `duplicate_transaction_later_device` or `lost_conflict`. |
+| `detail` | STRING | Plain-text explanation. |
+
 ## dbt layers
 
 Added here as the models are built: staging models (`stg_*`), then marts for sessions, orders and customer profile, followed by RFM, lifetime value, segments, attribution and campaign ROI.
