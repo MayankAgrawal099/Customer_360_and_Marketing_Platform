@@ -211,7 +211,10 @@ def test_channel_groups():
     assert channel_group("Partners", "affiliate") == "Affiliate"
     assert channel_group("Newsletter_January_2021", "email") == "Email"
     assert channel_group("l.facebook.com", "referral") == "Organic Social"
-    assert channel_group("shop.googlemerchandisestore.com", "referral") == "Referral"
+    assert channel_group("shop.googlemerchandisestore.com", "referral") == "Self Referral"
+    assert channel_group("shop.googlemerchandisestore.com", "organic") == "Self Referral"
+    assert channel_group("googlemerchandisestore.com", "referral") == "Self Referral"
+    assert channel_group("analytics.google.com", "referral") == "Referral"
 
 
 def test_nan_from_csv_is_treated_as_missing():

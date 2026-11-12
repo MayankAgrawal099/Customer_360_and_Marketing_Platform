@@ -31,6 +31,8 @@ SINGULAR_TESTS = sorted((DBT / "tests").glob("*.sql"))
 SCHEMA = yaml.safe_load((STAGING / "_staging.yml").read_text(encoding="utf-8"))
 SOURCES = yaml.safe_load((STAGING / "_sources.yml").read_text(encoding="utf-8"))
 MODELS = {m["name"]: m for m in SCHEMA["models"]}
+# Every model in the project (staging, intermediate, marts), for tests that refer to any of them.
+ALL_MODELS = {m["name"] for f in (DBT / "models").rglob("_*.yml") for m in (yaml.safe_load(f.read_text(encoding="utf-8")) or {}).get("models", [])}
 
 def render(sql: str) -> str:
     """Replace the dbt Jinja that staging models use with plain table names, so the SQL can be parsed."""
@@ -106,7 +108,7 @@ def test_singular_tests_parse_and_only_use_known_models(path):
     sql = path.read_text(encoding="utf-8")
     assert re.match(r"\s*(--.*\n\s*)*(with|select)\b", sql, re.I)
     for ref in re.findall(r"ref\('(\w+)'\)", sql):
-        assert ref in MODELS, f"{path.name} refers to unknown model {ref}"
+        assert ref in ALL_MODELS, f"{path.name} refers to unknown model {ref}"
     sqlglot.parse_one(render(sql), read="bigquery")
 
 

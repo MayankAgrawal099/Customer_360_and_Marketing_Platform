@@ -13,6 +13,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "duckdb>=2.0.0",
     "pytest>=9.2.0",
     "pyyaml>=6.0.3",
     "sqlglot>=30.30.0",

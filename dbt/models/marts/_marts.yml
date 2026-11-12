@@ -1,0 +1,132 @@
+version: 2
+
+models:
+- name: fct_sessions
+  description: 'One row per GA4 session with channel, purchases and (where known) the customer. The base table for attribution:
+    sessions are the touchpoints.'
+  columns:
+  - name: session_key
+    description: Device and GA4 session id joined with a dot. Primary key.
+    data_tests:
+    - unique
+    - not_null
+  - name: user_pseudo_id
+    description: GA4 device that had the session.
+    data_tests:
+    - not_null
+  - name: ga_session_id
+    description: GA4 session id. Unique only together with user_pseudo_id.
+    data_tests:
+    - not_null
+  - name: ga_session_number
+    description: 1 for the device's first session, 2 for its second, and so on.
+  - name: is_first_session
+    description: The device's first session.
+  - name: session_date
+    description: Day the session started.
+    data_tests:
+    - not_null
+  - name: session_start_ts
+    description: Time of the first event (UTC).
+    data_tests:
+    - not_null
+  - name: session_end_ts
+    description: Time of the last event (UTC).
+    data_tests:
+    - not_null
+  - name: duration_seconds
+    description: Seconds between the first and last event.
+    data_tests:
+    - not_null
+  - name: events
+    description: Number of events in the session.
+    data_tests:
+    - not_null
+  - name: page_views
+    description: Number of page_view events.
+  - name: is_engaged
+    description: GA4 marked the session as engaged.
+  - name: engagement_time_msec
+    description: Total engaged time in milliseconds.
+  - name: landing_page
+    description: First page URL of the session.
+  - name: referrer
+    description: First referrer URL seen in the session.
+  - name: source
+    description: 'SESSION-level source: first source parameter seen. Empty on about 1 session in 4.'
+  - name: medium
+    description: 'SESSION-level medium: first medium parameter seen.'
+  - name: campaign
+    description: 'SESSION-level campaign: first campaign parameter seen. Often obfuscated as <Other>.'
+  - name: channel_group
+    description: Marketing channel from the session source and medium (macro channel_group). Unassigned when GA4 gave neither. Self Referral when the source is the store's own domain (not a marketing touch).
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - Paid Search
+          - Display
+          - Paid Social
+          - Affiliate
+          - Email
+          - Organic Search
+          - Organic Social
+          - Referral
+          - Self Referral
+          - Direct
+          - Other
+          - Unassigned
+  - name: is_paid
+    description: 'The channel is one with ad spend: Paid Search, Display, Paid Social, Affiliate or Email.'
+    data_tests:
+    - not_null
+  - name: ad_campaign_key
+    description: Key that joins a paid session to stg_ad_spend.campaign_key. Empty for unpaid sessions.
+  - name: has_gclid
+    description: A Google Ads click id was present in the session.
+  - name: first_touch_source
+    description: 'USER-level source: how the device was first acquired. Kept to compare with the session source.'
+  - name: first_touch_medium
+    description: USER-level medium of first acquisition.
+  - name: first_touch_campaign
+    description: USER-level campaign of first acquisition.
+  - name: country
+    description: Country of the device.
+  - name: device_category
+    description: desktop, mobile or tablet.
+  - name: viewed_item
+    description: The session had a view_item event.
+  - name: added_to_cart
+    description: The session had an add_to_cart event.
+  - name: began_checkout
+    description: The session had a begin_checkout event.
+  - name: purchase_events
+    description: Raw purchase events, including invalid ones (no transaction id, zero revenue, repeats).
+  - name: valid_purchases
+    description: Valid purchase transactions in the session (stg_ga4__purchases).
+    data_tests:
+    - not_null
+  - name: revenue_usd
+    description: Revenue of those purchases in USD.
+    data_tests:
+    - not_null
+  - name: is_converted
+    description: The session contains at least one valid purchase.
+    data_tests:
+    - not_null
+  - name: customer_id
+    description: Customer the device is linked to by identity resolution. Empty for the large majority of sessions.
+    data_tests:
+    - relationships:
+        arguments:
+          to: ref('stg_crm__customers')
+          field: customer_id
+  - name: is_identified
+    description: The session belongs to a known customer.
+    data_tests:
+    - not_null
+  - name: identity_link_rule
+    description: Strongest identity rule behind the link.
+  - name: identity_confidence
+    description: high or medium.

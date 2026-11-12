@@ -19,6 +19,10 @@ PAID_CHANNELS = {
 
 SOCIAL_SOURCES = ("facebook", "instagram", "twitter", "t.co", "linkedin", "pinterest", "reddit")
 DISPLAY_SOURCES = ("googleads.g.doubleclick.net", "doubleclick.net")
+# The store's own domains. GA4 restarts a session when a visitor moves between them (for example from the
+# main site to the shop), and the new session names the OWN site as its source. That is not marketing, so it
+# gets its own channel and attribution ignores it (see docs/attribution_rules once written).
+OWN_DOMAINS = ("googlemerchandisestore.com",)
 
 
 def _text(value) -> str:
@@ -32,6 +36,8 @@ def channel_group(source, medium) -> str:
     s, m = _text(source), _text(medium)
     if not s and not m:
         return "Unassigned"
+    if any(d in s for d in OWN_DOMAINS):
+        return "Self Referral"
     if m in ("cpc", "ppc", "paidsearch", "paid search"):
         return "Paid Search"
     if m in ("cpm", "display", "banner") or any(d in s for d in DISPLAY_SOURCES):

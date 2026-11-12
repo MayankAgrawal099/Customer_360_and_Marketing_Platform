@@ -52,6 +52,8 @@ Points that affect analysis:
 - `traffic_source` is **user level** (how the device was first acquired), not session level. Session channels come from the `source`, `medium` and `campaign` event parameters.
 - Values are obfuscated: campaign names often appear as `<Other>`, and some values are `(data deleted)`.
 - Only about 3 in 4 sessions carry a `source`/`medium`/`campaign` parameter; the rest are "Unassigned" and are never guessed.
+- About 57,000 sessions name the store's own domain (`shop.googlemerchandisestore.com`, `googlemerchandisestore.com`) as their source with medium `referral` or `organic`. GA4 starts a new session when a visitor moves between the main site and the shop, so these are **self-referrals**, not marketing. They contain about a third of all purchase sessions, and the channel rules label them `Self Referral` so they are never credited as a channel.
+- `gclid` appears on sessions with no source and on organic sessions (about 38,500 and 15,600 sessions), so it does not prove a paid click. The project never uses it to define paid traffic.
 - Of 5,692 `purchase` events, 883 have transaction id `(not set)` and 450 have zero revenue. Valid, de-duplicated purchases number about 4,451.
 
 ### Top-level columns
@@ -195,7 +197,7 @@ Daily spend for the paid channels in the sample. Clicks come from real GA4 sessi
 
 ### Channel rules
 
-Shared by the generator and the dbt sessions model. Applied to a session's `source` and `medium`: no source and no medium gives **Unassigned**; `cpc`/`ppc`/`paid` on a search engine gives **Paid Search**; display or banner mediums give **Display**; paid mediums on social sites give **Paid Social**; organic mediums on search engines give **Organic Search**; `email` gives **Email**; `affiliate` gives **Affiliate**; social referrals give **Organic Social**; other referrals give **Referral**; `(direct)` or `(none)` gives **Direct**; anything else gives **Other**. The code is `src/synthetic/channels.py`.
+Shared by the generator and the dbt sessions model. Applied to a session's `source` and `medium`: no source and no medium gives **Unassigned**; a source on the store's own domain (`googlemerchandisestore.com`, including `shop.`) gives **Self Referral**; `cpc`/`ppc`/`paid` on a search engine gives **Paid Search**; display or banner mediums give **Display**; paid mediums on social sites give **Paid Social**; organic mediums on search engines give **Organic Search**; `email` gives **Email**; `affiliate` gives **Affiliate**; social referrals give **Organic Social**; other referrals give **Referral**; `(direct)` or `(none)` gives **Direct**; anything else gives **Other**. The code is `src/synthetic/channels.py`.
 
 ## raw.segment_identifies (SYNTHETIC)
 
@@ -307,6 +309,26 @@ Cleaned copies of the raw tables, one model per table. Column names and descript
 
 `raw.ground_truth_identity_links` has no staging model: it is for scoring only.
 
+### Intermediate and marts
+
+| Model | Grain | Purpose |
+|---|---|---|
+| `intermediate.int_ga4__sessions` | one session (`session_key`) | Summarises each session's events: start and end time, event and page-view counts, funnel flags, and the **first non-empty** source, medium, campaign, landing page, country and device. |
+| `marts.fct_sessions` | one session (`session_key`) | The base table for attribution. Adds `channel_group` (macro `channel_group`, the same rules as `src/synthetic/channels.py`), `is_paid` and `ad_campaign_key`, valid purchases and revenue, and the linked customer from identity resolution. |
+
+Key columns of `fct_sessions` (all columns are described in `dbt/models/marts/_marts.yml`):
+
+| Column | Meaning |
+|---|---|
+| `session_key` | Primary key: device and GA4 session id joined with a dot. |
+| `source`, `medium`, `campaign` | SESSION-level traffic parameters (first non-empty value). Empty on about 1 session in 4. |
+| `first_touch_source`, `first_touch_medium`, `first_touch_campaign` | USER-level first acquisition, kept only for comparison. |
+| `channel_group` | Paid Search, Display, Paid Social, Affiliate, Email, Organic Search, Organic Social, Referral, Self Referral, Direct, Other or Unassigned. |
+| `ad_campaign_key` | Joins a paid session to `stg_ad_spend.campaign_key`; empty for unpaid sessions. |
+| `purchase_events` / `valid_purchases` | Raw purchase events (including invalid ones) versus valid transactions. |
+| `revenue_usd`, `is_converted` | Revenue of the session's valid purchases, and whether there was one. |
+| `customer_id`, `is_identified`, `identity_link_rule`, `identity_confidence` | The customer the device is linked to. Empty for most sessions, because only about 6,000 of 270,000 devices belong to CRM customers. |
+
 ### Later layers
 
-Added here as they are built: the sessions, orders and customer-profile marts, then RFM, lifetime value, segments, attribution and campaign ROI.
+Added here as they are built: the orders and customer-profile marts, then RFM, lifetime value, segments, attribution and campaign ROI.
