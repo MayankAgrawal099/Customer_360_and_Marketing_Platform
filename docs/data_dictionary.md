@@ -329,6 +329,21 @@ Key columns of `fct_sessions` (all columns are described in `dbt/models/marts/_m
 | `revenue_usd`, `is_converted` | Revenue of the session's valid purchases, and whether there was one. |
 | `customer_id`, `is_identified`, `identity_link_rule`, `identity_confidence` | The customer the device is linked to. Empty for most sessions, because only about 6,000 of 270,000 devices belong to CRM customers. |
 
+| `marts.fct_orders` | one CRM order (`order_id`) | Orders with the customer's order history and, for web orders, the GA4 session and channel that produced them. |
+
+Key columns of `fct_orders` (all columns are described in `dbt/models/marts/_marts.yml`):
+
+| Column | Meaning |
+|---|---|
+| `order_value_usd`, `refund_usd`, `net_revenue_usd` | Value, refund, and value minus refund. Use `net_revenue_usd` for revenue and lifetime value. |
+| `order_number`, `is_first_order` | The customer's 1st, 2nd, 3rd order, in time order. |
+| `days_since_previous_order`, `days_since_first_order` | Gaps in days; empty for a first order (previous) or 0 (first). |
+| `ga4_match_status` | `matched` (web order found among the valid GA4 purchases), `web_no_transaction_id` (about 8% of web orders) or `app_order` (GA4 never sees app orders). |
+| `ga_session_key`, `ga_user_pseudo_id` | The GA4 session and device that produced a matched order. |
+| `purchase_channel_group`, `purchase_source`, `purchase_medium`, `purchase_campaign` | Channel of the purchasing session. A last-touch view only: the attribution models also look at earlier sessions. |
+
+An order without a GA4 session (`app_order`, `web_no_transaction_id`) can still be attributed through the customer's linked devices; the attribution step says how.
+
 ### Later layers
 
-Added here as they are built: the orders and customer-profile marts, then RFM, lifetime value, segments, attribution and campaign ROI.
+Added here as they are built: the customer-profile mart, then RFM, lifetime value, segments, attribution and campaign ROI.

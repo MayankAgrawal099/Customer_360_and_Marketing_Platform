@@ -1,5 +1,4 @@
 version: 2
-
 models:
 - name: fct_sessions
   description: 'One row per GA4 session with channel, purchases and (where known) the customer. The base table for attribution:
@@ -59,7 +58,8 @@ models:
   - name: campaign
     description: 'SESSION-level campaign: first campaign parameter seen. Often obfuscated as <Other>.'
   - name: channel_group
-    description: Marketing channel from the session source and medium (macro channel_group). Unassigned when GA4 gave neither. Self Referral when the source is the store's own domain (not a marketing touch).
+    description: Marketing channel from the session source and medium (macro channel_group). Unassigned when GA4 gave neither.
+      Self Referral when the source is the store's own domain (not a marketing touch).
     data_tests:
     - not_null
     - accepted_values:
@@ -130,3 +130,130 @@ models:
     description: Strongest identity rule behind the link.
   - name: identity_confidence
     description: high or medium.
+- name: fct_orders
+  description: One row per CRM order, with the customer's order history and, for web orders, the GA4 session and channel that
+    produced it.
+  columns:
+  - name: order_id
+    description: Primary key.
+    data_tests:
+    - unique
+    - not_null
+  - name: customer_id
+    description: Customer who placed the order.
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('stg_crm__customers')
+          field: customer_id
+  - name: order_ts
+    description: Order time (UTC).
+    data_tests:
+    - not_null
+  - name: order_date
+    description: Order day.
+    data_tests:
+    - not_null
+  - name: order_channel
+    description: web (a real GA4 purchase) or app (invented).
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - web
+          - app
+  - name: status
+    description: completed or refunded.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - completed
+          - refunded
+  - name: is_refunded
+    description: True when the order was refunded.
+    data_tests:
+    - not_null
+  - name: order_value_usd
+    description: Order value in USD.
+    data_tests:
+    - not_null
+  - name: refund_usd
+    description: Refunded amount (the full value when refunded).
+    data_tests:
+    - not_null
+  - name: net_revenue_usd
+    description: Order value minus refund. Use this for revenue and lifetime value.
+    data_tests:
+    - not_null
+  - name: item_count
+    description: Units in the order.
+  - name: order_number
+    description: The customer's 1st, 2nd, 3rd... order, in time order.
+    data_tests:
+    - not_null
+  - name: is_first_order
+    description: The customer's first order in the data.
+    data_tests:
+    - not_null
+  - name: previous_order_ts
+    description: Time of the customer's previous order. Empty for a first order.
+  - name: days_since_previous_order
+    description: Days since the customer's previous order. Empty for a first order.
+  - name: days_since_first_order
+    description: Days since the customer's first order. 0 for a first order.
+    data_tests:
+    - not_null
+  - name: customer_country
+    description: Customer country.
+  - name: customer_created_at
+    description: Customer account creation time.
+  - name: ga_transaction_id
+    description: GA4 transaction id. Empty on app orders and on about 8% of web orders.
+  - name: ga4_match_status
+    description: 'How far the link to GA4 goes: matched, web_no_transaction_id or app_order. A web order whose transaction id is not in GA4 (web_unmatched) is not an allowed value: the test fails the build.'
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - matched
+          - web_no_transaction_id
+          - app_order
+  - name: ga_user_pseudo_id
+    description: GA4 device that placed the order. Matched orders only.
+  - name: ga_session_key
+    description: GA4 session that produced the order. Matched orders only.
+  - name: ga_revenue_usd
+    description: Revenue GA4 recorded for the purchase. Equals order_value_usd on matched orders.
+  - name: purchase_session_number
+    description: Which session of the device made the purchase (1 = the first visit).
+  - name: purchase_session_date
+    description: Day of the purchasing session.
+  - name: purchase_channel_group
+    description: Channel of the purchasing session. Last-touch view only; attribution models look at earlier sessions too.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - Paid Search
+          - Display
+          - Paid Social
+          - Affiliate
+          - Email
+          - Organic Search
+          - Organic Social
+          - Referral
+          - Self Referral
+          - Direct
+          - Other
+          - Unassigned
+  - name: purchase_source
+    description: Source of the purchasing session.
+  - name: purchase_medium
+    description: Medium of the purchasing session.
+  - name: purchase_campaign
+    description: Campaign of the purchasing session.
