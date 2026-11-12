@@ -225,3 +225,84 @@ def test_queries_are_read_only_bigquery_sql(name):
 def test_output_schemas_match_the_columns_written():
     assert [c for c, _ in run.SCHEMAS["identity_links"]] == rules.LINK_COLUMNS
     assert [c for c, _ in run.SCHEMAS["identity_rejected"]] == rules.REJECTED_COLUMNS
+
+
+# ----------------------------------------------------------------------------- stress tests and unmatched share
+from src.identity import accuracy, stress  # noqa: E402
+
+
+@pytest.fixture(scope="module")
+def stressed(world):
+    frames, _, _ = world
+    return stress.run_scenarios(frames).set_index("scenario")
+
+
+def test_every_scenario_runs_and_is_scored(stressed):
+    assert set(stressed.index) == set(stress.SCENARIOS)
+    assert stressed.loc["baseline", "precision"] == 1.0
+
+
+def test_detectable_wrong_userids_are_caught_by_the_email_hash(stressed):
+    row = stressed.loc["wrong_userid_with_hash_5"]
+    assert row["precision"] == 1.0 and row["wrong_links"] == 0 and row["hash_conflicts_caught"] > 0
+
+
+def test_lost_identify_events_lower_recall_not_precision(stressed):
+    row = stressed.loc["drop_30pct_identifies"]
+    assert row["precision"] == 1.0 and row["recall"] < stressed.loc["baseline", "recall"]
+
+
+def test_removing_hashes_does_not_change_the_links(stressed):
+    assert stressed.loc["strip_all_hashes", "recall"] == stressed.loc["baseline", "recall"]
+    assert stressed.loc["strip_all_hashes", "precision"] == 1.0
+
+
+def test_orders_outvote_undetectable_wrong_userids(stressed):
+    """Without a hash an identify error looks fine, but a matching order (score 3) beats it (score 2)."""
+    with_orders = stressed.loc["wrong_userid_no_hash_5"]
+    without = stressed.loc["wrong_userid_no_hash_5_no_orders"]
+    assert without["wrong_links"] > 0                       # the worst case really does produce wrong links
+    assert with_orders["wrong_links"] < without["wrong_links"]
+    assert 0.8 < without["precision"] < 1.0
+
+
+def test_second_claimant_on_a_device_loses_to_the_owner(stressed):
+    row = stressed.loc["shared_device_5"]
+    assert row["precision"] == 1.0 and row["conflicts_resolved"] > 0
+
+
+def test_stress_inputs_are_reproducible(world):
+    frames, _, _ = world
+    a = stress.perturb("wrong_userid_no_hash_5", frames["identifies"], frames["orders"], frames["customers"])[0]
+    b = stress.perturb("wrong_userid_no_hash_5", frames["identifies"], frames["orders"], frames["customers"])[0]
+    pd.testing.assert_frame_equal(a, b)
+
+
+def test_unmatched_shares_add_up(world):
+    _, _, m = world
+    assert m["customers_unmatched"] + m["customers_with_a_device_found"] == m["customers"]
+    assert m["missed_unreachable"] + m["missed_but_reachable"] == m["true_links"] - m["found_links"]
+    assert m["purchases_linked"] + m["purchases_guest"] <= m["purchases_total"]
+    assert m["devices_linked"] == m["predicted_links"]
+
+
+def test_accuracy_report_has_unmatched_and_stress_sections(world):
+    frames, _, _ = world
+    text, numbers = accuracy.build_report(frames, "2026-11-12")
+    for heading in ("## Headline", "## Unmatched share", "## Stress test"):
+        assert heading in text
+    assert len(numbers["stress"]) == len(stress.SCENARIOS) and "precision" in numbers
+
+
+def test_tie_break_by_earliest_evidence_is_a_real_weakness(stressed):
+    """If the second claimant is earlier and nothing else breaks the tie, the owner can lose. The report must show it."""
+    later, first = stressed.loc["shared_device_5"], stressed.loc["shared_device_5_claimant_first"]
+    assert later["wrong_links"] == 0
+    assert first["wrong_links"] >= 0 and first["conflicts_resolved"] > 0
+    assert first["precision"] <= later["precision"]
+
+
+def test_accuracy_report_names_its_own_generator(world):
+    frames, _, _ = world
+    text, _ = accuracy.build_report(frames, "2026-11-12")
+    assert "src/identity/accuracy.py" in text.splitlines()[2]

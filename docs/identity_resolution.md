@@ -66,6 +66,18 @@ The synthetic generator knows the true device-to-customer links. After resolutio
 | Best possible recall | Share of true links that have any usable signal (an identify event, or an order that carries the GA4 transaction id). The rest cannot be found by a deterministic rule. |
 | Missed although a signal existed | Should be 0; anything else means a rule is wrong. |
 | Session, revenue and customer coverage | How much of the traffic, purchase revenue and customer base ends up linked. |
+| Unmatched share | The share of devices, sessions, customers, purchases and revenue left without a customer, and why. Most devices are anonymous visitors, so the useful unmatched figures are customers, true links and revenue. |
+
+`uv run python -m src.identity.accuracy` writes the full result to [`reports/identity_accuracy_report.md`](../reports/identity_accuracy_report.md) and `reports/identity_accuracy.json`.
+
+### Stress test
+
+Because clean synthetic data makes precision near 100% almost by construction, `src/identity/stress.py` re-runs the rules on inputs damaged in known ways (fixed seed): lost identify events, missing email hashes, missing order transaction ids, wrong `userId` values (with and without a hash), and a second customer claiming the same device. The accuracy report lists precision and recall for each scenario. The points it demonstrates:
+
+- A wrong `userId` is caught when the email hash is present (`hash_conflict`).
+- Without a hash, a matching order still outvotes the wrong identify event (score 3 against 2).
+- Only when both protections are missing do wrong links get through, and the report shows how many.
+- A device claimed by two customers with equal evidence goes to whoever has the earliest evidence. The `shared_device_5_claimant_first` scenario shows the weakness: if the wrong customer was first, the owner can lose the device unless an order backs the owner up.
 
 ## Limits to state when presenting
 

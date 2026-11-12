@@ -1,0 +1,167 @@
+{
+  "true_links": 6529,
+  "predicted_links": 5931,
+  "correct_links": 5931,
+  "wrong_customer_links": 0,
+  "links_on_devices_without_customer": 0,
+  "reachable_links": 5931,
+  "found_links": 5931,
+  "precision": 1.0,
+  "recall": 0.9084086383826007,
+  "recall_ceiling": 0.9084086383826007,
+  "recall_of_reachable": 1.0,
+  "missed_but_reachable": 0,
+  "missed_unreachable": 598,
+  "by_rule": [
+    {
+      "link_rule": "identify_verified",
+      "links": 5498,
+      "correct": 5498,
+      "precision": 1.0
+    },
+    {
+      "link_rule": "order_match",
+      "links": 433,
+      "correct": 433,
+      "precision": 1.0
+    }
+  ],
+  "by_confidence": [
+    {
+      "confidence": "high",
+      "links": 5931,
+      "correct": 5931,
+      "precision": 1.0
+    }
+  ],
+  "by_role": [
+    {
+      "device_role": "primary",
+      "true_links": 6003,
+      "found": 5561,
+      "reachable": 5561,
+      "recall": 0.9263701482592037,
+      "recall_ceiling": 0.9263701482592037
+    },
+    {
+      "device_role": "second",
+      "true_links": 526,
+      "found": 370,
+      "reachable": 370,
+      "recall": 0.7034220532319392,
+      "recall_ceiling": 0.7034220532319392
+    }
+  ],
+  "customers": 6003,
+  "customers_with_a_device_found": 5582,
+  "multi_device_customers": 526,
+  "multi_device_customers_fully_found": 349,
+  "sessions_total": 360129,
+  "sessions_linked": 15142,
+  "sessions_correctly_linked": 15142,
+  "sessions_on_customer_devices": 15941,
+  "sessions_reachable": 15142,
+  "revenue_total": 308830.0,
+  "revenue_linked": 263576.0,
+  "revenue_correctly_linked": 263576.0,
+  "revenue_on_customer_devices": 265566.0,
+  "revenue_guest_or_unknown": 43264.0,
+  "devices_total": 270154,
+  "devices_linked": 5931,
+  "purchases_total": 4466,
+  "purchases_linked": 3875,
+  "purchases_guest": 568,
+  "customers_unmatched": 421,
+  "stress": [
+    {
+      "scenario": "baseline",
+      "description": "Inputs as generated",
+      "links": 5931,
+      "precision": 1.0,
+      "recall": 0.9084086383826007,
+      "wrong_links": 0,
+      "hash_conflicts_caught": 0,
+      "conflicts_resolved": 0
+    },
+    {
+      "scenario": "drop_30pct_identifies",
+      "description": "30% of identify events lost",
+      "links": 5068,
+      "precision": 1.0,
+      "recall": 0.7762291315668556,
+      "wrong_links": 0,
+      "hash_conflicts_caught": 0,
+      "conflicts_resolved": 0
+    },
+    {
+      "scenario": "strip_all_hashes",
+      "description": "No identify event has an email hash",
+      "links": 5931,
+      "precision": 1.0,
+      "recall": 0.9084086383826007,
+      "wrong_links": 0,
+      "hash_conflicts_caught": 0,
+      "conflicts_resolved": 0
+    },
+    {
+      "scenario": "no_order_transaction_ids",
+      "description": "No order carries a GA4 transaction id",
+      "links": 5498,
+      "precision": 1.0,
+      "recall": 0.8420891407566243,
+      "wrong_links": 0,
+      "hash_conflicts_caught": 0,
+      "conflicts_resolved": 0
+    },
+    {
+      "scenario": "wrong_userid_with_hash_5",
+      "description": "5% of identify events name the wrong customer; hash still correct",
+      "links": 5801,
+      "precision": 1.0,
+      "recall": 0.8884974728136008,
+      "wrong_links": 0,
+      "hash_conflicts_caught": 275,
+      "conflicts_resolved": 0
+    },
+    {
+      "scenario": "wrong_userid_no_hash_5",
+      "description": "5% name the wrong customer and carry no hash",
+      "links": 5931,
+      "precision": 0.9780812679143484,
+      "recall": 0.8884974728136008,
+      "wrong_links": 130,
+      "hash_conflicts_caught": 0,
+      "conflicts_resolved": 145
+    },
+    {
+      "scenario": "wrong_userid_no_hash_5_no_orders",
+      "description": "Same as above, with no order evidence to outvote them",
+      "links": 5498,
+      "precision": 0.9499818115678429,
+      "recall": 0.7999693674375862,
+      "wrong_links": 275,
+      "hash_conflicts_caught": 0,
+      "conflicts_resolved": 0
+    },
+    {
+      "scenario": "shared_device_5",
+      "description": "5% of devices are also claimed, a day later, by a second customer",
+      "links": 5931,
+      "precision": 1.0,
+      "recall": 0.9084086383826007,
+      "wrong_links": 0,
+      "hash_conflicts_caught": 0,
+      "conflicts_resolved": 275
+    },
+    {
+      "scenario": "shared_device_5_claimant_first",
+      "description": "Same, but the second customer's claim comes a day before the owner's",
+      "links": 5931,
+      "precision": 0.9780812679143484,
+      "recall": 0.8884974728136008,
+      "wrong_links": 130,
+      "hash_conflicts_caught": 0,
+      "conflicts_resolved": 275
+    }
+  ]
+}
