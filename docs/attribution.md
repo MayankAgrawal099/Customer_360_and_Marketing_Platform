@@ -57,17 +57,32 @@ attribution cannot explain.
 |---|---|
 | **First touch** | all credit to the **earliest** touchpoint with a known source: what brought the customer in |
 | **Last touch** | all credit to the **latest** touchpoint with a known source before the order: what closed the sale |
+| **Linear** | the credit split **equally** over all touchpoints with a known source: every visit counts the same |
+| **Time decay** | the credit split with **more for recent visits**: a touchpoint's weight halves for every 7 days (the half-life) it lies before the order, and the shares are the weights divided by their total |
 
-When a journey has no known source, first touch takes the earliest touchpoint and last touch the latest one, and the
-credit is labelled Direct / Unknown. Linear and time-decay models, which split credit across the journey, are added to
-the same table later.
+Time-decay weight = 0.5 ^ (days before the order / 7). A visit on the day of the order has weight 1, one a week
+earlier 0.5, two weeks earlier 0.25. The 7-day half-life is a convention, chosen because the look-back is 30 days;
+it is a single number (`half_life_days`) in `fct_attribution_credits.sql`.
+
+When a journey has no known source, first touch takes the earliest touchpoint and last touch the latest one, while
+linear and time decay share the credit over all of its touchpoints; whichever is used, the credit is labelled
+Direct / Unknown. An order with no touchpoint at all keeps its one full unit of credit under every model, labelled
+No Touchpoint.
+
+Every model gives each order **exactly 1 unit of credit in total**, so orders and revenue add up to the same totals under
+all four, and the models can be put side by side in `fct_attribution_by_channel`. First and last touch have one row per
+order in `fct_attribution_credits`; linear and time decay have one row per credited touchpoint, so credited orders in
+the channel table can be fractions (for example 0.5 of an order).
 
 ## Reading the results
 
 - First touch rewards channels that **introduce** customers (search, social, display); last touch rewards channels that
   **close** them (email, branded search). A channel scoring much higher on one than the other plays that role.
-- An order with a single known-source touchpoint gets the same credit under both models. `fct_attribution_journeys`
-  (`first_and_last_differ`) shows how many orders the models disagree on; they differ only on customers with several
-  visits.
+- An order with a single known-source touchpoint gets the same credit under all four models. `fct_attribution_journeys`
+  (`first_and_last_differ`) shows how many orders first and last touch disagree on; all four models differ only on customers
+  with several visits.
 - Only a minority of GA4 sessions sit on customers' linked devices, so many orders have a short journey.
 - Orders with No Touchpoint cannot be credited to any channel. Do not drop them when reporting channel revenue.
+- Linear is the fairest view of a long journey, time decay the one that favours the channels that closed it. If a channel
+  scores about the same under all four models, its credit does not depend on the choice of model; a channel that moves a
+  lot is one whose role (introducing versus closing) matters for the budget decision.

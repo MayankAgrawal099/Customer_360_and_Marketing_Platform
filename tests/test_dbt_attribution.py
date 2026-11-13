@@ -156,9 +156,13 @@ def credit(cr, order, model):
     return cr[(cr["conversion_id"] == order) & (cr["model"] == model)].iloc[0]
 
 
-def test_every_order_has_one_row_per_model_with_full_credit(cr):
-    assert len(cr) == 12 and cr.groupby(["conversion_id", "model"]).size().eq(1).all()
-    assert (cr["credit"] == 1.0).all()
+def test_every_order_has_full_credit_under_every_model(cr):
+    assert cr.groupby(["conversion_id", "model"])["credit"].sum().round(9).eq(1.0).all()
+    assert cr.groupby(["conversion_id", "model"]).ngroups == 24
+    one_row = cr[cr["model"].isin(["first_touch", "last_touch"])]
+    assert len(one_row) == 12 and one_row.groupby(["conversion_id", "model"]).size().eq(1).all()
+    assert (one_row["credit"] == 1.0).all()
+    assert len(cr[cr["model"] == "linear"]) == 11 and len(cr[cr["model"] == "time_decay"]) == 11
 
 
 def test_first_touch_is_the_earliest_known_source_last_touch_the_latest(cr):
@@ -197,18 +201,76 @@ def test_single_touch_orders_give_the_same_credit_under_both_models(cr):
 
 def test_credited_revenue_is_net_revenue(cr):
     assert credit(cr, "O2", "first_touch")["credited_revenue_usd"] == 50.0 and credit(cr, "O2", "first_touch")["order_value_usd"] == 60.0
-    assert cr.groupby("model")["credited_revenue_usd"].sum().to_dict() == {"first_touch": 325.0, "last_touch": 325.0}
+    assert {k: round(v, 6) for k, v in cr.groupby("model")["credited_revenue_usd"].sum().items()} == \
+        {"first_touch": 325.0, "last_touch": 325.0, "linear": 325.0, "time_decay": 325.0}
+
+
+HALF_LIFE = 7.0
+
+
+def shares(cr, order, model):
+    g = cr[(cr["conversion_id"] == order) & (cr["model"] == model)]
+    return {r.touchpoint_session_key: r.credit for r in g.itertuples()}
+
+
+def test_linear_splits_equally_over_the_known_source_touchpoints(cr):
+    assert shares(cr, "O1", "linear") == pytest.approx({"d1.1": 0.5, "d1.2": 0.5})      # Direct and Self Referral skipped
+    assert shares(cr, "O2", "linear") == pytest.approx({"d1.1": 0.5, "d1.2": 0.5})
+    assert shares(cr, "O5", "linear") == pytest.approx({"d5.1": 1.0})
+    assert shares(cr, "O6", "linear") == pytest.approx({"d6.1": 0.5, "d6.2": 0.5})
+
+
+def test_time_decay_gives_recent_touchpoints_more_and_follows_the_half_life(cr):
+    for order, a, b in (("O1", "d1.1", "d1.2"), ("O2", "d1.1", "d1.2")):
+        days = {r.touchpoint_session_key: r.touchpoint_days_before_order
+                for r in cr[(cr["conversion_id"] == order) & (cr["model"] == "time_decay")].itertuples()}
+        w = {k: 0.5 ** (d / HALF_LIFE) for k, d in days.items()}
+        want = {k: v / sum(w.values()) for k, v in w.items()}
+        got = shares(cr, order, "time_decay")
+        assert got == pytest.approx(want)
+        assert got[b] > got[a]                                          # the later session counts for more
+    d = {r.touchpoint_session_key: r.touchpoint_days_before_order
+         for r in cr[(cr["conversion_id"] == "O1") & (cr["model"] == "time_decay")].itertuples()}
+    assert d["d1.1"] == pytest.approx(5 + 2 / 24) and d["d1.2"] == pytest.approx(1 + 2 / 24)
+    # a touchpoint exactly 7 days older than another gets half its weight
+    assert shares(cr, "O6", "time_decay")["d6.2"] > 0.99                 # d6.1 is 70 days old: weight about 0.001
+
+
+def test_fallback_journeys_are_shared_over_all_touchpoints_and_labelled_direct_unknown(cr):
+    g = cr[(cr["conversion_id"] == "O3") & (cr["model"] == "linear")]
+    assert sorted(g["touchpoint_session_key"]) == ["d2.1", "d2.2", "d2.3"]
+    assert g["credit"].round(9).tolist() == [round(1 / 3, 9)] * 3
+    assert set(g["credited_channel"]) == {"Direct / Unknown"} and set(g["attribution_basis"]) == {"direct_or_unknown"}
+    td = shares(cr, "O3", "time_decay")
+    assert td["d2.3"] > td["d2.2"] > td["d2.1"] and sum(td.values()) == pytest.approx(1)
+
+
+def test_orders_without_touchpoints_keep_full_credit_under_every_model(cr):
+    g = cr[cr["conversion_id"] == "O4"]
+    assert sorted(g["model"]) == ["first_touch", "last_touch", "linear", "time_decay"]
+    assert (g["credit"] == 1.0).all() and set(g["credited_channel"]) == {"No Touchpoint"}
+
+
+def test_the_models_credit_the_same_channel_differently_when_the_journey_is_mixed(cr):
+    by = lambda m: cr[cr["model"] == m].groupby("credited_channel")["credit"].sum().to_dict()   # noqa: E731
+    assert by("first_touch")["Paid Search"] == 3 and by("last_touch")["Paid Search"] == 1     # O1, O2, O5 vs O5
+    assert by("linear")["Paid Search"] == pytest.approx(2.0)                                  # 0.5 + 0.5 + 1
+    ts = by("time_decay")["Paid Search"]
+    assert 1.0 < ts < 2.0 and ts < by("linear")["Paid Search"]          # recent organic sessions pull credit away
 
 
 # ----------------------------------------------------------------------------- the summaries
 def test_by_channel_adds_up_and_shows_the_two_models_side_by_side(cr):
     out = run(CH_SQL, fct_attribution_credits=cr)
+    assert sorted(out["model"].unique()) == ["first_touch", "last_touch", "linear", "time_decay"]
     for m, g in out.groupby("model"):
-        assert g["attributed_orders"].sum() == 6 and g["share_of_orders"].sum() == pytest.approx(1)
+        assert g["attributed_orders"].sum() == pytest.approx(6) and g["share_of_orders"].sum() == pytest.approx(1)
         assert g["attributed_revenue_usd"].sum() == pytest.approx(325.0) and g["share_of_revenue"].sum() == pytest.approx(1)
     row = lambda m, c: out[(out["model"] == m) & (out["credited_channel"] == c)].iloc[0]   # noqa: E731
     assert row("first_touch", "Paid Search")["attributed_orders"] == 3          # O1, O2, O5
     assert row("last_touch", "Organic Search")["attributed_orders"] == 2        # O1, O2
+    assert row("linear", "Organic Search")["attributed_orders"] == pytest.approx(1.0)       # O1 and O2, half each
+    assert row("linear", "Referral")["attributed_orders"] == pytest.approx(0.5) and row("linear", "Display")["attributed_orders"] == pytest.approx(0.5)
     assert row("last_touch", "Display")["attributed_orders"] == 1 and row("first_touch", "Referral")["attributed_orders"] == 1
     assert out[(out["model"] == "first_touch") & (out["credited_channel"] == "Display")].empty
 
@@ -243,7 +305,7 @@ def test_the_models_never_read_the_ground_truth():
 
 def test_the_docs_page_describes_the_models_and_rules():
     text = (ROOT / "docs" / "attribution.md").read_text(encoding="utf-8")
-    for needle in ("fct_attribution_credits", "fct_attribution_by_channel", "First touch", "Last touch", "Self Referral",
+    for needle in ("fct_attribution_credits", "fct_attribution_by_channel", "First touch", "Last touch", "Linear", "Time decay", "half-life", "Self Referral",
                    "Direct", "Unassigned", "Other", "No Touchpoint", "Direct / Unknown", "30 days"):
         assert needle in text, needle
 
@@ -327,3 +389,36 @@ def test_catches_a_duplicated_key(tp, cr):
                       ("fct_attribution_by_channel", pd.concat([by, by.iloc[[0]]]))):
         out = run(SINGULAR[t], **{**good, name: bad})
         assert list(out["model"]) == [name]
+
+
+def test_catches_broken_linear_and_time_decay_shares(tp, cr):
+    t = "assert_attribution_follows_its_rules"
+    base = tables(tp, cr, fct_attribution_by_channel=run(CH_SQL, fct_attribution_credits=cr))
+    assert run(SINGULAR[t], **base).empty
+
+    def tweak(mask, **ch):
+        b = cr.copy()
+        for k, v in ch.items():
+            b.loc[mask(b), k] = v
+        return b
+    o1 = lambda m: (lambda b: (b["conversion_id"] == "O1") & (b["model"] == m) & (b["touchpoint_session_key"] == "d1.1"))   # noqa: E731
+    cases = {
+        "unequal linear shares": tweak(o1("linear"), credit=0.7),
+        "time decay ignores the half-life": tweak(o1("time_decay"), credit=0.9),
+        "time decay uses wrong days": tweak(o1("time_decay"), touchpoint_days_before_order=0.0),
+    }
+    for why, broken in cases.items():
+        assert not run(SINGULAR[t], **{**base, "fct_attribution_credits": broken}).empty, why
+    dropped = cr[~((cr["conversion_id"] == "O1") & (cr["model"] == "linear") & (cr["touchpoint_session_key"] == "d1.2"))]
+    assert not run(SINGULAR[t], **{**base, "fct_attribution_credits": dropped}).empty            # shared over too few
+    extra = pd.concat([cr, cr[(cr["conversion_id"] == "O1") & (cr["model"] == "linear")].iloc[[0]].assign(
+        touchpoint_session_key="d1.3", credited_channel="Direct")])
+    assert not run(SINGULAR[t], **{**base, "fct_attribution_credits": extra}).empty               # a Direct session joins the pool
+
+
+def test_conservation_test_catches_credit_that_does_not_add_up_for_the_new_models(tp, cr):
+    t = "assert_attribution_credits_conserve_orders_and_revenue"
+    for model in ("linear", "time_decay"):
+        b = cr.copy()
+        b.loc[(b["conversion_id"] == "O1") & (b["model"] == model) & (b["touchpoint_session_key"] == "d1.1"), "credit"] = 0.1
+        assert not run(SINGULAR[t], **tables(tp, b)).empty, model

@@ -671,12 +671,13 @@ models:
   - name: first_session_channel_group
     description: Channel of the first session on a linked device.
 - name: fct_attribution_credits
-  description: 'Who gets the credit for each CRM order: one row per (order, model) for first touch and last touch, with the
-    credited session and channel. Each order has exactly one unit of credit per model, so credited orders and revenue add
-    up to the real totals. Rules in docs/attribution.md.'
+  description: 'Who gets the credit for each CRM order: one row per (order, model, credited touchpoint) for first touch, last
+    touch, linear and time decay. First and last touch have one row per order; linear and time decay split the order over
+    its touchpoints. Each order has exactly one unit of credit per model, so credited orders and revenue add up to the real
+    totals. Rules in docs/attribution.md.'
   columns:
   - name: conversion_id
-    description: CRM order id (the conversion). With model it is the primary key.
+    description: CRM order id (the conversion). With model and touchpoint_session_key it is the primary key.
     data_tests:
     - not_null
     - relationships:
@@ -684,8 +685,7 @@ models:
           to: ref('fct_orders')
           field: order_id
   - name: model
-    description: 'Attribution model: first_touch or last_touch. Later models add rows with credit shares that sum to 1 per
-      order and model.'
+    description: 'Attribution model: first_touch, last_touch, linear or time_decay. Credit shares sum to 1 per order and model.'
     data_tests:
     - not_null
     - accepted_values:
@@ -693,6 +693,8 @@ models:
           values: &id005
           - first_touch
           - last_touch
+          - linear
+          - time_decay
   - name: customer_id
     description: Customer who placed the order.
     data_tests:
@@ -713,6 +715,9 @@ models:
     description: The GA4 session that receives the credit. Empty when the order has no touchpoint.
   - name: touchpoint_ts
     description: Start time of that session.
+  - name: touchpoint_days_before_order
+    description: Days from the credited session's start to the order, with fractions. Empty when there is no session. Time
+      decay halves the weight every 7 days of it.
   - name: credited_channel
     description: 'Channel that receives the credit: the session''s channel when it has a known source, otherwise ''Direct
       / Unknown'' (only Direct, Unassigned, Self Referral or Other sessions exist), or ''No Touchpoint'' (no session at all).
@@ -757,7 +762,8 @@ models:
     data_tests:
     - not_null
   - name: credit
-    description: Share of the order credited in this row. 1 for first and last touch.
+    description: 'Share of the order credited in this row: 1 for first and last touch, 1/n for linear, the decay weight divided
+      by the sum of weights for time_decay. Shares add up to 1 per order and model.'
     data_tests:
     - not_null
   - name: order_value_usd

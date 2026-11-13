@@ -1,5 +1,5 @@
--- Every order gets exactly one full credit per model, and no revenue is added or lost: the credited revenue of each
--- model equals the net revenue of the orders mart.
+-- Every order gets exactly one full unit of credit per model, and no revenue is added or lost: the credited revenue of
+-- each model equals the net revenue of the orders mart. First and last touch have exactly one row per order.
 with orders as (
     select count(*) as orders, sum(net_revenue_usd) as revenue from {{ ref('fct_orders') }}
 ),
@@ -15,8 +15,11 @@ per_order as (
 )
 select m.model, 'model total' as problem
 from per_model as m, orders as o
-where m.rows_ != o.orders or m.orders != o.orders or abs(m.credit - o.orders) > 0.01 or abs(m.revenue - o.revenue) > 0.01
+where m.orders != o.orders or abs(m.credit - o.orders) > 0.01 or abs(m.revenue - o.revenue) > 0.01
+   or (m.model in ('first_touch', 'last_touch') and m.rows_ != o.orders)
 union all
 select model, conversion_id from per_order
 union all
-select 'models', 'missing model' from (select count(distinct model) as n from {{ ref('fct_attribution_credits') }}) where n < 2
+select model, conversion_id from {{ ref('fct_attribution_credits') }} where credit <= 0 or credit > 1.000001
+union all
+select 'models', 'missing model' from (select count(distinct model) as n from {{ ref('fct_attribution_credits') }}) where n < 4

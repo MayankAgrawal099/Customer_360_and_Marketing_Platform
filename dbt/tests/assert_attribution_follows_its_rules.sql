@@ -39,3 +39,34 @@ where (attribution_basis = 'no_touchpoint') != (touchpoint_session_key is null)
    or (attribution_basis = 'no_touchpoint') != (credited_channel = 'No Touchpoint')
    or (attribution_basis = 'direct_or_unknown') != (credited_channel = 'Direct / Unknown')
    or (attribution_basis = 'known_source' and credited_channel in ('Self Referral', 'Direct', 'Unassigned', 'Other'))
+-- linear and time_decay: shared over exactly the touchpoints that may be credited (the known-source ones, or all of them
+-- when none has a source), with equal shares (linear) or shares in the ratio 0.5 ^ (days / 7) (time_decay).
+union all
+select conversion_id, model, 'linear shares are not equal'
+from (
+    select conversion_id, model, credit, 1.0 / count(*) over (partition by conversion_id, model) as equal_share
+    from credits where model = 'linear' and touchpoint_session_key is not null
+)
+where abs(credit - equal_share) > 0.000001
+union all
+select conversion_id, model, 'time_decay shares do not follow the half-life'
+from (
+    select conversion_id, model,
+           max(credit * pow(2, touchpoint_days_before_order / 7.0)) as top,
+           min(credit * pow(2, touchpoint_days_before_order / 7.0)) as bottom
+    from credits where model = 'time_decay' and touchpoint_session_key is not null
+    group by conversion_id, model
+)
+where top - bottom > 0.000001 * top
+union all
+select c.conversion_id, c.model, 'shared over the wrong touchpoints'
+from (
+    select conversion_id, model, count(*) as shared
+    from credits where model in ('linear', 'time_decay') and touchpoint_session_key is not null
+    group by conversion_id, model
+) as c
+inner join (
+    select order_id, if(countif(has_source) > 0, countif(has_source), count(*)) as expected
+    from touchpoints group by order_id
+) as e on e.order_id = c.conversion_id
+where c.shared != e.expected
