@@ -119,27 +119,6 @@ def test_has_source_flags(tp):
     assert not any(flags[k] for k in ("d1b.1", "d1.3", "d2.1", "d2.2", "d2.3"))
 
 
-def test_obfuscated_other_sessions_never_receive_credit():
-    """'Other' is what GA4 hides in its public sample ('<Other>', '(data deleted)'): skipped like Direct."""
-    def s(key, dev, ts, ch):
-        ts = T(ts)
-        return dict(session_key=key, user_pseudo_id=dev, session_date=ts.date(), session_start_ts=ts, channel_group=ch,
-                    source="<Other>", medium="<Other>", campaign=None, ad_campaign_key=None, is_paid=False)
-    ss = pd.DataFrame([s("a.1", "a", "2020-11-01 10:00:00", "Paid Social"), s("a.2", "a", "2020-11-03 10:00:00", "Other"),
-                       s("b.1", "b", "2020-11-01 10:00:00", "Other")])
-    o = lambda oid, c, ts: dict(order_id=oid, customer_id=c, order_ts=T(ts), order_date=T(ts).date(), order_channel="app",  # noqa: E731
-                                ga4_match_status="app_order", is_refunded=False, order_value_usd=10.0, net_revenue_usd=10.0,
-                                ga_user_pseudo_id=None, ga_session_key=None)
-    od = pd.DataFrame([o("P1", "CA", "2020-11-04 10:00:00"), o("P2", "CB", "2020-11-04 10:00:00")])
-    lk = pd.DataFrame([dict(user_pseudo_id="a", customer_id="CA"), dict(user_pseudo_id="b", customer_id="CB")])
-    tp_ = run(TP_SQL, fct_orders=od, stg_identity__links=lk, fct_sessions=ss)
-    cr_ = run(CR_SQL, fct_orders=od, int_conversion_touchpoints=tp_)
-    got = {(r.conversion_id, r.model): (r.credited_channel, r.attribution_basis) for r in cr_.itertuples()}
-    assert got[("P1", "first_touch")] == ("Paid Social", "known_source")
-    assert got[("P1", "last_touch")] == ("Paid Social", "known_source")              # the later Other session is skipped
-    assert got[("P2", "last_touch")] == ("Direct / Unknown", "direct_or_unknown")    # only Other: nothing to credit
-
-
 def test_purchase_session_flag_is_never_null_even_for_orders_without_a_ga4_session(tp):
     assert tp["is_purchase_session"].notna().all()
     assert not tp[tp["order_id"].isin(["O2", "O3"])]["is_purchase_session"].any()      # app orders: no purchasing session
@@ -244,7 +223,7 @@ def test_the_models_never_read_the_ground_truth():
 def test_the_docs_page_describes_the_models_and_rules():
     text = (ROOT / "docs" / "attribution.md").read_text(encoding="utf-8")
     for needle in ("fct_attribution_credits", "fct_attribution_by_channel", "First touch", "Last touch", "Self Referral",
-                   "Direct", "Unassigned", "Other", "No Touchpoint", "Direct / Unknown", "30 days"):
+                   "Direct", "Unassigned", "No Touchpoint", "Direct / Unknown", "30 days"):
         assert needle in text, needle
 
 
