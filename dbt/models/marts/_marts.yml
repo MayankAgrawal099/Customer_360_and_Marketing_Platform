@@ -95,6 +95,15 @@ models:
     description: Country of the device.
   - name: device_category
     description: desktop, mobile or tablet.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - desktop
+          - mobile
+          - tablet
+        config:
+          severity: warn
   - name: viewed_item
     description: The session had a view_item event.
   - name: added_to_cart
@@ -128,8 +137,22 @@ models:
     - not_null
   - name: identity_link_rule
     description: Strongest identity rule behind the link.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - identify_verified
+          - order_match
+          - identify_unverified
+          - email_hash
   - name: identity_confidence
     description: high or medium.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - high
+          - medium
 - name: fct_orders
   description: One row per CRM order, with the customer's order history and, for web orders, the GA4 session and channel that
     produced it.
@@ -214,7 +237,8 @@ models:
   - name: ga_transaction_id
     description: GA4 transaction id. Empty on app orders and on about 8% of web orders.
   - name: ga4_match_status
-    description: 'How far the link to GA4 goes: matched, web_no_transaction_id or app_order. A web order whose transaction id is not in GA4 (web_unmatched) is not an allowed value: the test fails the build.'
+    description: 'How far the link to GA4 goes: matched, web_no_transaction_id or app_order. A web order whose transaction
+      id is not in GA4 (web_unmatched) is not an allowed value: the test fails the build.'
     data_tests:
     - not_null
     - accepted_values:
@@ -258,9 +282,9 @@ models:
   - name: purchase_campaign
     description: Campaign of the purchasing session.
 - name: dim_customers
-  description: 'One row per CRM customer, including sign-ups who never ordered: profile, order summary, linked GA4 devices and
-    the sessions on them. Base table for RFM, lifetime value and segments. Website fields cover only the customers whose devices
-    identity resolution could link.'
+  description: 'One row per CRM customer, including sign-ups who never ordered: profile, order summary, linked GA4 devices
+    and the sessions on them. Base table for RFM, lifetime value and segments. Website fields cover only the customers whose
+    devices identity resolution could link.'
   columns:
   - name: customer_id
     description: CRM customer id. Primary key.
@@ -287,10 +311,14 @@ models:
     - not_null
   - name: created_date
     description: Account creation day.
+    data_tests:
+    - not_null
   - name: created_month
     description: First day of the month the account was created (sign-up cohort).
   - name: marketing_opt_in
     description: Whether the customer agreed to marketing messages.
+    data_tests:
+    - not_null
   - name: orders
     description: Number of CRM orders (refunded orders included).
     data_tests:
@@ -315,6 +343,8 @@ models:
     description: Sum of refunds.
   - name: net_revenue_usd
     description: Gross revenue minus refunds. Use this for lifetime value.
+    data_tests:
+    - not_null
   - name: avg_order_value_usd
     description: Gross revenue divided by orders. Empty for customers without orders.
   - name: first_order_ts
@@ -327,16 +357,47 @@ models:
     description: Day of the latest order.
   - name: first_order_channel
     description: web or app, for the first order.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - web
+          - app
   - name: first_order_ga4_match_status
     description: How far the first order links to GA4 (matched, web_no_transaction_id, app_order).
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - matched
+          - web_no_transaction_id
+          - app_order
   - name: first_order_channel_group
     description: Marketing channel of the session that produced the first order. Empty unless the order is matched to GA4.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values: &id001
+          - Paid Search
+          - Display
+          - Paid Social
+          - Affiliate
+          - Email
+          - Organic Search
+          - Organic Social
+          - Referral
+          - Self Referral
+          - Direct
+          - Other
+          - Unassigned
   - name: linked_devices
     description: GA4 devices linked to the customer by identity resolution.
     data_tests:
     - not_null
   - name: has_linked_device
     description: At least one linked device.
+    data_tests:
+    - not_null
   - name: has_high_confidence_link
     description: At least one link made by identify_verified or order_match.
   - name: sessions
@@ -349,6 +410,10 @@ models:
     description: Day of the latest session on a linked device.
   - name: first_session_channel_group
     description: Channel of that first session. First touch as GA4 sees it, not necessarily how the customer was acquired.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values: *id001
   - name: first_session_source
     description: Source of the first session.
   - name: first_session_medium

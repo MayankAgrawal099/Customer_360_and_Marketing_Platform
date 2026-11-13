@@ -1,5 +1,4 @@
 version: 2
-
 models:
 - name: stg_ga4__events
   description: One row per GA4 event, with the parameters the project needs pulled out of event_params. A table (not a view)
@@ -55,6 +54,16 @@ models:
     description: Visitor country.
   - name: device_category
     description: desktop, mobile or tablet.
+    data_tests:
+    - &id001
+      accepted_values:
+        arguments:
+          values:
+          - desktop
+          - mobile
+          - tablet
+        config:
+          severity: warn
   - name: operating_system
     description: Operating system.
   - name: browser
@@ -108,6 +117,8 @@ models:
     description: Visitor country at purchase.
   - name: device_category
     description: Device category at purchase.
+    data_tests:
+    - *id001
 - name: stg_crm__customers
   description: One row per synthetic CRM customer.
   columns:

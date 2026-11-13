@@ -1,5 +1,4 @@
 version: 2
-
 models:
 - name: int_ga4__sessions
   description: One row per GA4 session (device plus ga_session_id), summarised from its events.
@@ -65,6 +64,15 @@ models:
     description: Country of the device.
   - name: device_category
     description: desktop, mobile or tablet.
+    data_tests:
+    - accepted_values:
+        arguments:
+          values:
+          - desktop
+          - mobile
+          - tablet
+        config:
+          severity: warn
   - name: first_touch_source
     description: 'USER-level source: how the device was first acquired. Kept to compare with the session source.'
   - name: first_touch_medium
