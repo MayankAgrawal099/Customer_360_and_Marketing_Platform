@@ -9,11 +9,13 @@ Business-ready tables, built as tables in the `marts` dataset.
 | `dim_customers` | one CRM customer | Profile, order summary, linked GA4 devices and their sessions. All customers, buyers or not. |
 | `fct_customer_rfm` | one buyer | Recency, frequency, monetary and 1-5 scores. Buyers only. |
 | `fct_customer_clv` | one buyer | Historical net revenue plus predicted 90-day and 12-month revenue, and 12-month CLV. Buyers only. |
+| `dim_customer_segments` | one segment | Segment definitions: rule, plain-words definition, recommended action. |
+| `fct_customer_segments` | one CRM customer | Segment, RFM scores and value for every customer. |
 
 Channel rules live in one macro, `dbt/macros/channel_group.sql`. `tests/test_dbt_sessions.py` runs the macro and `src/synthetic/channels.py` on the same inputs and fails if they ever differ.
 
 Run (repository root)
 ```
-uv run dbt run  --project-dir dbt --profiles-dir dbt --select +fct_sessions +fct_orders +dim_customers +fct_customer_rfm +fct_customer_clv
-uv run dbt test --project-dir dbt --profiles-dir dbt --select +fct_sessions +fct_orders +dim_customers +fct_customer_rfm +fct_customer_clv
+uv run dbt run  --project-dir dbt --profiles-dir dbt --select +fct_sessions +fct_orders +dim_customers +fct_customer_rfm +fct_customer_clv +fct_customer_segments
+uv run dbt test --project-dir dbt --profiles-dir dbt --select +fct_sessions +fct_orders +dim_customers +fct_customer_rfm +fct_customer_clv +fct_customer_segments
 ```

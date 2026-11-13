@@ -381,6 +381,18 @@ Key columns of `fct_customer_clv` (all columns are described in `dbt/models/mart
 | `predicted_revenue_90d_usd` | Expected net revenue over the next 90 days. Within the span the data has observed. |
 | `predicted_revenue_12m_usd`, `clv_12m_usd` | The 365-day prediction and history plus that prediction. About four times the observed history and with no churn, so an upper estimate. |
 
+| `marts.dim_customer_segments` | one segment (`segment`) | The nine segment definitions: rule, plain-words definition, recommended action. Same text as `docs/customer_segments.md`. |
+| `marts.fct_customer_segments` | one CRM customer (`customer_id`) | Segment, RFM scores and value for every customer, including those who never ordered. |
+
+Key columns of `fct_customer_segments` (all columns are described in `dbt/models/marts/_marts.yml`):
+
+| Column | Meaning |
+|---|---|
+| `segment`, `segment_order` | Champions, Loyal, At Risk, Big Spenders, New Customers, Promising, Needs Attention, Lost, or No Purchase Yet. Rules in `docs/customer_segments.md`. |
+| `r_score`, `f_score`, `m_score`, `rfm_code` | RFM scores behind the segment. Empty for customers without orders. |
+| `historical_net_revenue_usd`, `predicted_revenue_90d_usd`, `clv_12m_usd` | Value to date and predicted value (0 for customers without orders). |
+| `marketing_opt_in` | Whether the customer may be contacted. |
+
 ### Later layers
 
-Added here as they are built: segments, attribution and campaign ROI.
+Added here as they are built: attribution and campaign ROI.

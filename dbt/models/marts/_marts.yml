@@ -554,3 +554,119 @@ models:
   - name: clv_12m_usd
     description: 'Customer lifetime value over 12 months: historical net revenue plus predicted 12-month revenue.'
     data_tests: *id003
+- name: dim_customer_segments
+  description: 'The segment definitions, one row per segment: rule in plain words, the rule as applied, and the recommended
+    action. Same text as docs/customer_segments.md.'
+  columns:
+  - name: segment_order
+    description: Order the rules are checked in; the first match wins.
+    data_tests:
+    - unique
+    - not_null
+  - name: segment
+    description: Segment name. Primary key.
+    data_tests:
+    - unique
+    - not_null
+    - accepted_values:
+        arguments:
+          values: &id004
+          - Champions
+          - Loyal
+          - At Risk
+          - Big Spenders
+          - New Customers
+          - Promising
+          - Needs Attention
+          - Lost
+          - No Purchase Yet
+  - name: definition
+    description: What the segment is, in plain words.
+    data_tests:
+    - not_null
+  - name: rule
+    description: The rule that puts a customer in the segment, in RFM scores.
+    data_tests:
+    - not_null
+  - name: action
+    description: What marketing should do with the segment.
+    data_tests:
+    - not_null
+- name: fct_customer_segments
+  description: One row per CRM customer with their segment, RFM scores and value. Buyers are segmented from RFM; customers
+    without orders are 'No Purchase Yet'. The table the dashboards use for segment analysis.
+  columns:
+  - name: customer_id
+    description: CRM customer id. Primary key.
+    data_tests:
+    - unique
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('dim_customers')
+          field: customer_id
+  - name: segment
+    description: The customer's segment. Defined in dim_customer_segments.
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('dim_customer_segments')
+          field: segment
+    - accepted_values:
+        arguments:
+          values: *id004
+  - name: segment_order
+    description: Position of the segment in the rule order (1 = Champions ... 9 = No Purchase Yet).
+    data_tests:
+    - not_null
+  - name: is_buyer
+    description: Placed at least one order.
+    data_tests:
+    - not_null
+  - name: r_score
+    description: Recency score 1-5 (5 = most recent). Empty for customers without orders.
+  - name: f_score
+    description: Frequency score 1-5. Empty for customers without orders.
+  - name: m_score
+    description: Monetary score 1-5 (5 = highest net revenue). Empty for customers without orders.
+  - name: rfm_code
+    description: The three scores as text, for example 534.
+  - name: rfm_total
+    description: Sum of the three scores, 3 to 15.
+  - name: recency_days
+    description: Days from the latest order to the RFM as-of date.
+  - name: orders
+    description: Number of orders. 0 for customers without orders.
+    data_tests:
+    - not_null
+  - name: historical_net_revenue_usd
+    description: Net revenue to date. 0 for customers without orders.
+    data_tests:
+    - not_null
+  - name: predicted_revenue_90d_usd
+    description: Expected net revenue in the next 90 days (see fct_customer_clv). 0 for customers without orders.
+    data_tests:
+    - not_null
+  - name: predicted_revenue_12m_usd
+    description: 'Expected net revenue in the next 12 months: an upper estimate. 0 for customers without orders.'
+    data_tests:
+    - not_null
+  - name: clv_12m_usd
+    description: Historical net revenue plus predicted 12-month revenue. 0 for customers without orders.
+    data_tests:
+    - not_null
+  - name: country
+    description: Customer country.
+  - name: marketing_opt_in
+    description: Whether the customer agreed to marketing messages. Check before contacting.
+    data_tests:
+    - not_null
+  - name: has_linked_device
+    description: At least one GA4 device is linked to the customer.
+    data_tests:
+    - not_null
+  - name: first_order_channel_group
+    description: Channel of the session behind the first order; empty unless matched to GA4.
+  - name: first_session_channel_group
+    description: Channel of the first session on a linked device.
