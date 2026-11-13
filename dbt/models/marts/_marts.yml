@@ -489,3 +489,68 @@ models:
     description: Sum of the three scores, 3 to 15.
     data_tests:
     - not_null
+- name: fct_customer_clv
+  description: 'One row per buyer: historical net revenue plus predicted 90-day and 12-month revenue from a simple shrinkage
+    model (a customer''s own repeat rate and order value blended with the population''s). Customers without orders are not
+    valued. Input to the segments.'
+  columns:
+  - name: customer_id
+    description: CRM customer id. Primary key.
+    data_tests:
+    - unique
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('fct_customer_rfm')
+          field: customer_id
+  - name: as_of_date
+    description: Day after the latest order in the data; the same date as the RFM model.
+    data_tests: &id003
+    - not_null
+  - name: first_order_date
+    description: Day of the first order.
+  - name: last_order_date
+    description: Day of the latest order.
+  - name: days_observed
+    description: Days from the first order to as_of_date. At least 1.
+    data_tests: *id003
+  - name: orders
+    description: Number of orders.
+    data_tests: *id003
+  - name: repeat_orders
+    description: Orders after the first one (orders minus 1).
+    data_tests: *id003
+  - name: gross_revenue_usd
+    description: Sum of order values.
+  - name: historical_net_revenue_usd
+    description: 'Net revenue to date (order value minus refunds): the value the customer has actually brought in.'
+    data_tests: *id003
+  - name: population_repeat_rate_per_day
+    description: Repeat orders per day across all buyers; the starting point each customer's rate is pulled towards.
+    data_tests: *id003
+  - name: population_aov_usd
+    description: Net revenue per order across all buyers; the starting point for each customer's order value.
+    data_tests: *id003
+  - name: expected_repeat_rate_per_day
+    description: 'The customer''s expected repeat orders per day: their own rate blended with the population''s (prior of
+      90 days).'
+    data_tests: *id003
+  - name: expected_aov_usd
+    description: 'The customer''s expected net value per order: their own blended with the population''s (prior of 3 orders).'
+    data_tests: *id003
+  - name: predicted_orders_90d
+    description: Expected repeat orders over the next 90 days.
+    data_tests: *id003
+  - name: predicted_revenue_90d_usd
+    description: Expected net revenue over the next 90 days. Sits within the span the data has observed.
+    data_tests: *id003
+  - name: predicted_orders_12m
+    description: 'Expected repeat orders over the next 365 days. About four times the history observed and with no churn:
+      read as an upper estimate.'
+    data_tests: *id003
+  - name: predicted_revenue_12m_usd
+    description: Expected net revenue over the next 365 days.
+    data_tests: *id003
+  - name: clv_12m_usd
+    description: 'Customer lifetime value over 12 months: historical net revenue plus predicted 12-month revenue.'
+    data_tests: *id003

@@ -369,6 +369,18 @@ Key columns of `fct_customer_rfm` (all columns are described in `dbt/models/mart
 | `f_score` | Fixed bands: 1, 2, 3, 4 orders score 1-4, 5 or more score 5. Quintiles cannot split the three quarters of buyers with one order. |
 | `rfm_code`, `rfm_total` | The scores as text (`534`) and their sum (3-15). |
 
+| `marts.fct_customer_clv` | one buyer (`customer_id`) | Historical net revenue plus predicted 90-day and 12-month revenue, and 12-month customer lifetime value. Customers without orders are not valued. |
+
+Key columns of `fct_customer_clv` (all columns are described in `dbt/models/marts/_marts.yml`):
+
+| Column | Meaning |
+|---|---|
+| `historical_net_revenue_usd` | What the customer has actually brought in (order value minus refunds). |
+| `expected_repeat_rate_per_day` | Repeat orders per day: the customer's own rate blended with the rate of all buyers (prior of 90 days), because three months of history is too short to trust one customer alone. |
+| `expected_aov_usd` | Net value per order, blended the same way (prior of 3 orders). |
+| `predicted_revenue_90d_usd` | Expected net revenue over the next 90 days. Within the span the data has observed. |
+| `predicted_revenue_12m_usd`, `clv_12m_usd` | The 365-day prediction and history plus that prediction. About four times the observed history and with no churn, so an upper estimate. |
+
 ### Later layers
 
-Added here as they are built: lifetime value, segments, attribution and campaign ROI.
+Added here as they are built: segments, attribution and campaign ROI.
