@@ -357,6 +357,18 @@ Key columns of `dim_customers` (all columns are described in `dbt/models/marts/_
 | `linked_devices`, `has_high_confidence_link` | GA4 devices linked by identity resolution. |
 | `sessions`, `first_session_channel_group` | Sessions on linked devices only, so website behaviour is known for a minority of customers. |
 
+| `marts.fct_customer_rfm` | one buyer (`customer_id`) | Recency, frequency and monetary value with 1-5 scores. Customers without orders are not scored. |
+
+Key columns of `fct_customer_rfm` (all columns are described in `dbt/models/marts/_marts.yml`):
+
+| Column | Meaning |
+|---|---|
+| `as_of_date` | Day after the latest order in the data. Recency is measured to this day, not to today. |
+| `recency_days`, `frequency`, `monetary_usd` | Days since the latest order, number of orders, net revenue in USD. |
+| `r_score`, `m_score` | Quintiles, 5 = best (most recent, highest revenue). Equal values share a score. |
+| `f_score` | Fixed bands: 1, 2, 3, 4 orders score 1-4, 5 or more score 5. Quintiles cannot split the three quarters of buyers with one order. |
+| `rfm_code`, `rfm_total` | The scores as text (`534`) and their sum (3-15). |
+
 ### Later layers
 
-Added here as they are built: RFM, lifetime value, segments, attribution and campaign ROI.
+Added here as they are built: lifetime value, segments, attribution and campaign ROI.

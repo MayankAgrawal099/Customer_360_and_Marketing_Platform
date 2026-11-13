@@ -418,3 +418,74 @@ models:
     description: Source of the first session.
   - name: first_session_medium
     description: Medium of the first session.
+- name: fct_customer_rfm
+  description: 'One row per buyer (customer with at least one order): recency, frequency and monetary value, each scored 1
+    (worst) to 5 (best). Customers without orders are not scored. Input to the segments and lifetime-value models.'
+  columns:
+  - name: customer_id
+    description: CRM customer id. Primary key.
+    data_tests:
+    - unique
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('dim_customers')
+          field: customer_id
+  - name: as_of_date
+    description: Day after the latest order in the data. Recency is measured to this day, so results never depend on today's
+      date.
+    data_tests:
+    - not_null
+  - name: first_order_date
+    description: Day of the customer's first order.
+  - name: last_order_date
+    description: Day of the customer's latest order.
+  - name: recency_days
+    description: Days from the latest order to as_of_date. Smaller is better; always at least 1.
+    data_tests:
+    - not_null
+  - name: frequency
+    description: Number of orders (refunded orders included).
+    data_tests:
+    - not_null
+  - name: monetary_usd
+    description: 'Net revenue in USD: order value minus refunds.'
+    data_tests:
+    - not_null
+  - name: r_score
+    description: Recency score 1-5 (5 = most recent). Quintile of buyers; equal values share a score.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: &id002
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          quote: false
+  - name: f_score
+    description: 'Frequency score 1-5: 1, 2, 3, 4 orders score 1-4, 5 or more orders score 5.'
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: *id002
+          quote: false
+  - name: m_score
+    description: Monetary score 1-5 (5 = highest net revenue). Quintile of buyers; equal values share a score.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: *id002
+          quote: false
+  - name: rfm_code
+    description: The three scores as text, for example 534 = recency 5, frequency 3, monetary 4.
+    data_tests:
+    - not_null
+  - name: rfm_total
+    description: Sum of the three scores, 3 to 15.
+    data_tests:
+    - not_null
