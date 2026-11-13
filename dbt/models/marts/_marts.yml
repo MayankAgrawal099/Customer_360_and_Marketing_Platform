@@ -257,3 +257,99 @@ models:
     description: Medium of the purchasing session.
   - name: purchase_campaign
     description: Campaign of the purchasing session.
+- name: dim_customers
+  description: 'One row per CRM customer, including sign-ups who never ordered: profile, order summary, linked GA4 devices and
+    the sessions on them. Base table for RFM, lifetime value and segments. Website fields cover only the customers whose devices
+    identity resolution could link.'
+  columns:
+  - name: customer_id
+    description: CRM customer id. Primary key.
+    data_tests:
+    - unique
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('stg_crm__customers')
+          field: customer_id
+  - name: full_name
+    description: First and last name.
+  - name: email
+    description: Lower-cased email address.
+    data_tests:
+    - not_null
+  - name: email_sha256
+    description: SHA-256 of the email, the key used for hashed-email identity matching.
+  - name: country
+    description: Customer country.
+  - name: created_at
+    description: Account creation time.
+    data_tests:
+    - not_null
+  - name: created_date
+    description: Account creation day.
+  - name: created_month
+    description: First day of the month the account was created (sign-up cohort).
+  - name: marketing_opt_in
+    description: Whether the customer agreed to marketing messages.
+  - name: orders
+    description: Number of CRM orders (refunded orders included).
+    data_tests:
+    - not_null
+  - name: is_buyer
+    description: Placed at least one order.
+    data_tests:
+    - not_null
+  - name: is_repeat_buyer
+    description: Placed two or more orders.
+  - name: refunded_orders
+    description: Orders that were refunded.
+  - name: web_orders
+    description: Orders placed on the website.
+  - name: app_orders
+    description: Orders placed in the app.
+  - name: items
+    description: Items across all orders.
+  - name: gross_revenue_usd
+    description: Sum of order values. 0 for customers without orders.
+  - name: refund_usd
+    description: Sum of refunds.
+  - name: net_revenue_usd
+    description: Gross revenue minus refunds. Use this for lifetime value.
+  - name: avg_order_value_usd
+    description: Gross revenue divided by orders. Empty for customers without orders.
+  - name: first_order_ts
+    description: Time of the first order.
+  - name: last_order_ts
+    description: Time of the latest order.
+  - name: first_order_date
+    description: Day of the first order.
+  - name: last_order_date
+    description: Day of the latest order.
+  - name: first_order_channel
+    description: web or app, for the first order.
+  - name: first_order_ga4_match_status
+    description: How far the first order links to GA4 (matched, web_no_transaction_id, app_order).
+  - name: first_order_channel_group
+    description: Marketing channel of the session that produced the first order. Empty unless the order is matched to GA4.
+  - name: linked_devices
+    description: GA4 devices linked to the customer by identity resolution.
+    data_tests:
+    - not_null
+  - name: has_linked_device
+    description: At least one linked device.
+  - name: has_high_confidence_link
+    description: At least one link made by identify_verified or order_match.
+  - name: sessions
+    description: GA4 sessions on the linked devices. 0 when no device is linked.
+  - name: converted_sessions
+    description: Those sessions that contained a valid purchase.
+  - name: first_session_date
+    description: Day of the first session on a linked device.
+  - name: last_session_date
+    description: Day of the latest session on a linked device.
+  - name: first_session_channel_group
+    description: Channel of that first session. First touch as GA4 sees it, not necessarily how the customer was acquired.
+  - name: first_session_source
+    description: Source of the first session.
+  - name: first_session_medium
+    description: Medium of the first session.

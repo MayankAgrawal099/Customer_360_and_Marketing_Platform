@@ -344,6 +344,19 @@ Key columns of `fct_orders` (all columns are described in `dbt/models/marts/_mar
 
 An order without a GA4 session (`app_order`, `web_no_transaction_id`) can still be attributed through the customer's linked devices; the attribution step says how.
 
+| `marts.dim_customers` | one CRM customer (`customer_id`) | Customer profile: order summary, linked GA4 devices and the sessions on them. Every customer, including sign-ups who never ordered. |
+
+Key columns of `dim_customers` (all columns are described in `dbt/models/marts/_marts.yml`):
+
+| Column | Meaning |
+|---|---|
+| `orders`, `is_buyer`, `is_repeat_buyer` | Order count and flags. About 2,240 of 6,003 customers have no order. |
+| `gross_revenue_usd`, `refund_usd`, `net_revenue_usd`, `avg_order_value_usd` | Money across all the customer's orders. Use `net_revenue_usd` for lifetime value. |
+| `first_order_date`, `last_order_date` | Dates for recency and tenure; the RFM model fixes the as-of date. |
+| `first_order_channel_group` | Channel of the session behind the first order. Empty unless that order is matched to GA4. |
+| `linked_devices`, `has_high_confidence_link` | GA4 devices linked by identity resolution. |
+| `sessions`, `first_session_channel_group` | Sessions on linked devices only, so website behaviour is known for a minority of customers. |
+
 ### Later layers
 
-Added here as they are built: the customer-profile mart, then RFM, lifetime value, segments, attribution and campaign ROI.
+Added here as they are built: RFM, lifetime value, segments, attribution and campaign ROI.
