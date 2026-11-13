@@ -9,10 +9,12 @@
 --               - started no later than the order and no more than 30 days before it. The purchasing session itself
 --                 is always kept.
 --
--- has_source marks the touchpoints that tell us where the visitor came from. Three channels do not:
+-- has_source marks the touchpoints that tell us where the visitor came from. Four channels do not:
 --   Self Referral  the visitor was on the store's own site and navigated back to it: internal, not a source
 --   Direct         typed the address or no referrer
 --   Unassigned     GA4 gave the session no source at all
+--   Other          in this dataset only the values GA4 hides in its public sample, '<Other>' and '(data deleted)':
+--                  the real source exists but is not shown to us, so there is nothing to credit
 -- Attribution skips these whenever a touchpoint with a source exists (the GA4 default "last non-direct" idea).
 -- Orders with no touchpoint at all (customer has no linked device, or no visit in the 30 days) stay in the
 -- table's parent, fct_orders, and appear in the credits as 'No Touchpoint'.
@@ -67,7 +69,7 @@ select
     s.campaign,
     s.ad_campaign_key,
     s.is_paid,
-    s.channel_group not in ('Self Referral', 'Direct', 'Unassigned') as has_source,
+    s.channel_group not in ('Self Referral', 'Direct', 'Unassigned', 'Other') as has_source,
     -- App orders and orders without a transaction id have no purchasing session: false, never null.
     coalesce(s.session_key = o.ga_session_key, false) as is_purchase_session,
     timestamp_diff(o.order_ts, s.session_start_ts, second) / 86400.0 as days_before_order
