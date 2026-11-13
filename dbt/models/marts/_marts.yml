@@ -670,3 +670,186 @@ models:
     description: Channel of the session behind the first order; empty unless matched to GA4.
   - name: first_session_channel_group
     description: Channel of the first session on a linked device.
+- name: fct_attribution_credits
+  description: 'Who gets the credit for each CRM order: one row per (order, model) for first touch and last touch, with the
+    credited session and channel. Each order has exactly one unit of credit per model, so credited orders and revenue add
+    up to the real totals. Rules in docs/attribution.md.'
+  columns:
+  - name: conversion_id
+    description: CRM order id (the conversion). With model it is the primary key.
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('fct_orders')
+          field: order_id
+  - name: model
+    description: 'Attribution model: first_touch or last_touch. Later models add rows with credit shares that sum to 1 per
+      order and model.'
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: &id005
+          - first_touch
+          - last_touch
+  - name: customer_id
+    description: Customer who placed the order.
+    data_tests:
+    - not_null
+  - name: order_ts
+    description: Order time (UTC).
+    data_tests:
+    - not_null
+  - name: order_date
+    description: Order day.
+  - name: order_channel
+    description: web or app.
+  - name: ga4_match_status
+    description: 'How far the order links to GA4: matched, web_no_transaction_id or app_order.'
+  - name: is_refunded
+    description: The order was refunded.
+  - name: touchpoint_session_key
+    description: The GA4 session that receives the credit. Empty when the order has no touchpoint.
+  - name: touchpoint_ts
+    description: Start time of that session.
+  - name: credited_channel
+    description: 'Channel that receives the credit: the session''s channel when it has a known source, otherwise ''Direct
+      / Unknown'' (only Direct, Unassigned, Self Referral or Other sessions exist), or ''No Touchpoint'' (no session at all).
+      Never Direct, Self Referral, Unassigned or Other itself.'
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: &id006
+          - Paid Search
+          - Display
+          - Paid Social
+          - Affiliate
+          - Email
+          - Organic Search
+          - Organic Social
+          - Referral
+          - Direct / Unknown
+          - No Touchpoint
+  - name: attribution_basis
+    description: 'Why: known_source, direct_or_unknown or no_touchpoint.'
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - known_source
+          - direct_or_unknown
+          - no_touchpoint
+  - name: touchpoint_channel_group
+    description: Channel group of the credited session itself, as GA4 saw it. Empty when there is no session.
+  - name: touchpoint_source
+    description: Source of the credited session.
+  - name: touchpoint_medium
+    description: Medium of the credited session.
+  - name: touchpoint_campaign
+    description: Campaign of the credited session.
+  - name: ad_campaign_key
+    description: Ad-spend campaign key of the credited session, for paid sessions. Used for campaign ROI.
+  - name: is_paid
+    description: The credited session came from a paid channel.
+    data_tests:
+    - not_null
+  - name: credit
+    description: Share of the order credited in this row. 1 for first and last touch.
+    data_tests:
+    - not_null
+  - name: order_value_usd
+    description: Order value before refunds.
+  - name: revenue_usd
+    description: Net revenue of the order (value minus refund).
+    data_tests:
+    - not_null
+  - name: credited_revenue_usd
+    description: 'revenue_usd times credit: the revenue this row gives to its channel.'
+    data_tests:
+    - not_null
+- name: fct_attribution_by_channel
+  description: 'Orders and net revenue credited to each channel under each model: one row per (model, channel). Built only
+    from fct_attribution_credits, so models added there appear here automatically.'
+  columns:
+  - name: model
+    description: Attribution model.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: *id005
+  - name: credited_channel
+    description: Channel that receives the credit. With model it is the primary key.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: *id006
+  - name: attributed_orders
+    description: Orders credited to the channel under the model (shares add up to the real order count).
+    data_tests:
+    - not_null
+  - name: attributed_revenue_usd
+    description: Net revenue credited to the channel under the model.
+    data_tests:
+    - not_null
+  - name: share_of_orders
+    description: Share of all orders under the model.
+  - name: share_of_revenue
+    description: Share of all net revenue under the model.
+- name: fct_attribution_journeys
+  description: 'One row per CRM order describing its journey, to show where the models can differ at all: an order with a
+    single known-source touchpoint gets the same credit under first and last touch.'
+  columns:
+  - name: order_id
+    description: CRM order. Primary key.
+    data_tests:
+    - unique
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('fct_orders')
+          field: order_id
+  - name: customer_id
+    description: Customer who placed the order.
+    data_tests:
+    - not_null
+  - name: order_ts
+    description: Order time (UTC).
+  - name: order_channel
+    description: web or app.
+  - name: ga4_match_status
+    description: matched, web_no_transaction_id or app_order.
+  - name: net_revenue_usd
+    description: Net revenue of the order.
+    data_tests:
+    - not_null
+  - name: touchpoints
+    description: GA4 sessions in the order's journey (0 if none).
+    data_tests:
+    - not_null
+  - name: source_touchpoints
+    description: Of those, sessions that have a known source.
+    data_tests:
+    - not_null
+  - name: distinct_source_channels
+    description: Different channels among the known-source sessions.
+    data_tests:
+    - not_null
+  - name: days_from_first_touchpoint
+    description: Days from the journey's first session to the order. Empty without touchpoints.
+  - name: first_touch_channel
+    description: Channel credited under first touch.
+    data_tests:
+    - not_null
+  - name: last_touch_channel
+    description: Channel credited under last touch.
+    data_tests:
+    - not_null
+  - name: first_and_last_differ
+    description: 'First touch and last touch credit different channels: the orders where the models disagree.'
+    data_tests:
+    - not_null

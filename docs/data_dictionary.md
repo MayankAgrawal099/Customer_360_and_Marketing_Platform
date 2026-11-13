@@ -393,6 +393,21 @@ Key columns of `fct_customer_segments` (all columns are described in `dbt/models
 | `historical_net_revenue_usd`, `predicted_revenue_90d_usd`, `clv_12m_usd` | Value to date and predicted value (0 for customers without orders). |
 | `marketing_opt_in` | Whether the customer may be contacted. |
 
+| `intermediate.int_conversion_touchpoints` | one (order, session) | The journey behind every CRM order: GA4 sessions on the purchasing device or on any device linked to the customer, within 30 days before the order (the purchasing session is always kept). |
+| `marts.fct_attribution_credits` | one (order, attribution model) | Which session and channel receive the credit for each order under first touch and last touch; each model gives each order exactly 1 unit of credit. |
+| `marts.fct_attribution_by_channel` | one (model, channel) | Credited orders and net revenue by channel under each model, with shares. |
+| `marts.fct_attribution_journeys` | one CRM order | Journey length and the first-touch and last-touch channel of each order, and whether the two models disagree. |
+
+Key columns of `fct_attribution_credits` (all columns are described in `dbt/models/marts/_marts.yml`; rules in `docs/attribution.md`):
+
+| Column | Meaning |
+|---|---|
+| `conversion_id`, `model` | The order and the attribution model (`first_touch` or `last_touch`; more are added later). Together the primary key. |
+| `credited_channel` | Channel that gets the credit: the session's channel when it has a known source, `Direct / Unknown` when the journey has only Direct, Self Referral, Unassigned or Other sessions, `No Touchpoint` when there is no session. |
+| `attribution_basis` | `known_source`, `direct_or_unknown` or `no_touchpoint`. |
+| `touchpoint_session_key`, `touchpoint_ts`, `ad_campaign_key` | The credited session; the key joins paid credit to ad spend for campaign ROI. |
+| `credit`, `revenue_usd`, `credited_revenue_usd` | Share of the order credited (1 for first and last touch), the order's net revenue, and the revenue this row gives to its channel. |
+
 ### Later layers
 
-Added here as they are built: attribution and campaign ROI.
+Added here as they are built: the linear and time-decay attribution models and campaign ROI.

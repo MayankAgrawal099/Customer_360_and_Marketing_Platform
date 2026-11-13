@@ -27,14 +27,22 @@ def column_tests(m):
 # GA4 events carry no event id: the same device can log two identical events in one microsecond, so the
 # event table has no natural key. Its keys are checked one level up (sessions, purchases).
 NO_NATURAL_KEY = {"stg_ga4__events"}
+# Composite keys cannot be expressed as a column-level unique test; one singular test covers all three.
+COMPOSITE_KEY = {"int_conversion_touchpoints", "fct_attribution_credits", "fct_attribution_by_channel"}
 
 
-@pytest.mark.parametrize("name", sorted(set(MODELS) - NO_NATURAL_KEY))
+@pytest.mark.parametrize("name", sorted(set(MODELS) - NO_NATURAL_KEY - COMPOSITE_KEY))
 def test_every_model_has_a_unique_and_not_null_key(name):
     tests = set(column_tests(MODELS[name]))
     keys = {c for c, t in tests if t == "unique"}
     assert keys, f"{name} has no unique test"
     assert any((k, "not_null") in tests for k in keys), f"{name}: no unique column is also not_null"
+
+
+def test_composite_keys_are_checked_by_a_singular_test():
+    sql = (ROOT / "dbt" / "tests" / "assert_attribution_keys_are_unique.sql").read_text(encoding="utf-8")
+    for model in COMPOSITE_KEY:
+        assert f"ref('{model}')" in sql, model
 
 
 def test_all_four_generic_test_types_are_used_in_the_project():

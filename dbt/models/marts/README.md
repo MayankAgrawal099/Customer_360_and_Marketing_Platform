@@ -11,11 +11,14 @@ Business-ready tables, built as tables in the `marts` dataset.
 | `fct_customer_clv` | one buyer | Historical net revenue plus predicted 90-day and 12-month revenue, and 12-month CLV. Buyers only. |
 | `dim_customer_segments` | one segment | Segment definitions: rule, plain-words definition, recommended action. |
 | `fct_customer_segments` | one CRM customer | Segment, RFM scores and value for every customer. |
+| `fct_attribution_credits` | one (order, model) | Which channel gets each order under first touch and last touch. Built from `int_conversion_touchpoints`. |
+| `fct_attribution_by_channel` | one (model, channel) | Credited orders and net revenue by channel, with shares. |
+| `fct_attribution_journeys` | one CRM order | Journey length and where first and last touch disagree. |
 
 Channel rules live in one macro, `dbt/macros/channel_group.sql`. `tests/test_dbt_sessions.py` runs the macro and `src/synthetic/channels.py` on the same inputs and fails if they ever differ.
 
 Run (repository root)
 ```
-uv run dbt run  --project-dir dbt --profiles-dir dbt --select +fct_sessions +fct_orders +dim_customers +fct_customer_rfm +fct_customer_clv +fct_customer_segments
-uv run dbt test --project-dir dbt --profiles-dir dbt --select +fct_sessions +fct_orders +dim_customers +fct_customer_rfm +fct_customer_clv +fct_customer_segments
+uv run dbt run  --project-dir dbt --profiles-dir dbt --select +fct_sessions +fct_orders +dim_customers +fct_customer_rfm +fct_customer_clv +fct_customer_segments +fct_attribution_journeys +fct_attribution_by_channel
+uv run dbt test --project-dir dbt --profiles-dir dbt --select +fct_sessions +fct_orders +dim_customers +fct_customer_rfm +fct_customer_clv +fct_customer_segments +fct_attribution_journeys +fct_attribution_by_channel
 ```

@@ -79,3 +79,79 @@ models:
     description: USER-level medium of first acquisition.
   - name: first_touch_campaign
     description: USER-level campaign of first acquisition.
+- name: int_conversion_touchpoints
+  description: 'The journey behind every CRM order: one row per (order, GA4 session that could have led to it). Sessions on
+    the purchasing device or on any device linked to the customer, started no later than the order and within 30 days before
+    it (the purchasing session is always kept). The base for every attribution model.'
+  columns:
+  - name: order_id
+    description: CRM order the session could have led to. With session_key it is the primary key.
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('fct_orders')
+          field: order_id
+  - name: session_key
+    description: GA4 session (device and session id).
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('fct_sessions')
+          field: session_key
+  - name: user_pseudo_id
+    description: GA4 device of the session.
+    data_tests:
+    - not_null
+  - name: session_date
+    description: Day the session started.
+  - name: session_start_ts
+    description: Time the session started (UTC).
+    data_tests:
+    - not_null
+  - name: channel_group
+    description: Marketing channel of the session.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - Paid Search
+          - Display
+          - Paid Social
+          - Affiliate
+          - Email
+          - Organic Search
+          - Organic Social
+          - Referral
+          - Self Referral
+          - Direct
+          - Other
+          - Unassigned
+  - name: source
+    description: Session source.
+  - name: medium
+    description: Session medium.
+  - name: campaign
+    description: Session campaign.
+  - name: ad_campaign_key
+    description: Joins a paid session to the ad-spend campaign key.
+  - name: is_paid
+    description: The session came from a paid channel.
+    data_tests:
+    - not_null
+  - name: has_source
+    description: 'True when the session says where the visitor came from. False for Self Referral (the store''s own site),
+      Direct, Unassigned and Other (the values GA4 hides in its public sample): attribution skips these whenever a session
+      with a source exists.'
+    data_tests:
+    - not_null
+  - name: is_purchase_session
+    description: The session in which a matched web order was placed.
+    data_tests:
+    - not_null
+  - name: days_before_order
+    description: Days from the session start to the order, with fractions. 0 or more.
+    data_tests:
+    - not_null
