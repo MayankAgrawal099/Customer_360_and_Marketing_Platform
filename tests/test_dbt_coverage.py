@@ -29,7 +29,7 @@ def column_tests(m):
 NO_NATURAL_KEY = {"stg_ga4__events"}
 # Composite keys cannot be expressed as a column-level unique test; one singular test covers them.
 COMPOSITE_KEY = {"int_conversion_touchpoints", "fct_attribution_credits", "fct_attribution_by_channel", "fct_attribution_checks",
-                 "fct_campaign_roi", "fct_channel_roi"}
+                 "fct_campaign_roi", "fct_channel_roi", "fct_campaign_cpa", "fct_channel_cpa"}
 
 
 @pytest.mark.parametrize("name", sorted(set(MODELS) - NO_NATURAL_KEY - COMPOSITE_KEY))

@@ -422,6 +422,19 @@ Key columns of `fct_attribution_credits` (all columns are described in `dbt/mode
 | `attributed_orders`, `attributed_revenue_usd` | Orders and net revenue credited under the model. |
 | `roas`, `roi`, `cpa_usd`, `profit_usd`, `revenue_per_click` | Revenue / spend, (revenue - spend) / spend, spend / orders, revenue - spend, revenue / clicks. |
 
+### Cost per acquisition
+
+`fct_campaign_cpa` (one row per model and campaign) and `fct_channel_cpa` (one row per model and channel). Full definitions in `docs/cpa.md`.
+
+| Column | Meaning |
+|---|---|
+| `cpa_usd` | Spend per attributed order. Empty when there are no orders. |
+| `new_customers`, `repeat_orders` | Credited first orders and the remaining credited orders. Empty under `ga4_session`. |
+| `cac_usd` | Spend per new customer. |
+| `avg_order_value_usd`, `cpa_to_aov` | Credited revenue per order, and CPA divided by it (below 1 the order covers its own cost). |
+| `has_enough_orders`, `cpa_rank` | At least 5 orders; 1 = cheapest CPA among those rows within a model. |
+| `cpa_vs_channel` | Campaign CPA / its channel's CPA (campaign table only). |
+
 ### Later layers
 
 Added here as they are built: the metric dictionary.

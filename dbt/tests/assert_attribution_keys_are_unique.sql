@@ -16,3 +16,9 @@ from {{ ref('fct_campaign_roi') }} group by model, campaign_key having count(*) 
 union all
 select 'fct_channel_roi', concat(model, '|', channel)
 from {{ ref('fct_channel_roi') }} group by model, channel having count(*) > 1
+union all
+select 'fct_campaign_cpa', concat(model, '|', campaign_key)
+from {{ ref('fct_campaign_cpa') }} group by model, campaign_key having count(*) > 1
+union all
+select 'fct_channel_cpa', concat(model, '|', channel)
+from {{ ref('fct_channel_cpa') }} group by model, channel having count(*) > 1

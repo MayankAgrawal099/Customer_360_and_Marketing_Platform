@@ -1139,3 +1139,135 @@ models:
     description: Spend per credited order. Empty when no orders.
   - name: revenue_per_click
     description: Revenue per click bought.
+- name: fct_campaign_cpa
+  description: 'Cost per acquisition for every paid campaign, one row per (model, campaign): cost per order (CPA), cost per
+    new customer (CAC), average order value and CPA against it, and a rank among campaigns with at least 5 orders. Spend is
+    synthetic.'
+  columns:
+  - name: model
+    description: 'Attribution model: first_touch, last_touch, linear, time_decay (CRM orders) or ga4_session (GA4 purchases
+      of the campaign''s own sessions).'
+    data_tests: &id009
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - first_touch
+          - last_touch
+          - linear
+          - time_decay
+          - ga4_session
+  - name: campaign_key
+    description: Paid campaign (channel, source, medium, campaign joined with '|'). With model it is the primary key.
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('stg_ad_spend')
+          field: campaign_key
+  - name: channel
+    description: Paid channel of the campaign.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: &id010
+          - Paid Search
+          - Display
+          - Paid Social
+          - Affiliate
+          - Email
+  - name: source
+    description: Campaign source.
+  - name: medium
+    description: Campaign medium.
+  - name: campaign
+    description: Campaign name.
+  - name: spend_usd
+    description: 'Ad spend in USD (synthetic: assumed cost per click).'
+    data_tests: &id011
+    - not_null
+  - name: clicks
+    description: Clicks bought.
+    data_tests:
+    - not_null
+  - name: attributed_orders
+    description: Orders credited under the model (fractions under linear and time decay).
+    data_tests: &id012
+    - not_null
+  - name: new_customers
+    description: 'Credited first orders: customers won for the first time. Empty under ga4_session, which has no customer.'
+  - name: repeat_orders
+    description: Attributed orders minus new customers. Empty under ga4_session.
+  - name: attributed_revenue_usd
+    description: Revenue credited under the model.
+    data_tests: &id013
+    - not_null
+  - name: cpa_usd
+    description: 'Cost per acquisition: spend per attributed order. Empty when there are no orders.'
+  - name: cac_usd
+    description: 'Customer acquisition cost: spend per new customer. Empty when there are none.'
+  - name: avg_order_value_usd
+    description: Credited revenue per credited order.
+  - name: cpa_to_aov
+    description: cpa_usd divided by average order value. Below 1 the order's own revenue covers the cost of winning it.
+  - name: has_enough_orders
+    description: True when there are at least 5 attributed orders. Below that a CPA moves a lot with one order and is not
+      ranked.
+    data_tests: &id014
+    - not_null
+  - name: cpa_rank
+    description: 1 = cheapest cost per order among rows with enough orders in the same model. Empty when there are not enough
+      orders.
+  - name: cpa_vs_channel
+    description: cpa_usd divided by the CPA of the whole channel under the same model. Below 1 the campaign beats its channel.
+- name: fct_channel_cpa
+  description: Cost per acquisition for each paid channel, one row per (model, channel). Built only from fct_campaign_cpa.
+  columns:
+  - name: model
+    description: 'Attribution model: first_touch, last_touch, linear, time_decay (CRM orders) or ga4_session (GA4 purchases
+      of the campaign''s own sessions).'
+    data_tests: *id009
+  - name: channel
+    description: Paid channel. With model it is the primary key.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: *id010
+  - name: campaigns
+    description: Campaigns in the channel.
+    data_tests:
+    - not_null
+  - name: spend_usd
+    description: 'Ad spend in USD (synthetic: assumed cost per click).'
+    data_tests: *id011
+  - name: clicks
+    description: Clicks bought.
+    data_tests:
+    - not_null
+  - name: attributed_orders
+    description: Orders credited under the model (fractions under linear and time decay).
+    data_tests: *id012
+  - name: new_customers
+    description: 'Credited first orders: customers won for the first time. Empty under ga4_session, which has no customer.'
+  - name: repeat_orders
+    description: Attributed orders minus new customers. Empty under ga4_session.
+  - name: attributed_revenue_usd
+    description: Revenue credited under the model.
+    data_tests: *id013
+  - name: cpa_usd
+    description: 'Cost per acquisition: spend per attributed order. Empty when there are no orders.'
+  - name: cac_usd
+    description: 'Customer acquisition cost: spend per new customer. Empty when there are none.'
+  - name: avg_order_value_usd
+    description: Credited revenue per credited order.
+  - name: cpa_to_aov
+    description: cpa_usd divided by average order value. Below 1 the order's own revenue covers the cost of winning it.
+  - name: has_enough_orders
+    description: True when there are at least 5 attributed orders. Below that a CPA moves a lot with one order and is not
+      ranked.
+    data_tests: *id014
+  - name: cpa_rank
+    description: 1 = cheapest cost per order among rows with enough orders in the same model. Empty when there are not enough
+      orders.

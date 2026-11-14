@@ -327,7 +327,9 @@ def test_singular_tests_pass_on_good_data(name, tp, cr):
     extra = dict(fct_attribution_by_channel=run(CH_SQL, fct_attribution_credits=cr),
                  fct_attribution_checks=pd.DataFrame(dict(check_name=["a"], model=["all"])),
                  fct_campaign_roi=pd.DataFrame(dict(model=["linear"], campaign_key=["k"])),
-                 fct_channel_roi=pd.DataFrame(dict(model=["linear"], channel=["Paid Search"])))
+                 fct_channel_roi=pd.DataFrame(dict(model=["linear"], channel=["Paid Search"])),
+                 fct_campaign_cpa=pd.DataFrame(dict(model=["linear"], campaign_key=["k"])),
+                 fct_channel_cpa=pd.DataFrame(dict(model=["linear"], channel=["Paid Search"])))
     assert run(SINGULAR[name], **tables(tp, cr, **extra)).empty
 
 
@@ -390,14 +392,16 @@ def test_catches_a_duplicated_key(tp, cr):
     roi = pd.DataFrame(dict(model=["linear", "linear"], campaign_key=["k", "j"]))
     chn = pd.DataFrame(dict(model=["linear", "linear"], channel=["Paid Search", "Display"]))
     good = dict(**tables(tp, cr), fct_attribution_by_channel=by, fct_attribution_checks=chk,
-                fct_campaign_roi=roi, fct_channel_roi=chn)
+                fct_campaign_roi=roi, fct_channel_roi=chn, fct_campaign_cpa=roi, fct_channel_cpa=chn)
     assert run(SINGULAR[t], **good).empty
     for name, bad in (("int_conversion_touchpoints", pd.concat([tp, tp.iloc[[0]]])),
                       ("fct_attribution_credits", pd.concat([cr, cr.iloc[[0]]])),
                       ("fct_attribution_by_channel", pd.concat([by, by.iloc[[0]]])),
                       ("fct_attribution_checks", pd.concat([chk, chk.iloc[[0]]])),
                       ("fct_campaign_roi", pd.concat([roi, roi.iloc[[0]]])),
-                      ("fct_channel_roi", pd.concat([chn, chn.iloc[[0]]]))):
+                      ("fct_channel_roi", pd.concat([chn, chn.iloc[[0]]])),
+                      ("fct_campaign_cpa", pd.concat([roi, roi.iloc[[0]]])),
+                      ("fct_channel_cpa", pd.concat([chn, chn.iloc[[0]]]))):
         out = run(SINGULAR[t], **{**good, name: bad})
         assert list(out["model"]) == [name]
 
