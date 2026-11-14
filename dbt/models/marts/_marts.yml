@@ -859,3 +859,143 @@ models:
     description: 'First touch and last touch credit different channels: the orders where the models disagree.'
     data_tests:
     - not_null
+- name: fct_attribution_model_comparison
+  description: 'The four attribution models side by side: one row per credited channel with orders and net revenue under each
+    model, shares, how far the models disagree, and whether the channel mostly introduces or closes customers. The table the
+    dashboard''s model-comparison view uses.'
+  columns:
+  - name: credited_channel
+    description: Channel that receives the credit. Primary key.
+    data_tests:
+    - unique
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - Paid Search
+          - Display
+          - Paid Social
+          - Affiliate
+          - Email
+          - Organic Search
+          - Organic Social
+          - Referral
+          - Direct / Unknown
+          - No Touchpoint
+  - name: is_known_source
+    description: 'False for Direct / Unknown and No Touchpoint: orders whose journey has no known source.'
+    data_tests:
+    - not_null
+  - name: is_paid_channel
+    description: Paid Search, Display, Paid Social, Affiliate or Email.
+    data_tests:
+    - not_null
+  - name: orders_first_touch
+    description: Orders credited to the channel under first touch. Fractions are possible.
+    data_tests:
+    - not_null
+  - name: orders_last_touch
+    description: Orders credited to the channel under last touch. Fractions are possible.
+    data_tests:
+    - not_null
+  - name: orders_linear
+    description: Orders credited to the channel under linear. Fractions are possible.
+    data_tests:
+    - not_null
+  - name: orders_time_decay
+    description: Orders credited to the channel under time decay. Fractions are possible.
+    data_tests:
+    - not_null
+  - name: revenue_first_touch
+    description: Net revenue credited to the channel under first touch.
+    data_tests:
+    - not_null
+  - name: revenue_last_touch
+    description: Net revenue credited to the channel under last touch.
+    data_tests:
+    - not_null
+  - name: revenue_linear
+    description: Net revenue credited to the channel under linear.
+    data_tests:
+    - not_null
+  - name: revenue_time_decay
+    description: Net revenue credited to the channel under time decay.
+    data_tests:
+    - not_null
+  - name: share_first_touch
+    description: Share of all net revenue under first touch.
+  - name: share_last_touch
+    description: Share of all net revenue under last touch.
+  - name: share_linear
+    description: Share of all net revenue under linear.
+  - name: share_time_decay
+    description: Share of all net revenue under time decay.
+  - name: revenue_min
+    description: Lowest revenue the channel gets under any of the four models.
+    data_tests:
+    - not_null
+  - name: revenue_max
+    description: Highest revenue the channel gets under any of the four models.
+    data_tests:
+    - not_null
+  - name: revenue_spread_usd
+    description: 'Highest minus lowest revenue across the four models: how much the choice of model matters for this channel.'
+    data_tests:
+    - not_null
+  - name: revenue_spread_pct
+    description: The spread as a share of the channel's average revenue across the four models.
+  - name: introducing_gap_usd
+    description: 'First-touch minus last-touch revenue. Positive: the channel is better at introducing customers than closing
+      them.'
+    data_tests:
+    - not_null
+  - name: role
+    description: Introduces or Closes when the gap is at least 5% of average revenue and at least $25; Neutral otherwise;
+      No known source for Direct / Unknown and No Touchpoint.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - Introduces
+          - Closes
+          - Neutral
+          - No known source
+- name: fct_attribution_checks
+  description: 'The attribution sanity checks as a table: credit adds up to orders and revenue under every model, every order
+    has exactly one unit of credit, the channel table ties out, orders without a known source are credited the same by all
+    models, and the orders tie to the customer profile. One row per check and model; the build fails if any row fails.'
+  columns:
+  - name: check_name
+    description: What is checked. With model it is the primary key.
+    data_tests:
+    - not_null
+  - name: model
+    description: Attribution model the check is for, or 'all'.
+    data_tests:
+    - not_null
+  - name: expected
+    description: The value the check expects.
+    data_tests:
+    - not_null
+  - name: actual
+    description: The value found.
+    data_tests:
+    - not_null
+  - name: difference
+    description: actual minus expected.
+    data_tests:
+    - not_null
+  - name: tolerance
+    description: Largest allowed absolute difference.
+    data_tests:
+    - not_null
+  - name: passed
+    description: True when the absolute difference is within the tolerance. The build fails if any check is false.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - true
+          quote: false

@@ -305,7 +305,7 @@ def test_the_models_never_read_the_ground_truth():
 
 def test_the_docs_page_describes_the_models_and_rules():
     text = (ROOT / "docs" / "attribution.md").read_text(encoding="utf-8")
-    for needle in ("fct_attribution_credits", "fct_attribution_by_channel", "First touch", "Last touch", "Linear", "Time decay", "half-life", "Self Referral",
+    for needle in ("fct_attribution_credits", "fct_attribution_by_channel", "First touch", "Last touch", "Linear", "Time decay", "half-life", "fct_attribution_model_comparison", "fct_attribution_checks", "Introduces", "Self Referral",
                    "Direct", "Unassigned", "Other", "No Touchpoint", "Direct / Unknown", "30 days"):
         assert needle in text, needle
 
@@ -324,7 +324,9 @@ NAMES = ["assert_attribution_keys_are_unique", "assert_attribution_credits_conse
 
 @pytest.mark.parametrize("name", NAMES)
 def test_singular_tests_pass_on_good_data(name, tp, cr):
-    assert run(SINGULAR[name], **tables(tp, cr, fct_attribution_by_channel=run(CH_SQL, fct_attribution_credits=cr))).empty
+    extra = dict(fct_attribution_by_channel=run(CH_SQL, fct_attribution_credits=cr),
+                 fct_attribution_checks=pd.DataFrame(dict(check_name=["a"], model=["all"])))
+    assert run(SINGULAR[name], **tables(tp, cr, **extra)).empty
 
 
 def test_catches_lost_or_inflated_credit(tp, cr):
@@ -382,11 +384,13 @@ def test_catches_touchpoints_that_do_not_belong(tp, cr):
 def test_catches_a_duplicated_key(tp, cr):
     t = "assert_attribution_keys_are_unique"
     by = run(CH_SQL, fct_attribution_credits=cr)
-    good = dict(**tables(tp, cr), fct_attribution_by_channel=by)
+    chk = pd.DataFrame(dict(check_name=["a", "b"], model=["all", "all"]))
+    good = dict(**tables(tp, cr), fct_attribution_by_channel=by, fct_attribution_checks=chk)
     assert run(SINGULAR[t], **good).empty
     for name, bad in (("int_conversion_touchpoints", pd.concat([tp, tp.iloc[[0]]])),
                       ("fct_attribution_credits", pd.concat([cr, cr.iloc[[0]]])),
-                      ("fct_attribution_by_channel", pd.concat([by, by.iloc[[0]]]))):
+                      ("fct_attribution_by_channel", pd.concat([by, by.iloc[[0]]])),
+                      ("fct_attribution_checks", pd.concat([chk, chk.iloc[[0]]]))):
         out = run(SINGULAR[t], **{**good, name: bad})
         assert list(out["model"]) == [name]
 

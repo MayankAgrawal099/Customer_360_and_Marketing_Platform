@@ -74,6 +74,30 @@ all four, and the models can be put side by side in `fct_attribution_by_channel`
 order in `fct_attribution_credits`; linear and time decay have one row per credited touchpoint, so credited orders in
 the channel table can be fractions (for example 0.5 of an order).
 
+## Comparing the models
+
+`marts.fct_attribution_model_comparison` puts the four models side by side, one row per channel: orders and net revenue
+under each model, each model's share of revenue, the **spread** (highest minus lowest revenue across the models: how much
+the choice of model matters for that channel), and a **role**. The role compares first and last touch: **Introduces**
+when first touch gives the channel at least 5% (and at least $25) more than last touch, **Closes** when it gives less,
+**Neutral** otherwise. Direct / Unknown and No Touchpoint are labelled *No known source*.
+
+`marts.fct_attribution_checks` records the sanity checks as a table, and a dbt test fails the build if any check fails:
+
+| Check | What it proves |
+|---|---|
+| credited orders equal orders | each model credits exactly the real number of orders |
+| credited revenue equals net revenue | each model credits exactly the real net revenue |
+| one unit of credit per order | every order's credit adds up to 1 under every model; no credit is outside 0 to 1 |
+| first and last touch: one row per order | those two models hold exactly one row for each order |
+| channel table orders / revenue | the by-channel table adds up to the same orders and revenue |
+| same revenue under all models | orders without a known source are credited identically by all four models |
+| orders equal customer profile | the orders' net revenue equals the customer profile's |
+| four models present | no model is missing |
+
+`uv run python -m src.attribution_report` turns both tables into `reports/attribution_comparison.md`, with every figure in
+the text computed from the tables.
+
 ## Reading the results
 
 - First touch rewards channels that **introduce** customers (search, social, display); last touch rewards channels that

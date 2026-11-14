@@ -27,8 +27,8 @@ def column_tests(m):
 # GA4 events carry no event id: the same device can log two identical events in one microsecond, so the
 # event table has no natural key. Its keys are checked one level up (sessions, purchases).
 NO_NATURAL_KEY = {"stg_ga4__events"}
-# Composite keys cannot be expressed as a column-level unique test; one singular test covers all three.
-COMPOSITE_KEY = {"int_conversion_touchpoints", "fct_attribution_credits", "fct_attribution_by_channel"}
+# Composite keys cannot be expressed as a column-level unique test; one singular test covers them.
+COMPOSITE_KEY = {"int_conversion_touchpoints", "fct_attribution_credits", "fct_attribution_by_channel", "fct_attribution_checks"}
 
 
 @pytest.mark.parametrize("name", sorted(set(MODELS) - NO_NATURAL_KEY - COMPOSITE_KEY))

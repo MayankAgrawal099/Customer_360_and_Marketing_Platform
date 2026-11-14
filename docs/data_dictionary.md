@@ -396,6 +396,8 @@ Key columns of `fct_customer_segments` (all columns are described in `dbt/models
 | `intermediate.int_conversion_touchpoints` | one (order, session) | The journey behind every CRM order: GA4 sessions on the purchasing device or on any device linked to the customer, within 30 days before the order (the purchasing session is always kept). |
 | `marts.fct_attribution_credits` | one (order, attribution model, credited touchpoint) | Which session and channel receive the credit for each order under first touch, last touch, linear and time decay; each model gives each order exactly 1 unit of credit in total. |
 | `marts.fct_attribution_by_channel` | one (model, channel) | Credited orders and net revenue by channel under each model, with shares. |
+| `marts.fct_attribution_model_comparison` | one credited channel | The four attribution models side by side: orders and net revenue per model, shares, the spread between models and whether the channel introduces or closes customers. |
+| `marts.fct_attribution_checks` | one (check, model) | The attribution sanity checks as a table: credit adds up to orders and revenue under every model, and so on. The build fails if any row fails. |
 | `marts.fct_attribution_journeys` | one CRM order | Journey length and the first-touch and last-touch channel of each order, and whether the two models disagree. |
 
 Key columns of `fct_attribution_credits` (all columns are described in `dbt/models/marts/_marts.yml`; rules in `docs/attribution.md`):

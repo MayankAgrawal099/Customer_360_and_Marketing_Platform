@@ -7,3 +7,6 @@ from {{ ref('fct_attribution_credits') }} group by conversion_id, model, touchpo
 union all
 select 'fct_attribution_by_channel', concat(model, '|', credited_channel)
 from {{ ref('fct_attribution_by_channel') }} group by model, credited_channel having count(*) > 1
+union all
+select 'fct_attribution_checks', concat(check_name, '|', model)
+from {{ ref('fct_attribution_checks') }} group by check_name, model having count(*) > 1
