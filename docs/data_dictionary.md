@@ -437,4 +437,4 @@ Key columns of `fct_attribution_credits` (all columns are described in `dbt/mode
 
 ### Later layers
 
-Added here as they are built: the metric dictionary.
+Metric definitions (RFM, CLV, attribution, ROI, CPA) are in `docs/metric_dictionary.md`.
