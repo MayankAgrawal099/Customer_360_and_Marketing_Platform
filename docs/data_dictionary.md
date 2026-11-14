@@ -410,6 +410,18 @@ Key columns of `fct_attribution_credits` (all columns are described in `dbt/mode
 | `touchpoint_session_key`, `touchpoint_ts`, `ad_campaign_key` | The credited session; the key joins paid credit to ad spend for campaign ROI. |
 | `credit`, `revenue_usd`, `credited_revenue_usd` | Share of the order credited (1 for first and last touch, 1/n for linear, decay weight over total weight for time decay), the order's net revenue, and the revenue this row gives to its channel. |
 
+### Campaign ROI
+
+`fct_campaign_roi` (one row per model and campaign) and `fct_channel_roi` (one row per model and channel). Full definitions in `docs/campaign_roi.md`.
+
+| Column | Meaning |
+|---|---|
+| `model` | `first_touch`, `last_touch`, `linear`, `time_decay` (CRM order revenue) or `ga4_session` (GA4 purchases of the campaign's own sessions: the narrowest view). |
+| `campaign_key`, `channel` | Paid campaign (channel, source, medium, campaign joined with `|`) and its channel. |
+| `spend_usd`, `clicks`, `impressions` | Synthetic spend and traffic bought. Same under every model. |
+| `attributed_orders`, `attributed_revenue_usd` | Orders and net revenue credited under the model. |
+| `roas`, `roi`, `cpa_usd`, `profit_usd`, `revenue_per_click` | Revenue / spend, (revenue - spend) / spend, spend / orders, revenue - spend, revenue / clicks. |
+
 ### Later layers
 
-Added here as they are built: campaign ROI and CPA.
+Added here as they are built: the metric dictionary.

@@ -10,3 +10,9 @@ from {{ ref('fct_attribution_by_channel') }} group by model, credited_channel ha
 union all
 select 'fct_attribution_checks', concat(check_name, '|', model)
 from {{ ref('fct_attribution_checks') }} group by check_name, model having count(*) > 1
+union all
+select 'fct_campaign_roi', concat(model, '|', campaign_key)
+from {{ ref('fct_campaign_roi') }} group by model, campaign_key having count(*) > 1
+union all
+select 'fct_channel_roi', concat(model, '|', channel)
+from {{ ref('fct_channel_roi') }} group by model, channel having count(*) > 1

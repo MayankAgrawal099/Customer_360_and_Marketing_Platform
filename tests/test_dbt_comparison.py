@@ -148,7 +148,9 @@ def test_keys_test_covers_the_new_composite_key(world, checks, cmp_):
     tp, cr, by = world
     t = "assert_attribution_keys_are_unique"
     good = dict(int_conversion_touchpoints=tp, fct_attribution_credits=cr, fct_attribution_by_channel=by,
-                fct_attribution_checks=checks)
+                fct_attribution_checks=checks,
+                fct_campaign_roi=pd.DataFrame(dict(model=["linear"], campaign_key=["k"])),
+                fct_channel_roi=pd.DataFrame(dict(model=["linear"], channel=["Paid Search"])))
     assert run(SINGULAR[t], **good).empty
     out = run(SINGULAR[t], **{**good, "fct_attribution_checks": pd.concat([checks, checks.iloc[[0]]])})
     assert list(out["model"]) == ["fct_attribution_checks"]

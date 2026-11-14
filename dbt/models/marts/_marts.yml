@@ -999,3 +999,143 @@ models:
           values:
           - true
           quote: false
+- name: fct_campaign_roi
+  description: 'Return on ad spend for every paid campaign: spend, credited orders and revenue, ROAS, ROI and cost per acquisition,
+    one row per (model, campaign), under the four attribution models and the GA4 same-session view. The ga4_session rows credit
+    a purchase only to the campaign of its own session (the narrowest view); the four models also credit earlier campaigns
+    in the customer''s journey. Spend is synthetic.'
+  columns:
+  - name: model
+    description: 'Attribution model for the revenue: first_touch, last_touch, linear, time_decay (net revenue of CRM orders
+      credited to the campaign) or ga4_session (every GA4 purchase credited to the campaign of its own session, the narrowest
+      view).'
+    data_tests: &id007
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - first_touch
+          - last_touch
+          - linear
+          - time_decay
+          - ga4_session
+  - name: campaign_key
+    description: 'Paid campaign: channel, source, medium and campaign joined with ''|''. With model it is the primary key.'
+    data_tests:
+    - not_null
+    - relationships:
+        arguments:
+          to: ref('stg_ad_spend')
+          field: campaign_key
+  - name: channel
+    description: Paid channel of the campaign.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: &id008
+          - Paid Search
+          - Display
+          - Paid Social
+          - Affiliate
+          - Email
+  - name: source
+    description: Campaign source.
+  - name: medium
+    description: Campaign medium.
+  - name: campaign
+    description: Campaign name.
+  - name: first_spend_date
+    description: First day with spend.
+  - name: last_spend_date
+    description: Last day with spend.
+  - name: days_with_spend
+    description: Days on which the campaign had spend.
+    data_tests:
+    - not_null
+  - name: impressions
+    description: Impressions bought (synthetic).
+  - name: clicks
+    description: Clicks bought, sized from the real paid sessions.
+    data_tests:
+    - not_null
+  - name: spend_usd
+    description: 'Ad spend in USD (synthetic: assumed cost per click). The same under every model.'
+    data_tests:
+    - not_null
+  - name: cost_per_click
+    description: Spend per click.
+  - name: attributed_orders
+    description: Orders credited to the campaign under the model; fractions under linear and time decay.
+    data_tests:
+    - not_null
+  - name: attributed_revenue_usd
+    description: Revenue credited to the campaign under the model.
+    data_tests:
+    - not_null
+  - name: profit_usd
+    description: 'Revenue minus spend. Revenue, not margin: product costs are not in the data.'
+    data_tests:
+    - not_null
+  - name: roas
+    description: 'Return on ad spend: revenue per dollar of spend.'
+  - name: roi
+    description: (revenue - spend) / spend.
+  - name: cpa_usd
+    description: 'Cost per acquisition: spend per credited order. Empty when the campaign got no orders.'
+  - name: revenue_per_click
+    description: Revenue per click bought.
+- name: fct_channel_roi
+  description: 'The campaign return measures rolled up to the paid channel: one row per (model, channel). Built only from
+    fct_campaign_roi.'
+  columns:
+  - name: model
+    description: 'Attribution model for the revenue: first_touch, last_touch, linear, time_decay (net revenue of CRM orders
+      credited to the campaign) or ga4_session (every GA4 purchase credited to the campaign of its own session, the narrowest
+      view).'
+    data_tests: *id007
+  - name: channel
+    description: Paid channel. With model it is the primary key.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: *id008
+  - name: campaigns
+    description: Campaigns in the channel.
+    data_tests:
+    - not_null
+  - name: campaign_days
+    description: Campaign-days with spend.
+  - name: impressions
+    description: Impressions bought (synthetic).
+  - name: clicks
+    description: Clicks bought.
+    data_tests:
+    - not_null
+  - name: spend_usd
+    description: Ad spend in USD (synthetic).
+    data_tests:
+    - not_null
+  - name: cost_per_click
+    description: Spend per click.
+  - name: attributed_orders
+    description: Orders credited to the channel's campaigns under the model.
+    data_tests:
+    - not_null
+  - name: attributed_revenue_usd
+    description: Revenue credited to the channel's campaigns under the model.
+    data_tests:
+    - not_null
+  - name: profit_usd
+    description: Revenue minus spend.
+    data_tests:
+    - not_null
+  - name: roas
+    description: Revenue per dollar of spend.
+  - name: roi
+    description: (revenue - spend) / spend.
+  - name: cpa_usd
+    description: Spend per credited order. Empty when no orders.
+  - name: revenue_per_click
+    description: Revenue per click bought.
