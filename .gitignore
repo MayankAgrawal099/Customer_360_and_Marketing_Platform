@@ -33,3 +33,9 @@ Thumbs.db
 
 #dbt local user file
 dbt/.user.yml
+
+tableau/data/
+*.twbr
+dbt/.user.yml
+docs/tableau_customer_360.md
+docs/tableau_public_customer_360.md
