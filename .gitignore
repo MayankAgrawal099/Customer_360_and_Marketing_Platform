@@ -39,3 +39,4 @@ tableau/data/
 dbt/.user.yml
 docs/tableau_customer_360.md
 docs/tableau_public_customer_360.md
+docs/tableau_public_attribution_roi.md

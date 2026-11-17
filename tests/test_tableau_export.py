@@ -20,7 +20,6 @@ from src import export_for_tableau as ex  # noqa: E402
 
 MARTS = yaml.safe_load((ROOT / "dbt" / "models" / "marts" / "_marts.yml").read_text(encoding="utf-8"))
 COLUMNS = {m["name"]: {c["name"] for c in m["columns"]} for m in MARTS["models"]}
-GUIDE = (ROOT / "docs" / "tableau_customer_360.md").read_text(encoding="utf-8")
 
 
 def parse(name):
@@ -77,62 +76,3 @@ def test_write_csv(tmp_path):
     n = ex.write_csv(path, ["a", "b", "c"], [(True, None, dt.date(2020, 1, 1)), (False, 2.5, None)])
     rows = list(csv.reader(path.open(encoding="utf-8")))
     assert n == 2 and rows == [["a", "b", "c"], ["1", "", "2020-01-01"], ["0", "2.5", ""]]
-
-
-def test_guide_names_only_extract_fields():
-    extract = set(output_columns("customers")) | set(output_columns("segments")) | set(output_columns("orders"))
-    named = set(re.findall(r"\[([a-z][a-z0-9_]*)\]", GUIDE))
-    assert named, "the guide should name fields in square brackets"
-    assert named <= extract, f"not in any extract: {sorted(named - extract)}"
-
-
-def test_guide_covers_every_sheet_and_check():
-    for sheet in ["K1 Customers", "K6 Avg CLV 12m", "S0 Subtitle", "C1", "C2", "C3", "C4", "C5", "C6", "T1", "P1", "P2", "P3"]:
-        assert sheet in GUIDE
-    for hexcode in ["#0B6E4F", "#3FA776", "#E07A1F", "#2F5D9B", "#5B9BD5", "#9CC3E6", "#E5B93C", "#8C8C8C", "#CFCFCF"]:
-        assert hexcode in GUIDE
-    assert "344,69" in GUIDE and "5,120" in GUIDE
-
-
-def test_guide_segments_match_the_segment_definitions():
-    sql = (ROOT / "dbt" / "models" / "marts" / "dim_customer_segments.sql").read_text(encoding="utf-8")
-    names = re.findall(r"'([A-Z][A-Za-z ]+)' as segment|select\s+\d+,\s*'([A-Z][A-Za-z ]+)'", sql)
-    segs = {a or b for a, b in names}
-    for s in segs:
-        assert f"| {s} |" in GUIDE, f"segment {s} missing from the colour table"
-
-
-# ----------------------------------------------------------------------------- the Tableau Public guide
-PUBLIC = (ROOT / "docs" / "tableau_public_customer_360.md").read_text(encoding="utf-8")
-
-
-def display_name(column: str) -> str:
-    """How Tableau shows a CSV column: a capital on each word, underscores become spaces."""
-    return " ".join(w.capitalize() for w in column.split("_"))
-
-
-def test_public_guide_uses_tableau_display_names():
-    extract = set(output_columns("customers")) | set(output_columns("segments")) | set(output_columns("orders"))
-    shown = {display_name(c) for c in extract}
-    calc_table = PUBLIC.split("## 4. Calculated fields")[1].split("## 5.")[0]
-    calcs = set(re.findall(r"^\| `([^`]+)` \|", calc_table, re.M))
-    named = set(re.findall(r"\[([^\]]+)\]", PUBLIC))
-    unknown = named - shown - calcs
-    assert not unknown, f"neither a Tableau field name nor a calculated field: {sorted(unknown)}"
-    assert len(calcs) >= 16
-
-
-def test_public_guide_name_table_matches_the_rule():
-    table = PUBLIC.split("### 2.1 Field names")[1].split("\n------")[0]
-    pairs = re.findall(r"^\| ([a-z0-9_, ]+) \| ([^|]+) \|$", table, re.M)
-    assert pairs
-    for csv_cols, shown in pairs:
-        assert [display_name(c.strip()) for c in csv_cols.split(",")] == [s.strip() for s in shown.split(",")]
-
-
-def test_public_guide_has_every_sheet_colour_and_check():
-    for sheet in ["K1 Customers", "K6 Avg CLV 12m", "S0 Subtitle", "C1", "C2", "C3", "C4", "C5", "C6", "T1", "P0", "P1", "P2", "P3"]:
-        assert sheet in PUBLIC
-    for hexcode in ["#0B6E4F", "#3FA776", "#E07A1F", "#2F5D9B", "#5B9BD5", "#9CC3E6", "#E5B93C", "#8C8C8C", "#CFCFCF"]:
-        assert hexcode in PUBLIC
-    assert "344,69" in PUBLIC and "5,120" in PUBLIC and "6,003" in PUBLIC
