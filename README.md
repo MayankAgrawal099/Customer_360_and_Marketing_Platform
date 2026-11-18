@@ -144,6 +144,7 @@ Customer_360_and_Marketing_Platform/
 
 | Document | What it covers |
 |---|---|
+| [docs/data_api_docs.md](docs/data_api_docs.md) | Reference for every dataset, dbt model, output file and command (generated) |
 | [docs/data_dictionary.md](docs/data_dictionary.md) | Every table and column, raw to marts |
 | [docs/metric_dictionary.md](docs/metric_dictionary.md) | RFM, CLV, attribution, ROI and CPA definitions |
 | [docs/synthetic_data.md](docs/synthetic_data.md) | How the synthetic data is built, every assumption, rules for using it honestly |
