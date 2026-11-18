@@ -2,7 +2,7 @@
 
 | Folder or file | What it covers |
 |---|---|
-| `architecture/` | Architecture diagram folder (the data flow is drawn in the [root README](../README.md) meanwhile) |
+| `architecture/` | Architecture diagram (PNG and SVG) and the script that draws it, see [architecture/README.md](architecture/README.md) |
 | `screenshots/` | Evidence screenshots used in the READMEs: BigQuery tables, dbt results, and the two Tableau dashboards |
 | `data_dictionary.md` | Every table and column, raw to marts |
 | `metric_dictionary.md` | RFM, CLV, attribution, ROI and CPA definitions |

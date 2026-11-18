@@ -12,8 +12,8 @@ TEXT = {p.relative_to(ROOT).as_posix(): p.read_text(encoding="utf-8") for p in R
 ROOT_README = TEXT["README.md"]
 TABLEAU_README = TEXT["tableau/README.md"]
 
-CUSTOMER_URL = "https://public.tableau.com/views/customer_360/Customer360andSegments"
-ATTRIBUTION_URL = "https://public.tableau.com/views/attribution_roi_cpa/AttributionROIandCPA"
+CUSTOMER_URL = "customer_360/Customer360andSegments"
+ATTRIBUTION_URL = "attribution_roi_cpa/AttributionROIandCPA"
 
 
 # ----------------------------------------------------------------------------- the data statement
@@ -94,6 +94,8 @@ def test_docs_index_lists_only_files_that_exist():
 
 
 def test_the_tableau_readme_holds_the_dashboards_and_the_root_readme_redirects():
+    # either link form works (/views/... or /app/profile/<name>/viz/...); both must point at public.tableau.com
+    assert "https://public.tableau.com/" in TABLEAU_README
     assert CUSTOMER_URL in TABLEAU_README and ATTRIBUTION_URL in TABLEAU_README
     assert "tableau_customer_360.png" in TABLEAU_README and "tableau_attribution_roi.png" in TABLEAU_README
     for workbook in ("customer_360.twbx", "attribution_roi_cpa.twbx"):

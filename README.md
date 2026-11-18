@@ -45,20 +45,9 @@ Screenshots, live links, what each dashboard shows and how to read it: **[tablea
 
 ## How the data flows
 
-```mermaid
-flowchart LR
-    GA4[("GA4 sample<br/>REAL")] --> RAW
-    SYN["Synthetic CRM, orders,<br/>ad spend, Segment events<br/>SYNTHETIC (Faker, seed 42)"] --> RAW
-    RAW[("BigQuery raw")] --> ID["Identity resolution<br/>(Python rules)"]
-    ID --> IDT[("identity links")]
-    RAW --> STG["dbt staging"]
-    IDT --> STG
-    STG --> INT["dbt intermediate<br/>sessions, touchpoints"]
-    INT --> MARTS[("dbt marts<br/>orders, customers, RFM, CLV,<br/>segments, attribution, ROI, CPA")]
-    MARTS --> CSV["export_for_tableau<br/>(CSV)"]
-    CSV --> TAB["Tableau Public<br/>dashboards"]
-    MARTS --> REP["Reports<br/>(identity, attribution, dbt tests)"]
-```
+![Architecture of the platform: sources, load and identity, dbt models, outputs and checks](docs/architecture/architecture.png)
+
+*Green is real data, orange is synthetic. Editable vector version: [architecture.svg](docs/architecture/architecture.svg); how it is built: [docs/architecture/README.md](docs/architecture/README.md).*
 
 Layers: `raw` (loaded as is), `staging` and `intermediate` (views), `marts` (tables). Every table and column is described in [docs/data_dictionary.md](docs/data_dictionary.md), and every measure in [docs/metric_dictionary.md](docs/metric_dictionary.md).
 

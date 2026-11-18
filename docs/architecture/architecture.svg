@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1335" width="2000" height="1335" role="img" aria-label="Architecture of the Customer 360 and Marketing Attribution Platform">
+<defs>
+<marker id="arrow-5A6573" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5A6573"/></marker>
+<marker id="arrow-E07A1F" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#E07A1F"/></marker>
+</defs>
+<rect width="2000" height="1335" fill="white"/>
+<text x="40" y="42" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="24" fill="#0F2A43" font-weight="bold" text-anchor="start">Customer 360 and Marketing Attribution Platform: architecture</text>
+<text x="40" y="66" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#5A6573" font-weight="normal" text-anchor="start">How real GA4 data and synthetic CRM, order and ad-spend data become customer segments, attribution, campaign return and budget recommendations</text>
+<text x="1380" y="30" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#0F2A43" font-weight="bold" text-anchor="start">Legend</text>
+<rect x="1380" y="44" width="14" height="14" rx="3" fill="#0B6E4F"/>
+<text x="1402" y="56" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#1B2733" font-weight="normal" text-anchor="start">Real data</text>
+<rect x="1570" y="44" width="14" height="14" rx="3" fill="#E07A1F"/>
+<text x="1592" y="56" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#1B2733" font-weight="normal" text-anchor="start">Synthetic data</text>
+<rect x="1760" y="44" width="14" height="14" rx="3" fill="#2F5D9B"/>
+<text x="1782" y="56" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#1B2733" font-weight="normal" text-anchor="start">BigQuery dataset</text>
+<rect x="1380" y="66" width="14" height="14" rx="3" fill="#5B9BD5"/>
+<text x="1402" y="78" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#1B2733" font-weight="normal" text-anchor="start">dbt views</text>
+<rect x="1570" y="66" width="14" height="14" rx="3" fill="#0F2A43"/>
+<text x="1592" y="78" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#1B2733" font-weight="normal" text-anchor="start">dbt tables</text>
+<rect x="1760" y="66" width="14" height="14" rx="3" fill="#9AA5B1"/>
+<text x="1782" y="78" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#1B2733" font-weight="normal" text-anchor="start">Python command</text>
+<rect x="30" y="90" width="1940" height="220" rx="14" fill="#F5F7FA" stroke="#E3E8EF"/>
+<text x="1950" y="118" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="15" fill="#0F2A43" font-weight="bold" text-anchor="end">1  SOURCES</text>
+<rect x="60" y="125" width="640" height="118" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M60 161 V133 a8 8 0 0 1 8 -8 H692 a8 8 0 0 1 8 8 V161 Z" fill="#0B6E4F"/>
+<text x="72" y="149" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">GA4 sample e-commerce  (REAL)</text>
+<text x="72" y="183" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">bigquery-public-data.ga4_obfuscated_sample_ecommerce</text>
+<text x="72" y="205" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">Google Merchandise Store</text>
+<text x="72" y="227" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">2020-11-01 to 2021-01-31, about 4.3 million events</text>
+<rect x="800" y="125" width="600" height="162" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M800 161 V133 a8 8 0 0 1 8 -8 H1392 a8 8 0 0 1 8 8 V161 Z" fill="#E07A1F"/>
+<text x="812" y="149" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">Synthetic data  (Faker, fixed seed 42)</text>
+<text x="812" y="183" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">CRM customers</text>
+<text x="812" y="205" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">CRM orders (web orders reuse real GA4 purchases)</text>
+<text x="812" y="227" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">Ad spend (assumed cost per click)</text>
+<text x="812" y="249" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">Segment identify and track events</text>
+<text x="812" y="271" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">Identity ground truth (scoring only)</text>
+<path d="M700 185 L800 185" fill="none" stroke="#E07A1F" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow-E07A1F)"/>
+<text x="750" y="168" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#E07A1F" font-weight="normal" text-anchor="middle">sized from</text>
+<text x="750" y="207" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#E07A1F" font-weight="normal" text-anchor="middle">real data</text>
+<rect x="30" y="335" width="1940" height="270" rx="14" fill="#F5F7FA" stroke="#E3E8EF"/>
+<text x="1950" y="363" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="15" fill="#0F2A43" font-weight="bold" text-anchor="end">2  LOAD AND IDENTITY  (Python and BigQuery)</text>
+<rect x="60" y="445" width="230" height="62" rx="10" fill="#EEF1F5" stroke="#9AA5B1"/>
+<text x="72" y="471" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="bold" text-anchor="start">src.load_to_bigquery</text>
+<text x="72" y="492" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#5A6573" font-weight="normal" text-anchor="start">copy and load</text>
+<rect x="350" y="375" width="340" height="199" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M350 411 V383 a8 8 0 0 1 8 -8 H682 a8 8 0 0 1 8 8 V411 Z" fill="#2F5D9B"/>
+<text x="362" y="399" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">BigQuery dataset  raw</text>
+<text x="362" y="433" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#0B6E4F" font-weight="bold" text-anchor="start">ga4_events</text>
+<text x="362" y="454" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#E07A1F" font-weight="bold" text-anchor="start">crm_customers</text>
+<text x="362" y="475" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#E07A1F" font-weight="bold" text-anchor="start">crm_orders</text>
+<text x="362" y="496" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#E07A1F" font-weight="bold" text-anchor="start">ad_spend</text>
+<text x="362" y="517" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#E07A1F" font-weight="bold" text-anchor="start">segment_identifies</text>
+<text x="362" y="538" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#E07A1F" font-weight="bold" text-anchor="start">segment_tracks</text>
+<text x="362" y="559" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#E07A1F" font-weight="bold" text-anchor="start">ground_truth_identity_links  (scoring only)</text>
+<rect x="780" y="445" width="320" height="62" rx="10" fill="#EEF1F5" stroke="#9AA5B1"/>
+<text x="792" y="471" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="bold" text-anchor="start">src.identity.run</text>
+<text x="792" y="492" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#5A6573" font-weight="normal" text-anchor="start">rules: identify_verified, order_match</text>
+<rect x="1180" y="428" width="350" height="96" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M1180 464 V436 a8 8 0 0 1 8 -8 H1522 a8 8 0 0 1 8 8 V464 Z" fill="#2F5D9B"/>
+<text x="1192" y="452" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">BigQuery dataset  identity</text>
+<text x="1192" y="486" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">identity_links  (device to customer)</text>
+<text x="1192" y="508" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">identity_rejected  (evidence not used)</text>
+<path d="M175 243 L175 445" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<path d="M1100 287 L1100 322 L255 322 L255 445" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<path d="M290 476 L350 476" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<path d="M690 476 L780 476" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<text x="735" y="464" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#5A6573" font-weight="normal" text-anchor="middle">evidence</text>
+<path d="M1100 476 L1180 476" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<rect x="30" y="650" width="1940" height="375" rx="14" fill="#F5F7FA" stroke="#E3E8EF"/>
+<text x="1950" y="678" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="15" fill="#0F2A43" font-weight="bold" text-anchor="end">3  DBT MODELS  (BigQuery: staging, intermediate and marts)</text>
+<rect x="60" y="695" width="250" height="220" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M60 731 V703 a8 8 0 0 1 8 -8 H302 a8 8 0 0 1 8 8 V731 Z" fill="#5B9BD5"/>
+<text x="72" y="719" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">staging  (views)</text>
+<text x="72" y="753" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">stg_ga4__events</text>
+<text x="72" y="774" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">stg_ga4__purchases</text>
+<text x="72" y="795" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">stg_crm__customers</text>
+<text x="72" y="816" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">stg_crm__orders</text>
+<text x="72" y="837" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">stg_ad_spend</text>
+<text x="72" y="858" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">stg_segment__identifies</text>
+<text x="72" y="879" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">stg_segment__tracks</text>
+<text x="72" y="900" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">stg_identity__links</text>
+<rect x="375" y="695" width="290" height="96" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M375 731 V703 a8 8 0 0 1 8 -8 H657 a8 8 0 0 1 8 8 V731 Z" fill="#5B9BD5"/>
+<text x="387" y="719" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">intermediate  (views)</text>
+<text x="387" y="753" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">int_ga4__sessions</text>
+<text x="387" y="775" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">int_conversion_touchpoints</text>
+<rect x="730" y="695" width="230" height="118" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M730 731 V703 a8 8 0 0 1 8 -8 H952 a8 8 0 0 1 8 8 V731 Z" fill="#0F2A43"/>
+<text x="742" y="719" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">marts: core</text>
+<text x="742" y="753" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_sessions</text>
+<text x="742" y="775" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_orders</text>
+<text x="742" y="797" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">dim_customers</text>
+<rect x="1025" y="695" width="340" height="162" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M1025 731 V703 a8 8 0 0 1 8 -8 H1357 a8 8 0 0 1 8 8 V731 Z" fill="#0F2A43"/>
+<text x="1037" y="719" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">marts: attribution</text>
+<text x="1037" y="753" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_attribution_journeys</text>
+<text x="1037" y="775" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_attribution_credits</text>
+<text x="1037" y="797" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_attribution_by_channel</text>
+<text x="1037" y="819" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_attribution_model_comparison</text>
+<text x="1037" y="841" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_attribution_checks</text>
+<rect x="1430" y="695" width="290" height="158" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M1430 731 V703 a8 8 0 0 1 8 -8 H1712 a8 8 0 0 1 8 8 V731 Z" fill="#0F2A43"/>
+<text x="1442" y="719" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">marts: campaign return</text>
+<text x="1442" y="753" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#5A6573" font-weight="normal" text-anchor="start">also reads stg_ad_spend</text>
+<text x="1442" y="771" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_campaign_roi</text>
+<text x="1442" y="793" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_channel_roi</text>
+<text x="1442" y="815" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_campaign_cpa</text>
+<text x="1442" y="837" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_channel_cpa</text>
+<rect x="700" y="853" width="290" height="140" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M700 889 V861 a8 8 0 0 1 8 -8 H982 a8 8 0 0 1 8 8 V889 Z" fill="#0F2A43"/>
+<text x="712" y="877" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">marts: customer scoring</text>
+<text x="712" y="911" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_customer_rfm</text>
+<text x="712" y="933" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_customer_clv</text>
+<text x="712" y="955" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">dim_customer_segments</text>
+<text x="712" y="977" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">fct_customer_segments</text>
+<path d="M520 574 L520 616 L185 616 L185 695" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<text x="352" y="608" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#5A6573" font-weight="normal" text-anchor="middle">source()</text>
+<path d="M1355 524 L1355 632 L240 632 L240 695" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<text x="800" y="624" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#5A6573" font-weight="normal" text-anchor="middle">source()</text>
+<path d="M310 750 L375 750" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<path d="M665 750 L730 750" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<path d="M960 750 L1025 750" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<path d="M1365 750 L1430 750" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<path d="M845 813 L845 853" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<rect x="30" y="1050" width="1940" height="250" rx="14" fill="#F5F7FA" stroke="#E3E8EF"/>
+<text x="1950" y="1078" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="15" fill="#0F2A43" font-weight="bold" text-anchor="end">4  OUTPUTS AND CHECKS</text>
+<rect x="760" y="1120" width="520" height="62" rx="10" fill="#EEF1F5" stroke="#9AA5B1"/>
+<text x="772" y="1146" font-family="DejaVu Sans Mono, Consolas, Menlo, monospace" font-size="13" fill="#1B2733" font-weight="bold" text-anchor="start">src.export_for_tableau</text>
+<text x="772" y="1167" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="12" fill="#5A6573" font-weight="normal" text-anchor="start">7 CSV files, no personal fields; budget rules applied here</text>
+<rect x="1350" y="1120" width="330" height="118" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M1350 1156 V1128 a8 8 0 0 1 8 -8 H1672 a8 8 0 0 1 8 8 V1156 Z" fill="#0B6E4F"/>
+<text x="1362" y="1144" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">Tableau Public dashboards</text>
+<text x="1362" y="1178" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">Customer 360 and Segments</text>
+<text x="1362" y="1200" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">Attribution, ROI and CPA</text>
+<text x="1362" y="1222" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">(with budget recommendations)</text>
+<rect x="1710" y="1120" width="240" height="118" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M1710 1156 V1128 a8 8 0 0 1 8 -8 H1942 a8 8 0 0 1 8 8 V1156 Z" fill="#5A6573"/>
+<text x="1722" y="1144" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">Reports  (Markdown)</text>
+<text x="1722" y="1178" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">identity accuracy</text>
+<text x="1722" y="1200" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">attribution comparison</text>
+<text x="1722" y="1222" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">dbt test results</text>
+<rect x="60" y="1120" width="640" height="140" rx="8" fill="white" stroke="#D5DCE6"/>
+<path d="M60 1156 V1128 a8 8 0 0 1 8 -8 H692 a8 8 0 0 1 8 8 V1156 Z" fill="#B7791F"/>
+<text x="72" y="1144" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="14" fill="white" font-weight="bold" text-anchor="start">Quality checks at every step</text>
+<text x="72" y="1178" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">dbt tests: generic tests on every model plus 30 singular tests</text>
+<text x="72" y="1200" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">Identity scored against the ground truth (precision, recall)</text>
+<text x="72" y="1222" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">Attribution: 30 checks that every model credits the same revenue</text>
+<text x="72" y="1244" font-family="DejaVu Sans, Verdana, Arial, sans-serif" font-size="13" fill="#1B2733" font-weight="normal" text-anchor="start">pytest: real model SQL run on small tables in DuckDB</text>
+<path d="M845 993 L845 1120" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<path d="M1100 857 L1100 1120" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<path d="M1575 853 L1575 1090 L1250 1090 L1250 1120" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+<path d="M1280 1151 L1350 1151" fill="none" stroke="#5A6573" stroke-width="2" marker-end="url(#arrow-5A6573)"/>
+</svg>
