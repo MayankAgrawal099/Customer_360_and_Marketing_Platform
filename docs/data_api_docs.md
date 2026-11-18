@@ -912,6 +912,7 @@ Written by `src.export_for_tableau`. Each file is one query in `sql/tableau/`. F
 | `reports/identity_accuracy.json` | `src.identity.accuracy` | The same numbers as JSON. |
 | `reports/attribution_comparison.md` | `src.attribution_report` | Revenue by channel under four models, spread, introduces or closes, checks (Markdown). |
 | `reports/attribution_comparison.json` | `src.attribution_report` | The same numbers as JSON. |
+| `docs/test_results.md` | `src.test_summary` | All final check results on one page: dbt, identity accuracy, attribution, pytest. |
 | `docs/dbt_test_results.md` | `src.dbt_results` | Every dbt test and its result from the last full `dbt test`. |
 | `docs/ga4_exploration.md` | `src.explore_ga4` | What the GA4 sample contains (Markdown, from 16 queries). |
 
@@ -1058,6 +1059,19 @@ Run the 16 exploration queries on the GA4 sample and write the findings.
 | `--out` | `docs/ga4_exploration.md` | File the result is written to. |
 | `--max-gb` | `20.0` | most data one query may bill (default 20) |
 | `--dry-run` | off | only report how much data each query would scan |
+
+### `src.test_summary`
+
+Collect the final results of the dbt, identity and attribution checks into one page (with --run-pytest it also records the pytest count).
+
+- **Reads:** docs/dbt_test_results.md, reports/identity_accuracy.json, reports/attribution_comparison.json
+- **Writes:** docs/test_results.md
+- **Needs BigQuery:** no
+
+| Flag | Default | Meaning |
+|---|---|---|
+| `--run-pytest` | off | run the pytest suite and record its result line |
+| `--check` | off | exit 1 if docs/test_results.md is out of date |
 
 ### `src.build_data_api_docs`
 

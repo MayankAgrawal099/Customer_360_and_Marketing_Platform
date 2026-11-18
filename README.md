@@ -153,6 +153,7 @@ Customer_360_and_Marketing_Platform/
 | [docs/attribution.md](docs/attribution.md) | The four attribution models |
 | [docs/campaign_roi.md](docs/campaign_roi.md), [docs/cpa.md](docs/cpa.md) | Return and cost per acquisition |
 | [docs/budget_recommendations.md](docs/budget_recommendations.md) | The budget rules and thresholds |
+| [docs/test_results.md](docs/test_results.md) | Final results of every check on one page |
 | [docs/dbt_test_results.md](docs/dbt_test_results.md) | The recorded result of `dbt test` |
 | [docs/ga4_exploration.md](docs/ga4_exploration.md) | What the GA4 sample contains and its quirks |
 

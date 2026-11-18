@@ -60,6 +60,7 @@ REPORTS = [
     ("reports/identity_accuracy.json", "src.identity.accuracy", "The same numbers as JSON."),
     ("reports/attribution_comparison.md", "src.attribution_report", "Revenue by channel under four models, spread, introduces or closes, checks (Markdown)."),
     ("reports/attribution_comparison.json", "src.attribution_report", "The same numbers as JSON."),
+    ("docs/test_results.md", "src.test_summary", "All final check results on one page: dbt, identity accuracy, attribution, pytest."),
     ("docs/dbt_test_results.md", "src.dbt_results", "Every dbt test and its result from the last full `dbt test`."),
     ("docs/ga4_exploration.md", "src.explore_ga4", "What the GA4 sample contains (Markdown, from 16 queries)."),
 ]
@@ -75,6 +76,7 @@ COMMANDS = [
     ("src.dbt_results", "Record the result of `dbt test` (with --run it runs the tests first).", "dbt/target/run_results.json, manifest.json", "docs/dbt_test_results.md", False),
     ("src.export_for_tableau", "Export the marts to the CSV files Tableau reads.", "marts.* (through sql/tableau/*.sql)", "tableau/data/*.csv (git-ignored)", True),
     ("src.explore_ga4", "Run the 16 exploration queries on the GA4 sample and write the findings.", "GA4 public dataset (sql/ga4_exploration/)", "docs/ga4_exploration.md", True),
+    ("src.test_summary", "Collect the final results of the dbt, identity and attribution checks into one page (with --run-pytest it also records the pytest count).", "docs/dbt_test_results.md, reports/identity_accuracy.json, reports/attribution_comparison.json", "docs/test_results.md", False),
     ("src.build_data_api_docs", "Rebuild this document.", "dbt/models/, sql/tableau/, src/", "docs/data_api_docs.md", False),
 ]
 
