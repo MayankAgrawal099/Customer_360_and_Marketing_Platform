@@ -1,6 +1,6 @@
 # dbt test results
 
-Recorded from `dbt/target/run_results.json` (generated 2026-11-18T18:21:11.494545Z, dbt 1.12.6). Regenerate with `uv run python -m src.dbt_results --run`.
+Recorded from `dbt/target/run_results.json` (generated 2026-11-19T08:31:10.481513Z, dbt 1.12.6). Regenerate with `uv run python -m src.dbt_results --run`.
 
 **Result: ALL TESTS PASSED** - 334 of 334 passed, 0 warnings, 0 failures, 0 errors.
 

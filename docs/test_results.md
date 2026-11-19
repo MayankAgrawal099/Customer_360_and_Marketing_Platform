@@ -15,7 +15,7 @@ The final results of every check in the project, on one page. Each number is rea
 
 ## dbt tests
 
-Recorded 2026-11-18 with dbt 1.12.6 by `uv run python -m src.dbt_results --run`. **All tests passed**: 334 of 334 passed, 0 warnings, 0 failures, 0 errors.
+Recorded 2026-11-19 with dbt 1.12.6 by `uv run python -m src.dbt_results --run`. **All tests passed**: 334 of 334 passed, 0 warnings, 0 failures, 0 errors.
 
 | Test type | Tests | Passed | Warned | Failed | Errored |
 |---|---|---|---|---|---|
